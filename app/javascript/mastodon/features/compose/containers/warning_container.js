@@ -32,11 +32,16 @@ const APPROX_HASHTAG_RE = buildHashtagRE();
 
 const mapStateToProps = state => ({
   needsLockWarning: state.getIn(['compose', 'privacy']) === 'private' && !state.getIn(['accounts', me, 'locked']),
+  needsUnleakableWarning: state.getIn(['compose', 'privacy']) === 'unleakable',
   hashtagWarning: ['private','direct'].includes(state.getIn(['compose', 'privacy'])) && APPROX_HASHTAG_RE.test(state.getIn(['compose', 'text'])),
   directMessageWarning: state.getIn(['compose', 'privacy']) === 'direct',
 });
 
-const WarningWrapper = ({ needsLockWarning, hashtagWarning, directMessageWarning }) => {
+const WarningWrapper = ({ needsLockWarning, needsUnleakableWarning, hashtagWarning, directMessageWarning }) => {
+
+  if (needsUnleakableWarning) {
+    return <Warning message={<FormattedMessage id='compose_form.unleakable_disclaimer' defaultMessage="This post is for followed users. Only users you're following can view ones, unlike {private}." values={{ private: <FormattedMessage id='privacy.private.short' defaultMessage='Followers-only' /> }} />} />;
+  }
 
   if (hashtagWarning) {
     return <Warning message={<FormattedMessage id='compose_form.hashtag_warning' defaultMessage="This toot won't be listed under any hashtag as it is unlisted. Only public toots can be searched by hashtag." />} />;
@@ -61,6 +66,7 @@ const WarningWrapper = ({ needsLockWarning, hashtagWarning, directMessageWarning
 
 WarningWrapper.propTypes = {
   needsLockWarning: PropTypes.bool,
+  needsUnleakableWarning: PropTypes.bool,
   hashtagWarning: PropTypes.bool,
   directMessageWarning: PropTypes.bool,
 };

@@ -1264,6 +1264,8 @@ ja:
     title: '%{name}: "%{quote}"'
     visibilities:
       direct: ダイレクト
+      unleakable: 限定公開
+      unleakable_long: 自分がフォローしているユーザーにのみ表示されます
       private: フォロワー限定
       private_long: フォロワーにのみ表示されます
       public: 公開
