@@ -26,6 +26,7 @@
 #  poll_id                :bigint(8)
 #  content_type           :string
 #  deleted_at             :datetime
+#  activity_pub_type      :string
 #
 
 class Status < ApplicationRecord

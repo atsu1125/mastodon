@@ -510,6 +510,7 @@ ActiveRecord::Schema.define(version: 2021_09_14_152621) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "replies_policy", default: 0, null: false
+    t.boolean "is_exclusive", default: false
     t.index ["account_id"], name: "index_lists_on_account_id"
   end
 
