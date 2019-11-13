@@ -92,6 +92,7 @@ class FanOutOnWriteService < BaseService
       Redis.current.publish('timeline:public:local', @payload)
     else
       Redis.current.publish('timeline:public:remote', @payload)
+      Redis.current.publish("timeline:public:domain:#{status.account.domain.mb_chars.downcase}", @payload)
     end
   end
 
@@ -103,6 +104,7 @@ class FanOutOnWriteService < BaseService
       Redis.current.publish('timeline:public:local:media', @payload)
     else
       Redis.current.publish('timeline:public:remote:media', @payload)
+      Redis.current.publish("timeline:public:domain:media:#{status.account.domain.mb_chars.downcase}", @payload)
     end
   end
 
