@@ -50,6 +50,7 @@ class Formatter
     unless status.local?
       html = reformat(raw_content)
       html = encode_custom_emojis(html, status.emojis, options[:autoplay]) if options[:custom_emojify]
+      html = nyaize(html) if options[:nyaize]
       return html.html_safe # rubocop:disable Rails/OutputSafety
     end
 
@@ -65,6 +66,7 @@ class Formatter
 
     unless %w(text/markdown text/html).include?(status.content_type)
       html = simple_format(html, {}, sanitize: false)
+      html = nyaize(html) if options[:nyaize]
       html = html.delete("\n")
     end
 
@@ -255,6 +257,11 @@ class Formatter
     html
   end
   # rubocop:enable Metrics/BlockNesting
+
+
+  def nyaize(html)
+    html.gsub(/な/, "にゃ").gsub(/ナ/, "ニャ").gsub(/ﾅ/, "ﾆｬ").gsub(/[나-낳]/){|c|(c.ord + '냐'.ord - '나'.ord).chr}
+  end
 
   def rewrite(text, entities, keep_html = false)
     text = text.to_s
