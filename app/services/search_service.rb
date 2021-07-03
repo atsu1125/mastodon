@@ -35,7 +35,7 @@ class SearchService < BaseService
   end
 
   def perform_statuses_search!
-    results = Status.where(visibility: :public)
+    results = Status
           .where("statuses.text &@~ ?", @query)
           .limit(@limit)
           .offset(@offset)
