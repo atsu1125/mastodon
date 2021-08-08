@@ -6,11 +6,11 @@ class RulePolicy < ApplicationPolicy
   end
 
   def create?
-    admin?
+    staff?
   end
 
   def update?
-    admin?
+    staff?
   end
 
   def destroy?
