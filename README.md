@@ -1,3 +1,10 @@
+
+ 以下のMastodon Glitch Editionからいろいろ書き換えてるのでそのままでは動かないのだわ  
+ ElasticSearchは使わないようになってるので有効化しなくてよいのだわ  
+ その代わりにPGroongaを使用しているのだわ  
+ そのためPostgreSQLは13以上のバージョンでPGroongaのエクステンションを使えるようにして欲しいのだわ  
+ そうするとデータベースのマイグレーションが通るようになるはずなのだわ  
+
 #  Mastodon Glitch Edition  #
 
 >   Now with automated deploys!
