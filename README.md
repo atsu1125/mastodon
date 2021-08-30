@@ -5,6 +5,23 @@
  そのためPostgreSQLは13以上のバージョンでPGroongaのエクステンションを使えるようにして欲しいのだわ  
  そうするとデータベースのマイグレーションが通るようになるはずなのだわ  
 
+<h2 id="sec-7">独自機能</h2>
+<p>このインスタンスでは以下の独自機能が使えます。</p>
+<ul>
+  <li><a href="https://glitch-soc.github.io/docs">Mastodon Glitch Edition</a>の機能全て
+</li>
+  <li>cat feature（<a href=https://odakyu.app/about>小田急don</a>から）
+</li>
+  <li>PGroongaによる検索機能（Public, Unlisted, Private, Directの全てのトゥートが検索できるよ、こちらも<a href=https://odakyu.app/about>小田急don</a>から改変）
+</li>
+  <li>ハッシュタグタイムラインで全ての公開範囲のトゥートを検索できる（<a href=https://kirishima.cloud/about>アスタルテ</a>から改変）
+</li>
+  <li>モデレータの権限が強いです！カスタム絵文字関連なんでもいじれちゃう！すごい！</li>
+  <li>一つのカラムで2000件のトゥートまで遡れる（デフォルトは400件）（<a href=https://fedibird.com/about>Fedibird</a>から） </li>
+  <li>新規登録時の自動フォロー機能を有効に（<a href=https://hello.2heng.xin/about>小森林</a>から）</li>
+  <li>ドメインタイムライン（連合タイムラインから特定のインスタンスの投稿だけを抜き出して表示する機能・現在Mastodon Flavorのみ対応）（<a href=https://fedibird.com/about>Fedibird</a>から）</li>
+</ul>
+
 #  Mastodon Glitch Edition  #
 
 >   Now with automated deploys!
