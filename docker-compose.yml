@@ -56,12 +56,12 @@ services:
     extra_hosts:
       - "dockerhost:192.168.50.10"
 
-  sidekiq:
+  sidekiq_default:
     build: .
     image: atsu1125/mastodon
     restart: always
     env_file: .env.production
-    command: bundle exec sidekiq
+    command: bundle exec sidekiq -q default
     depends_on:
       - redis
     networks:
@@ -71,6 +71,71 @@ services:
       - ./public/system:/mastodon/public/system
     extra_hosts:
       - "dockerhost:192.168.50.10"
+
+  sidekiq_push:
+    build: .
+    image: atsu1125/mastodon
+    restart: always
+    env_file: .env.production
+    command: bundle exec sidekiq -q push
+    depends_on:
+      - redis
+    networks:
+      - external_network
+      - internal_network
+    volumes:
+      - ./public/system:/mastodon/public/system
+    extra_hosts:
+      - "dockerhost:192.168.50.10"
+
+  sidekiq_pull:
+    build: .
+    image: atsu1125/mastodon
+    restart: always
+    env_file: .env.production
+    command: bundle exec sidekiq -q pull
+    depends_on:
+      - redis
+    networks:
+      - external_network
+      - internal_network
+    volumes:
+      - ./public/system:/mastodon/public/system
+    extra_hosts:
+      - "dockerhost:192.168.50.10"
+
+  sidekiq_mailers:
+    build: .
+    image: atsu1125/mastodon
+    restart: always
+    env_file: .env.production
+    command: bundle exec sidekiq -q mailers
+    depends_on:
+      - redis
+    networks:
+      - external_network
+      - internal_network
+    volumes:
+      - ./public/system:/mastodon/public/system
+    extra_hosts:
+      - "dockerhost:192.168.50.10"
+
+  sidekiq_scheduler:
+    build: .
+    image: atsu1125/mastodon
+    restart: always
+    env_file: .env.production
+    command: bundle exec sidekiq -q scheduler
+    depends_on:
+      - redis
+    networks:
+      - external_network
+      - internal_network
+    volumes:
+      - ./public/system:/mastodon/public/system
+    extra_hosts:
+      - "dockerhost:192.168.50.10"
+
 ## Uncomment to enable federation with tor instances along with adding the following ENV variables
 ## http_proxy=http://privoxy:8118
 ## ALLOW_ACCESS_TO_HIDDEN_SERVICE=true
