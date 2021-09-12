@@ -1,3 +1,6 @@
+## お知らせ ##
+Dockerイメージはここにある（リリース時に自動ビルド）  
+https://hub.docker.com/repository/docker/atsu1125/mastodon  
 
  以下のMastodon Glitch Editionからいろいろ書き換えてるのでそのままでは動かないのだわ  
  ElasticSearchは使わないようになってるので有効化しなくてよいのだわ  
