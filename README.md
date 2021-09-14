@@ -7,6 +7,7 @@ https://hub.docker.com/repository/docker/atsu1125/mastodon
  その代わりにPGroongaを使用しているのだわ  
  そのためPostgreSQLは13以上のバージョンでPGroongaのエクステンションを使えるようにして欲しいのだわ  
  そうするとデータベースのマイグレーションが通るようになるはずなのだわ  
+ PGroongaの実装方法： https://github.com/atsu1125/mastodon/blob/main/INSTALL-PGROONGA.md  
 
 <h2 id="sec-7">独自機能</h2>
 <p>このインスタンスでは以下の独自機能が使えます。</p>
