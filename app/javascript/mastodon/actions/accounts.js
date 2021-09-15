@@ -73,6 +73,10 @@ export const FOLLOW_REQUEST_REJECT_REQUEST = 'FOLLOW_REQUEST_REJECT_REQUEST';
 export const FOLLOW_REQUEST_REJECT_SUCCESS = 'FOLLOW_REQUEST_REJECT_SUCCESS';
 export const FOLLOW_REQUEST_REJECT_FAIL    = 'FOLLOW_REQUEST_REJECT_FAIL';
 
+export const ACCOUNT_VISIT_REQUEST = 'ACCOUNT_VISIT_REQUEST';
+export const ACCOUNT_VISIT_SUCCESS = 'ACCOUNT_VISIT_SUCCESS';
+export const ACCOUNT_VISIT_FAIL    = 'ACCOUNT_VISIT_FAIL';
+
 export function fetchAccount(id) {
   return (dispatch, getState) => {
     dispatch(fetchRelationships([id]));
@@ -748,3 +752,39 @@ export function unpinAccountFail(error) {
     error,
   };
 };
+
+export function visitAccount(id) {
+  return (dispatch, getState) => {
+    dispatch(visitAccountRequest(id));
+
+    api(getState).post(`/api/v1/accounts/${id}/visit`).then(response => {
+      // Pass in entire statuses map so we can use it to filter stuff in different parts of the reducers
+      dispatch(visitAccountSuccess(response.data, getState().get('statuses')));
+    }).catch(error => {
+      dispatch(visitAccountFail(id, error));
+    });
+  };
+};
+
+export function visitAccountRequest(id) {
+  return {
+    type: ACCOUNT_VISIT_REQUEST,
+    id,
+  };
+};
+
+export function visitAccountSuccess(relationship, statuses) {
+  return {
+    type: ACCOUNT_VISIT_SUCCESS,
+    relationship,
+    statuses,
+  };
+};
+
+export function visitAccountFail(error) {
+  return {
+    type: ACCOUNT_VISIT_FAIL,
+    error,
+  };
+};
+

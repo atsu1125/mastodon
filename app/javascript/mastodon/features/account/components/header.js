@@ -50,6 +50,7 @@ const messages = defineMessages({
   unendorse: { id: 'account.unendorse', defaultMessage: 'Don\'t feature on profile' },
   add_or_remove_from_list: { id: 'account.add_or_remove_from_list', defaultMessage: 'Add or Remove from lists' },
   admin_account: { id: 'status.admin_account', defaultMessage: 'Open moderation interface for @{name}' },
+  visitors: { id: 'navigation_bar.visitors', defaultMessage: 'Visitors' },
 });
 
 const dateFormatOptions = {
@@ -80,6 +81,7 @@ class Header extends ImmutablePureComponent {
     onEndorseToggle: PropTypes.func.isRequired,
     onAddToList: PropTypes.func.isRequired,
     onEditAccountNote: PropTypes.func.isRequired,
+    onVisit: PropTypes.func.isRequired,
     intl: PropTypes.object.isRequired,
     domain: PropTypes.string.isRequired,
   };
@@ -176,6 +178,9 @@ class Header extends ImmutablePureComponent {
     }
 
     if (account.get('id') !== me) {
+
+      this.props.onVisit();
+
       menu.push({ text: intl.formatMessage(messages.mention, { name: account.get('username') }), action: this.props.onMention });
       menu.push({ text: intl.formatMessage(messages.direct, { name: account.get('username') }), action: this.props.onDirect });
       menu.push(null);
@@ -198,6 +203,7 @@ class Header extends ImmutablePureComponent {
       menu.push({ text: intl.formatMessage(messages.mutes), to: '/mutes' });
       menu.push({ text: intl.formatMessage(messages.blocks), to: '/blocks' });
       menu.push({ text: intl.formatMessage(messages.domain_blocks), to: '/domain_blocks' });
+      menu.push({ text: intl.formatMessage(messages.visitors), to: '/visits' });
     } else {
       if (account.getIn(['relationship', 'following'])) {
         if (!account.getIn(['relationship', 'muting'])) {

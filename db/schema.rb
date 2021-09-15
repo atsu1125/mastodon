@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 2021_06_30_000137) do
+=======
+ActiveRecord::Schema.define(version: 2021_09_14_152621) do
+>>>>>>> 14cb614c8... add visit
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -366,6 +370,23 @@ ActiveRecord::Schema.define(version: 2021_06_30_000137) do
     t.index ["domain"], name: "index_email_domain_blocks_on_domain", unique: true
   end
 
+<<<<<<< HEAD
+=======
+  create_table "emoji_reactions", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "status_id", null: false
+    t.string "name", default: "", null: false
+    t.bigint "custom_emoji_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "uri"
+    t.index ["account_id", "status_id", "name"], name: "index_emoji_reactions_on_account_id_and_status_id", unique: true
+    t.index ["account_id"], name: "index_emoji_reactions_on_account_id"
+    t.index ["custom_emoji_id"], name: "index_emoji_reactions_on_custom_emoji_id"
+    t.index ["status_id"], name: "index_emoji_reactions_on_status_id"
+  end
+
+>>>>>>> 14cb614c8... add visit
   create_table "encrypted_messages", id: :bigint, default: -> { "timestamp_id('encrypted_messages'::text)" }, force: :cascade do |t|
     t.bigint "device_id"
     t.bigint "from_account_id"
@@ -934,6 +955,15 @@ ActiveRecord::Schema.define(version: 2021_06_30_000137) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["remember_token"], name: "index_users_on_remember_token", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "visits", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "target_account_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "uri"
+    t.index ["account_id", "target_account_id"], name: "index_visits_on_account_id_and_target_account_id", unique: true
   end
 
   create_table "web_push_subscriptions", force: :cascade do |t|

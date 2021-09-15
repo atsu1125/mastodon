@@ -52,6 +52,7 @@ import {
   Search,
   Directory,
   FollowRecommendations,
+  Visits,
 } from './util/async-components';
 import { me } from '../../initial_state';
 import { closeOnboarding, INTRODUCTION_VERSION } from 'mastodon/actions/onboarding';
@@ -184,6 +185,7 @@ class SwitchingColumnsArea extends React.PureComponent {
           <WrappedRoute path='/domain_blocks' component={DomainBlocks} content={children} />
           <WrappedRoute path='/mutes' component={Mutes} content={children} />
           <WrappedRoute path='/lists' component={Lists} content={children} />
+          <WrappedRoute path='/visits' component={Visits} content={children} componentParams={{ shouldUpdateScroll: this.shouldUpdateScroll }} />
 
           <WrappedRoute component={GenericNotFound} content={children} />
         </WrappedSwitch>
