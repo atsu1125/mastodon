@@ -3,7 +3,7 @@
 class REST::RelationshipSerializer < ActiveModel::Serializer
   attributes :id, :following, :showing_reblogs, :notifying, :followed_by,
              :blocking, :blocked_by, :muting, :muting_notifications, :requested,
-             :domain_blocking, :endorsed, :note
+             :domain_blocking, :endorsed, :note, :visiting, :visited_by
 
   def id
     object.id.to_s
@@ -59,5 +59,13 @@ class REST::RelationshipSerializer < ActiveModel::Serializer
 
   def note
     (instance_options[:relationships].account_note[object.id] || {})[:comment] || ''
+  end
+
+  def visiting
+    instance_options[:relationships].visiting[object.id] || false
+  end
+
+  def visited_by
+    instance_options[:relationships].visited_by[object.id] || false
   end
 end
