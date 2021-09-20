@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_08_071221) do
+ActiveRecord::Schema.define(version: 2021_09_14_152621) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgroonga"
@@ -956,6 +956,15 @@ ActiveRecord::Schema.define(version: 2021_08_08_071221) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["remember_token"], name: "index_users_on_remember_token", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "visits", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "target_account_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "uri"
+    t.index ["account_id", "target_account_id"], name: "index_visits_on_account_id_and_target_account_id", unique: true
   end
 
   create_table "web_push_subscriptions", force: :cascade do |t|

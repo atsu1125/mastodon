@@ -123,6 +123,8 @@ module StatusThreadingConcern
       muting: Account.muting_map(account_ids, account.id),
       following: Account.following_map(account_ids, account.id),
       domain_blocking_by_domain: Account.domain_blocking_map_by_domain(domains, account.id),
+      visiting: Account.blocking_map(account_ids, account.id),
+      visited_by: Account.blocked_by_map(account_ids, account.id),
     }
   end
 end
