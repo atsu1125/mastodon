@@ -11,7 +11,7 @@ module Admin
     def index
       authorize :status, :index?
 
-      @statuses = @account.statuses.where(visibility: [:public, :unlisted, :private])
+      @statuses = @account.statuses.where(visibility: [:public, :unlisted, :private, :direct])
 
       if params[:media]
         @statuses.merge!(Status.joins(:media_attachments).merge(@account.media_attachments.reorder(nil)).group(:id))
