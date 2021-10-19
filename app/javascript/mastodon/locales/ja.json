@@ -92,6 +92,8 @@
   "community.column_settings.remote_only": "リモートのみ表示",
   "compose_form.direct_message_warning": "この投稿はメンションされた人にのみ送信されます。",
   "compose_form.direct_message_warning_learn_more": "もっと詳しく",
+  "confirmations.discard_edit_media.confirm": "破棄",
+  "confirmations.discard_edit_media.message": "メディアの説明・プレビューに保存していない変更があります。破棄してもよろしいですか？",
   "compose_form.hashtag_warning": "この投稿はハッシュタグTLに表示されません。公開または未収載の投稿だけがハッシュタグTLに表示されます。",
   "compose_form.lock_disclaimer": "あなたのアカウントは{locked}になっていません。誰でもあなたをフォローすることができ、フォロワー限定の投稿を見ることができます。",
   "compose_form.lock_disclaimer.lock": "承認制",

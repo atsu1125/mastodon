@@ -71,7 +71,7 @@ const messages = {
   'notification_purge.btn_apply': '選択したものを\n削除',
 
   'compose.attach.upload': 'ファイルをアップロード',
-  'compose.attach.doodle': '落書きをする',
+  'compose.attach.doodle': 'お絵描きをする',
   'compose.attach': 'アタッチ...',
 
   'advanced_options.local-only.short': 'ローカル限定',
@@ -84,7 +84,18 @@ const messages = {
 
   'navigation_bar.direct': 'ダイレクトメッセージ',
   'navigation_bar.bookmarks': 'ブックマーク',
-  'column.bookmarks': 'ブックマーク'
+  'column.bookmarks': 'ブックマーク',
+
+  'compose.content-type.html': 'HTML',
+  'compose.content-type.markdown': 'マークダウン',
+  'compose.content-type.plain': 'プレーンテキスト',
+  'compose_form.poll.multiple_choices': '複数回答を許可',
+  'compose_form.poll.single_choice': '単一回答を許可',
+  'compose_form.spoiler': '本文は警告の後ろに隠す',
+  'confirmation_modal.do_not_ask_again': 'もう１度尋ねない',
+  'confirmations.discard_edit_media.confirm': '破棄',
+  'confirmations.discard_edit_media.message': 'メディアの説明・プレビューに保存していない変更があります。破棄してもよろしいですか？',
+  'content-type.change': 'コンテンツ形式を変更',
 };
 
 export default Object.assign({}, inherited, messages);
