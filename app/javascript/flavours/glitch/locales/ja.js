@@ -19,7 +19,6 @@ const messages = {
   'settings.auto_collapse_notifications': '通知',
   'settings.auto_collapse_reblogs': 'ブースト',
   'settings.auto_collapse_replies': '返信',
-  'settings.show_action_bar': 'アクションバーを表示',
   'settings.close': '閉じる',
   'settings.collapsed_statuses': 'トゥート折りたたみ',
   'settings.confirm_missing_media_description': '画像に対する補助記載がないときに投稿前の警告を表示する',
@@ -97,6 +96,7 @@ const messages = {
   'confirmations.discard_edit_media.confirm': '破棄',
   'confirmations.discard_edit_media.message': 'メディアの説明・プレビューに保存していない変更があります。破棄してもよろしいですか？',
   'content-type.change': 'コンテンツ形式を変更',
+  'settings.show_action_bar': 'アクションバーを表示',
   'settings.filtering_behavior': 'フィルターの振る舞い',
   'settings.filtering_behavior.cw': '警告文にフィルターされた単語を付加して表示します',
   'settings.filtering_behavior.drop': 'フィルターされたトゥートを完全に隠します',
@@ -124,6 +124,7 @@ const messages = {
   'settings.pop_in_player': 'ポップインプレイヤーを有効化する',
   'settings.pop_in_position': 'ポップインプレーヤーの位置:',
   'settings.pop_in_right': '右',
+
 };
 
 export default Object.assign({}, inherited, messages);
