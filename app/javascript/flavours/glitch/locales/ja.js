@@ -96,6 +96,11 @@ const messages = {
   'confirmation_modal.do_not_ask_again': 'もう１度尋ねない',
   'confirmations.discard_edit_media.confirm': '破棄',
   'confirmations.discard_edit_media.message': 'メディアの説明・プレビューに保存していない変更があります。破棄してもよろしいですか？',
+  'confirmations.unfilter': 'このフィルターされたトゥートについての情報',
+  'confirmations.unfilter.author': '筆者',
+  'confirmations.unfilter.confirm': '見る',
+  'confirmations.unfilter.edit_filter': 'フィルターを編集',
+  'confirmations.unfilter.filters': '適用された {count, plural, one {フィルター} other {フィルター}}',
   'content-type.change': 'コンテンツ形式を変更',
   'settings.show_action_bar': 'アクションバーを表示',
   'settings.filtering_behavior': 'フィルターの振る舞い',
@@ -124,7 +129,7 @@ const messages = {
   'settings.pop_in_player': 'ポップインプレイヤーを有効化する',
   'settings.pop_in_position': 'ポップインプレーヤーの位置:',
   'settings.pop_in_right': '右',
-
+  'status.show_filter_reason': '(理由を見る)',
 };
 
 export default Object.assign({}, inherited, messages);
