@@ -53,7 +53,7 @@ const messages = {
   'status.collapse': '折りたたむ',
   'status.uncollapse': '折りたたみを解除',
 
-  'confirmations.missing_media_description.message': '少なくとも1つの画像に視聴覚障害者のための画像説明が付与されていません。すべての画像に対して説明を付与することを望みます。',
+  'confirmations.missing_media_description.message': '少なくとも1つの画像に視覚障害者のための画像説明が付与されていません。すべての画像に対して説明を付与することを望みます。',
   'confirmations.missing_media_description.confirm': 'このまま投稿',
 
   'favourite_modal.combo': '次からは {combo} を押せば、これをスキップできます。',
