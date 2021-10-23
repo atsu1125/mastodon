@@ -55,6 +55,7 @@ const messages = {
 
   'confirmations.missing_media_description.message': '少なくとも1つの画像に視覚障害者のための画像説明が付与されていません。すべての画像に対して説明を付与することを望みます。',
   'confirmations.missing_media_description.confirm': 'このまま投稿',
+  'confirmations.missing_media_description.edit': 'メディアを編集',
 
   'favourite_modal.combo': '次からは {combo} を押せば、これをスキップできます。',
 
@@ -105,7 +106,6 @@ const messages = {
   'settings.filters': 'フィルター',
   'settings.hicolor_privacy_icons': 'ハイカラーの公開範囲アイコン',
   'settings.hicolor_privacy_icons.hint': '公開範囲アイコンを明るく表示し見分けやすい色にします',
-  'confirmations.missing_media_description.message': 'このトゥートには説明のないメディアが含まれています',
   'settings.confirm_boost_missing_media_description': 'メディアの説明が欠けているトゥートをブーストする前に確認ダイアログを表示する',
   'settings.tag_misleading_links': '誤解を招くリンクにタグをつける',
   'settings.tag_misleading_links.hint': '明示的に言及していないすべてのリンクに、リンクターゲットホストを含む視覚的な表示を追加します',
