@@ -92,6 +92,7 @@ const messages = {
 
   'account.add_account_note': '@{name}のメモを追加',
   'account.disclaimer_full': 'このユーザー情報は不正確な可能性があります。',
+  'account.follows': 'フォロー',
   'account.suspended_disclaimer_full': 'このユーザーはモデレータにより停止されました。',
   'account.view_full_profile': '正確な情報を見る',
   'account_note.cancel': 'キャンセル',
