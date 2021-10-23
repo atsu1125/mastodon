@@ -60,6 +60,8 @@ const messages = {
   'favourite_modal.combo': '次からは {combo} を押せば、これをスキップできます。',
 
   'home.column_settings.show_direct': 'DMを表示',
+  'home.column_settings.advanced': '高度',
+  'home.column_settings.filter_regex': '正規表現でフィルター',
 
   'notification.markForDeletion': '選択',
   'notifications.clear': '通知を全てクリアする',
@@ -87,6 +89,14 @@ const messages = {
   'navigation_bar.bookmarks': 'ブックマーク',
   'column.bookmarks': 'ブックマーク',
 
+  'account.add_account_note': '@{name} のメモを追加',
+  'account.disclaimer_full': 'このユーザー情報は不正確な可能性があります。',
+  'account.suspended_disclaimer_full': 'このユーザーはモデレータにより停止されました。',
+  'account.view_full_profile': '正確な情報を見る',
+  'account_note.cancel': 'キャンセル',
+  'account_note.edit': '編集',
+  'account_note.glitch_placeholder': 'メモがありません',
+  'account_note.save': '保存',
   'compose.content-type.html': 'HTML',
   'compose.content-type.markdown': 'マークダウン',
   'compose.content-type.plain': 'プレーンテキスト',
@@ -96,7 +106,15 @@ const messages = {
   'confirmation_modal.do_not_ask_again': 'もう１度尋ねない',
   'confirmations.discard_edit_media.confirm': '破棄',
   'confirmations.discard_edit_media.message': 'メディアの説明・プレビューに保存していない変更があります。破棄してもよろしいですか？',
+  'confirmations.unfilter': 'このフィルターされたトゥートについての情報',
+  'confirmations.unfilter.author': '筆者',
+  'confirmations.unfilter.confirm': '見る',
+  'confirmations.unfilter.edit_filter': 'フィルターを編集',
+  'confirmations.unfilter.filters': '適用された {count, plural, one {フィルター} other {フィルター}}',
   'content-type.change': 'コンテンツ形式を変更',
+  'direct.conversations_mode': '会話',
+  'direct.timeline_mode': 'タイムライン',
+  'endorsed_accounts_editor.endorsed_accounts': '紹介しているアカウント',
   'settings.show_action_bar': 'アクションバーを表示',
   'settings.filtering_behavior': 'フィルターの振る舞い',
   'settings.filtering_behavior.cw': '警告文にフィルターされた単語を付加して表示します',
@@ -124,7 +142,7 @@ const messages = {
   'settings.pop_in_player': 'ポップインプレイヤーを有効化する',
   'settings.pop_in_position': 'ポップインプレーヤーの位置:',
   'settings.pop_in_right': '右',
-
+  'status.show_filter_reason': '(理由を見る)',
 };
 
 export default Object.assign({}, inherited, messages);
