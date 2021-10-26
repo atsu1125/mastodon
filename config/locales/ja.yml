@@ -25,7 +25,7 @@ ja:
     learn_more: もっと詳しく
     privacy_policy: プライバシーポリシー
     rules: サーバーのルール
-    rules_html: 'このMastodonサーバーにアカウントをお持ちの場合は、以下のルールの概要を確認してください:'
+    rules_html: 'このMastodonサーバーには、アカウントの所持にあたって従うべきルールが設定されています。概要は以下の通りです:'
     see_whats_happening: やりとりを見てみる
     server_stats: 'サーバー統計:'
     source_code: ソースコード
@@ -185,6 +185,8 @@ ja:
       search: 検索
       search_same_email_domain: 同じドメインのメールアドレスを使用しているユーザー
       search_same_ip: 同じ IP のユーザーを検索
+      security_measures:
+        password_and_2fa: パスワードと 2FA
       sensitive: 閲覧注意
       sensitized: 閲覧注意済み
       shared_inbox_url: Shared inbox URL
@@ -355,32 +357,9 @@ ja:
       updated_msg: 絵文字の更新に成功しました！
       upload: アップロード
     dashboard:
-      authorized_fetch_mode: セキュアモード
-      backlog: 未処理のジョブ
-      config: 構成
-      feature_deletions: アカウント削除
-      feature_invites: 招待リンク
-      feature_profile_directory: ディレクトリ
-      feature_registrations: 新規登録
-      feature_relay: 連合リレー
-      feature_timeline_preview: タイムラインプレビュー
-      features: 機能
-      hidden_service: 秘匿サービスとの連合
-      open_reports: 未解決の通報
-      pending_tags: 審査待ちのハッシュタグ
-      pending_users: 承認待ちの人数
-      recent_users: 最近登録したユーザー
-      search: 全文検索
-      single_user_mode: シングルユーザーモード
       software: ソフトウェア
       space: ディスク使用量
       title: ダッシュボード
-      total_users: 全ユーザー
-      trends: トレンドタグ
-      week_interactions: 今週交流のあった回数
-      week_users_active: 今週活動した人数
-      week_users_new: 今週登録した人数
-      whitelist_mode: 連合制限モード
     domain_allows:
       add_new: 連合を許可
       created_msg: 連合を許可しました
@@ -1000,6 +979,11 @@ ja:
   lists:
     errors:
       limit: リストの上限に達しました
+  login_activities:
+    authentication_methods:
+      password: パスワード
+      sign_in_token: 電子メールセキュリティコード
+      webauthn: セキュリティキー
   media_attachments:
     validations:
       images_and_video: 既に画像が追加されているため、動画を追加することはできません

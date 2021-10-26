@@ -151,6 +151,7 @@ const messages = {
   'settings.pop_in_position': 'ポップインプレーヤーの位置:',
   'settings.pop_in_right': '右',
   'status.show_filter_reason': '(理由を見る)',
+
 };
 
 export default Object.assign({}, inherited, messages);
