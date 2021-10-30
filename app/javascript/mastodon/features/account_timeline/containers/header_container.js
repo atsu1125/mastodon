@@ -9,7 +9,6 @@ import {
   unmuteAccount,
   pinAccount,
   unpinAccount,
-  visitAccount,
 } from '../../../actions/accounts';
 import {
   mentionCompose,
@@ -127,10 +126,6 @@ const mapDispatchToProps = (dispatch, { intl }) => ({
     dispatch(openModal('LIST_ADDER', {
       accountId: account.get('id'),
     }));
-  },
-
-  onVisit (account) {
-    dispatch(visitAccount(account.get('id')));
   },
 
 });

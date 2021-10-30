@@ -56,8 +56,6 @@ class ActivityPub::Activity
         ActivityPub::Activity::Remove
       when 'Move'
         ActivityPub::Activity::Move
-      when 'View'
-        ActivityPub::Activity::View
       end
     end
   end

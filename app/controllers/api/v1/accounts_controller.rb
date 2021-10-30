@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Api::V1::AccountsController < Api::BaseController
-  before_action -> { authorize_if_got_token! :read, :'read:accounts' }, except: [:create, :follow, :unfollow, :remove_from_followers, :block, :unblock, :mute, :unmute, :visit]
+  before_action -> { authorize_if_got_token! :read, :'read:accounts' }, except: [:create, :follow, :unfollow, :remove_from_followers, :block, :unblock, :mute, :unmute]
   before_action -> { doorkeeper_authorize! :follow, :'write:follows' }, only: [:follow, :unfollow, :remove_from_followers]
   before_action -> { doorkeeper_authorize! :follow, :'write:mutes' }, only: [:mute, :unmute]
   before_action -> { doorkeeper_authorize! :follow, :'write:blocks' }, only: [:block, :unblock]
@@ -65,12 +65,6 @@ class Api::V1::AccountsController < Api::BaseController
 
   def unmute
     UnmuteService.new.call(current_user.account, @account)
-    render json: @account, serializer: REST::RelationshipSerializer, relationships: relationships
-  end
-
-  def visit
-    Rails.logger.info "test"
-    VisitService.new.call(current_user.account, @account)
     render json: @account, serializer: REST::RelationshipSerializer, relationships: relationships
   end
 
