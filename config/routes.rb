@@ -396,17 +396,16 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :media,           only: [:create, :update, :show]
-      resources :blocks,          only: [:index]
-      resources :mutes,           only: [:index]
-      resources :favourites,      only: [:index]
-      resources :bookmarks,       only: [:index]
-      resources :reports,         only: [:create]
-      resources :trends,          only: [:index]
-      resources :filters,         only: [:index, :create, :show, :update, :destroy]
-      resources :endorsements,    only: [:index]
-      resources :markers,         only: [:index, :create]
-      resources :visits,          only: [:index]
+      resources :media,        only: [:create, :update, :show]
+      resources :blocks,       only: [:index]
+      resources :mutes,        only: [:index]
+      resources :favourites,   only: [:index]
+      resources :bookmarks,    only: [:index]
+      resources :reports,      only: [:create]
+      resources :trends,       only: [:index]
+      resources :filters,      only: [:index, :create, :show, :update, :destroy]
+      resources :endorsements, only: [:index]
+      resources :markers,      only: [:index, :create]
 
       namespace :apps do
         get :verify_credentials, to: 'credentials#show'
@@ -469,7 +468,6 @@ Rails.application.routes.draw do
           post :unblock
           post :mute
           post :unmute
-          post :visit
         end
 
         resource :pin, only: :create, controller: 'accounts/pins'

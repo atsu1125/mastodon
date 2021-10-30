@@ -64,14 +64,6 @@ module AccountInteractions
       follow_mapping(AccountDomainBlock.where(account_id: account_id, domain: target_domains), :domain)
     end
 
-    def visiting_map(target_account_ids, account_id)
-      follow_mapping(Visit.where(target_account_id: target_account_ids, account_id: account_id), :target_account_id)
-    end
-
-    def visited_by_map(target_account_ids, account_id)
-      follow_mapping(Visit.where(account_id: target_account_ids, target_account_id: account_id), :account_id)
-    end
-
     private
 
     def follow_mapping(query, field)
@@ -106,12 +98,6 @@ module AccountInteractions
     has_many :conversation_mutes, dependent: :destroy
     has_many :domain_blocks, class_name: 'AccountDomainBlock', dependent: :destroy
     has_many :announcement_mutes, dependent: :destroy
-
-    # Visit relationships
-    has_many :visit_relationships, class_name: 'Visit', foreign_key: 'account_id', dependent: :destroy
-    has_many :visiting, -> { order('visits.id desc') }, through: :visit_relationships, source: :target_account
-    has_many :visited_by_relationships, class_name: 'Visit', foreign_key: :target_account_id, dependent: :destroy
-    has_many :visited_by, -> { order('visits.id desc') }, through: :visited_by_relationships, source: :account
   end
 
   def follow!(other_account, reblogs: nil, notify: nil, uri: nil, rate_limit: false, bypass_limit: false)
@@ -166,11 +152,6 @@ module AccountInteractions
 
   def mute_conversation!(conversation)
     conversation_mutes.find_or_create_by!(conversation: conversation)
-  end
-
-  def visit!(other_account, uri: nil)
-    visit_relationships.create_with(uri: uri)
-                       .find_or_create_by!(target_account: other_account)
   end
 
   def block_domain!(other_domain)
@@ -240,10 +221,6 @@ module AccountInteractions
 
   def muting_reblogs?(other_account)
     active_relationships.where(target_account: other_account, show_reblogs: false).exists?
-  end
-
-  def visiting?(other_account)
-    visit_relationships.where(target_account: other_account).exists?
   end
 
   def requested?(other_account)

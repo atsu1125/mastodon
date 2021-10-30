@@ -304,7 +304,6 @@
   "navigation_bar.preferences": "Preferences",
   "navigation_bar.public_timeline": "Federated timeline",
   "navigation_bar.security": "Security",
-  "navigation_bar.visitors": "Visitors",
   "notification.favourite": "{name} favourited your post",
   "notification.follow": "{name} followed you",
   "notification.follow_request": "{name} has requested to follow you",
