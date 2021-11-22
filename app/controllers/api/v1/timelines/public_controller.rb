@@ -41,6 +41,7 @@ class Api::V1::Timelines::PublicController < Api::BaseController
       allow_local_only: truthy_param?(:allow_local_only),
       with_replies: Setting.show_replies_in_public_timelines,
       with_reblogs: Setting.show_reblogs_in_public_timelines,
+      domain: params[:domain],
     )
   end
 
@@ -49,7 +50,7 @@ class Api::V1::Timelines::PublicController < Api::BaseController
   end
 
   def pagination_params(core_params)
-    params.slice(:local, :remote, :limit, :only_media, :allow_local_only).permit(:local, :remote, :limit, :only_media, :allow_local_only).merge(core_params)
+    params.slice(:local, :remote, :limit, :domain, :only_media, :allow_local_only).permit(:local, :remote, :domain, :limit, :only_media, :allow_local_only).merge(core_params)
   end
 
   def next_path
