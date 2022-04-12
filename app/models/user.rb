@@ -38,7 +38,7 @@
 #  sign_in_token_sent_at     :datetime
 #  webauthn_id               :string
 #  sign_up_ip                :inet
-#  skip_sign_in_token        :boolean
+#  skip_sign_in_token        :boolean          default(TRUE)
 #
 
 class User < ApplicationRecord
