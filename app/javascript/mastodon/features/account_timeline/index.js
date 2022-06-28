@@ -170,7 +170,7 @@ class AccountTimeline extends ImmutablePureComponent {
           alwaysPrepend
           append={remoteMessage}
           scrollKey='account_timeline'
-          statusIds={(suspended || blockedBy) ? emptyList : statusIds}
+          statusIds={suspended ? emptyList : statusIds}
           featuredStatusIds={featuredStatusIds}
           isLoading={isLoading}
           hasMore={hasMore}
