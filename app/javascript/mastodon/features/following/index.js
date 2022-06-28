@@ -122,7 +122,7 @@ class Following extends ImmutablePureComponent {
     let emptyMessage;
 
     if (blockedBy) {
-      emptyMessage = <FormattedMessage id='empty_column.account_unavailable' defaultMessage='Profile unavailable' />;
+      emptyMessage = <FormattedMessage id='account.follows.empty' defaultMessage="This user doesn't follow anyone yet." />;
     } else if (remote && accountIds.isEmpty()) {
       emptyMessage = <RemoteHint url={remoteUrl} />;
     } else {
@@ -146,7 +146,7 @@ class Following extends ImmutablePureComponent {
           emptyMessage={emptyMessage}
           bindToDocument={!multiColumn}
         >
-          {blockedBy ? [] : accountIds.map(id =>
+          {accountIds.map(id =>
             <AccountContainer key={id} id={id} withNote={false} />,
           )}
         </ScrollableList>
