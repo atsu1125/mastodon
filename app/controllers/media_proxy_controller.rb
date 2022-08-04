@@ -7,8 +7,6 @@ class MediaProxyController < ApplicationController
   skip_before_action :store_current_location
   skip_before_action :require_functional!
 
-  before_action :authenticate_user!, if: :whitelist_mode?
-
   rescue_from ActiveRecord::RecordInvalid, with: :not_found
   rescue_from Mastodon::UnexpectedResponseError, with: :not_found
   rescue_from Mastodon::NotPermittedError, with: :not_found
