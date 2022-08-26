@@ -1,16 +1,24 @@
 ## お知らせ ##
-Dockerイメージはここにある（リリース時に自動ビルド）  
-https://hub.docker.com/repository/docker/atsu1125/mastodon  
+### Dockerイメージはここにあるのだわ
+https://hub.docker.com/r/atsu1125/mastodon  
+https://github.com/atsu1125/mastodon/pkgs/container/mastodon  
+コミット時にdevelopタグ、リリース時にlatestタグで自動作成されるのだわ  
 
- 以下のMastodon Glitch Editionからいろいろ書き換えてるのでそのままでは動かないのだわ  
- ElasticSearchは使わないようになってるので有効化しなくてよいのだわ  
- その代わりにPGroongaを使用しているのだわ  
- そのためPostgreSQLは13以上のバージョンでPGroongaのエクステンションを使えるようにして欲しいのだわ  
- そうするとデータベースのマイグレーションが通るようになるはずなのだわ  
- PGroongaの実装方法： https://github.com/atsu1125/mastodon/blob/main/INSTALL-PGROONGA.md  
+### 全文検索について
+以下のMastodon Glitch Editionからいろいろ書き換えてるのでそのままでは動かないのだわ  
+ElasticSearchは使わないようになってるので有効化しなくてよいのだわ  
+その代わりにPGroongaを使用しているのだわ  
+そのためPostgreSQLは13以上のバージョンでPGroongaのエクステンションを使えるようにして欲しいのだわ  
+そうするとデータベースのマイグレーションが通るようになるはずなのだわ  
+PGroongaの実装方法：  
+https://github.com/atsu1125/mastodon/blob/main/INSTALL-PGROONGA.md  
+
+### オブジェクトストレージを使う場合  
+なんか公式にマニュアルないんだけど結構手間かかるからマニュアル作成したから読めなのだわ  
+https://github.com/atsu1125/atsuchanpage/blob/main/mastodonobjectstorage.md  
 
 <h2 id="sec-7">独自機能</h2>
-<p>このインスタンスでは以下の独自機能が使えます。</p>
+<p>このインスタンスでは以下の独自機能が使えるのだわ</p>
 <ul>
   <li><a href="https://glitch-soc.github.io/docs">Mastodon Glitch Edition</a>の機能全て
 </li>
