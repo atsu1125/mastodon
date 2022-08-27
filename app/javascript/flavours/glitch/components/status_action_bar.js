@@ -13,6 +13,7 @@ import classNames from 'classnames';
 const messages = defineMessages({
   delete: { id: 'status.delete', defaultMessage: 'Delete' },
   redraft: { id: 'status.redraft', defaultMessage: 'Delete & re-draft' },
+  edit: { id: 'status.edit', defaultMessage: 'Edit' },
   direct: { id: 'status.direct', defaultMessage: 'Direct message @{name}' },
   mention: { id: 'status.mention', defaultMessage: 'Mention @{name}' },
   mute: { id: 'account.mute', defaultMessage: 'Mute @{name}' },
@@ -38,6 +39,7 @@ const messages = defineMessages({
   admin_status: { id: 'status.admin_status', defaultMessage: 'Open this status in the moderation interface' },
   copy: { id: 'status.copy', defaultMessage: 'Copy link to status' },
   hide: { id: 'status.hide', defaultMessage: 'Hide toot' },
+  edited: { id: 'status.edited', defaultMessage: 'Edited {date}' },
 });
 
 export default @injectIntl
@@ -125,6 +127,10 @@ class StatusActionBar extends ImmutablePureComponent {
     this.props.onDelete(this.props.status, this.context.router.history, true);
   }
 
+  handleEditClick = () => {
+    this.props.onEdit(this.props.status, this.context.router.history);
+  }
+
   handlePinClick = () => {
     this.props.onPin(this.props.status);
   }
@@ -196,6 +202,7 @@ class StatusActionBar extends ImmutablePureComponent {
     const anonymousAccess    = !me;
     const mutingConversation = status.get('muted');
     const publicStatus       = ['public', 'unlisted'].includes(status.get('visibility'));
+    const pinnableStatus     = ['public', 'unlisted', 'private'].includes(status.get('visibility'));
     const writtenByMe        = status.getIn(['account', 'id']) === me;
 
     let menu = [];
@@ -212,7 +219,7 @@ class StatusActionBar extends ImmutablePureComponent {
 
     menu.push(null);
 
-    if (writtenByMe && publicStatus) {
+    if (writtenByMe && pinnableStatus) {
       menu.push({ text: intl.formatMessage(status.get('pinned') ? messages.unpin : messages.pin), action: this.handlePinClick });
       menu.push(null);
     }
@@ -223,6 +230,7 @@ class StatusActionBar extends ImmutablePureComponent {
     }
 
     if (writtenByMe) {
+      // menu.push({ text: intl.formatMessage(messages.edit), action: this.handleEditClick });
       menu.push({ text: intl.formatMessage(messages.delete), action: this.handleDeleteClick });
       menu.push({ text: intl.formatMessage(messages.redraft), action: this.handleRedraftClick });
     } else {
@@ -323,7 +331,9 @@ class StatusActionBar extends ImmutablePureComponent {
           </div>,
         ]}
 
-        <a href={status.get('url')} className='status__relative-time' target='_blank' rel='noopener'><RelativeTimestamp timestamp={status.get('created_at')} /></a>
+        <a href={status.get('url')} className='status__relative-time' target='_blank' rel='noopener'>
+          <RelativeTimestamp timestamp={status.get('created_at')} />{status.get('edited_at') && <abbr title={intl.formatMessage(messages.edited, { date: intl.formatDate(status.get('edited_at'), { hour12: false, year: 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit' }) })}> *</abbr>}
+        </a>
       </div>
     );
   }

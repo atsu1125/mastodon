@@ -4,19 +4,16 @@ class Trends::Tags < Trends::Base
   PREFIX = 'trending_tags'
 
   self.default_options = {
-    threshold: 15,
+    threshold: 5,
     review_threshold: 10,
     max_score_cooldown: 2.days.freeze,
     max_score_halflife: 4.hours.freeze,
   }
 
   def register(status, at_time = Time.now.utc)
-    original_status = status.reblog? ? status.reblog : status
+    return unless !status.reblog? && status.public_visibility? && !status.account.silenced?
 
-    return unless original_status.public_visibility? && status.public_visibility? &&
-                  !original_status.account.silenced? && !status.account.silenced?
-
-    original_status.tags.each do |tag|
+    status.tags.each do |tag|
       add(tag, status.account_id, at_time) if tag.usable?
     end
   end
