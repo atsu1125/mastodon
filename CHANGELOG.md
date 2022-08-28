@@ -3,6 +3,21 @@ Changelog
 
 All notable changes to this project will be documented in this file.
 
+## [3.4.8] - 2022-05-26
+## Security
+
+- Fix concurrent unfollowing decrementing follower count more than once ([Gargron](https://github.com/mastodon/mastodon/pull/18527))
+- Fix being able to report otherwise inaccessible statuses ([Gargron](https://github.com/mastodon/mastodon/pull/18528))
+- Fix suspended users being able to access APIs that don't require a user ([Gargron](https://github.com/mastodon/mastodon/pull/18524))
+- Fix empty votes arbitrarily increasing voters count in polls ([Gargron](https://github.com/mastodon/mastodon/pull/18526))
+- Fix confirmation redirect to app without `Location` header ([Gargron](https://github.com/mastodon/mastodon/pull/18523))
+
+## [3.4.7] - 2022-03-30
+### Security
+
+- Fix being able to post URLs longer than 4096 characters ([Gargron](https://github.com/mastodon/mastodon/pull/17908))
+- Fix being able to bypass e-mail restrictions ([Gargron](https://github.com/mastodon/mastodon/pull/17909))
+
 ## [3.4.6] - 2022-02-03
 ### Fixed
 
