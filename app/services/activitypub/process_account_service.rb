@@ -345,6 +345,7 @@ class ActivityPub::ProcessAccountService < BaseService
     token             = attachment['signatureValue']
 
     @account.identity_proofs.where(provider: provider, provider_username: provider_username).find_or_create_by(provider: provider, provider_username: provider_username, token: token)
+  end
 
   def fix_emoji(text)
     return text if text.blank? || @shortcodes.empty?
