@@ -7,7 +7,7 @@ import StatusContent from 'flavours/glitch/components/status_content';
 import MediaGallery from 'flavours/glitch/components/media_gallery';
 import AttachmentList from 'flavours/glitch/components/attachment_list';
 import { Link } from 'react-router-dom';
-import { FormattedDate } from 'react-intl';
+import { injectIntl, FormattedDate } from 'react-intl';
 import Card from './card';
 import ImmutablePureComponent from 'react-immutable-pure-component';
 import Video from 'flavours/glitch/features/video';
@@ -19,8 +19,10 @@ import PollContainer from 'flavours/glitch/containers/poll_container';
 import Icon from 'flavours/glitch/components/icon';
 import AnimatedNumber from 'flavours/glitch/components/animated_number';
 import PictureInPicturePlaceholder from 'flavours/glitch/components/picture_in_picture_placeholder';
+import EditedTimestamp from 'flavours/glitch/components/edited_timestamp';
 
-export default class DetailedStatus extends ImmutablePureComponent {
+export default @injectIntl
+class DetailedStatus extends ImmutablePureComponent {
 
   static contextTypes = {
     router: PropTypes.object,
@@ -40,6 +42,7 @@ export default class DetailedStatus extends ImmutablePureComponent {
     showMedia: PropTypes.bool,
     usingPiP: PropTypes.bool,
     onToggleMediaVisibility: PropTypes.func,
+    intl: PropTypes.object.isRequired,
   };
 
   state = {
@@ -111,7 +114,7 @@ export default class DetailedStatus extends ImmutablePureComponent {
 
   render () {
     const status = (this.props.status && this.props.status.get('reblog')) ? this.props.status.get('reblog') : this.props.status;
-    const { expanded, onToggleHidden, settings, usingPiP } = this.props;
+    const { expanded, onToggleHidden, settings, usingPiP, intl } = this.props;
     const outerStyle = { boxSizing: 'border-box' };
     const { compact } = this.props;
 
@@ -125,6 +128,7 @@ export default class DetailedStatus extends ImmutablePureComponent {
     let reblogLink = '';
     let reblogIcon = 'retweet';
     let favouriteLink = '';
+    let edited = '';
 
     if (this.props.measureHeight) {
       outerStyle.height = `${this.state.height}px`;
@@ -258,6 +262,15 @@ export default class DetailedStatus extends ImmutablePureComponent {
       );
     }
 
+    if (status.get('edited_at')) {
+      edited = (
+        <React.Fragment>
+          <React.Fragment> · </React.Fragment>
+          <EditedTimestamp statusId={status.get('id')} timestamp={status.get('edited_at')} />
+        </React.Fragment>
+      );
+    }
+
     return (
       <div style={outerStyle}>
         <div ref={this.setRef} className={classNames('detailed-status', `detailed-status-${status.get('visibility')}`, { compact })} data-status-by={status.getIn(['account', 'acct'])}>
@@ -283,7 +296,7 @@ export default class DetailedStatus extends ImmutablePureComponent {
           <div className='detailed-status__meta'>
             <a className='detailed-status__datetime' href={status.get('url')} target='_blank' rel='noopener noreferrer'>
               <FormattedDate value={new Date(status.get('created_at'))} hour12={false} year='numeric' month='short' day='2-digit' hour='2-digit' minute='2-digit' />
-            </a>{visibilityLink}{applicationLink}{reblogLink} · {favouriteLink}
+            </a>{edited}{visibilityLink}{applicationLink}{reblogLink} · {favouriteLink}
           </div>
         </div>
       </div>

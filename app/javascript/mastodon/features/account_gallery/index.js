@@ -197,7 +197,7 @@ class AccountGallery extends ImmutablePureComponent {
           <div className='scrollable scrollable--flex' onScroll={this.handleScroll}>
             <HeaderContainer accountId={this.props.accountId} />
 
-            {(suspended || blockedBy) ? (
+            {suspended ? (
               <div className='empty-column-indicator'>
                 {emptyMessage}
               </div>

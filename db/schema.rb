@@ -52,6 +52,18 @@ ActiveRecord::Schema.define(version: 2022_04_12_023833) do
     t.index ["account_id", "domain"], name: "index_account_domain_blocks_on_account_id_and_domain", unique: true
   end
 
+  create_table "account_identity_proofs", force: :cascade do |t|
+    t.bigint "account_id"
+    t.string "provider", default: "", null: false
+    t.string "provider_username", default: "", null: false
+    t.text "token", default: "", null: false
+    t.boolean "verified", default: false, null: false
+    t.boolean "live", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "provider", "provider_username"], name: "index_account_proofs_on_account_and_provider_and_username", unique: true
+  end
+
   create_table "account_migrations", force: :cascade do |t|
     t.bigint "account_id"
     t.string "acct", default: "", null: false
@@ -134,6 +146,8 @@ ActiveRecord::Schema.define(version: 2022_04_12_023833) do
     t.text "text", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "report_id"
+    t.string "status_ids", array: true
     t.index ["account_id"], name: "index_account_warnings_on_account_id"
     t.index ["target_account_id"], name: "index_account_warnings_on_target_account_id"
   end
@@ -749,7 +763,6 @@ ActiveRecord::Schema.define(version: 2022_04_12_023833) do
   create_table "reports", force: :cascade do |t|
     t.bigint "status_ids", default: [], null: false, array: true
     t.text "comment", default: "", null: false
-    t.boolean "action_taken", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "account_id", null: false
@@ -758,6 +771,9 @@ ActiveRecord::Schema.define(version: 2022_04_12_023833) do
     t.bigint "assigned_account_id"
     t.string "uri"
     t.boolean "forwarded"
+    t.integer "category", default: 0, null: false
+    t.datetime "action_taken_at"
+    t.bigint "rule_ids", array: true
     t.index ["account_id"], name: "index_reports_on_account_id"
     t.index ["target_account_id"], name: "index_reports_on_target_account_id"
   end
@@ -814,6 +830,19 @@ ActiveRecord::Schema.define(version: 2022_04_12_023833) do
     t.index ["var"], name: "index_site_uploads_on_var", unique: true
   end
 
+  create_table "status_edits", force: :cascade do |t|
+    t.bigint "status_id", null: false
+    t.bigint "account_id"
+    t.text "text", default: "", null: false
+    t.text "spoiler_text", default: "", null: false
+    t.boolean "media_attachments_changed", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "content_type"
+    t.index ["account_id"], name: "index_status_edits_on_account_id"
+    t.index ["status_id"], name: "index_status_edits_on_status_id"
+  end
+
   create_table "status_pins", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "status_id", null: false
@@ -854,7 +883,9 @@ ActiveRecord::Schema.define(version: 2022_04_12_023833) do
     t.bigint "poll_id"
     t.string "content_type"
     t.datetime "deleted_at"
+    t.datetime "edited_at"
     t.index ["account_id", "id", "visibility", "updated_at"], name: "index_statuses_20190820", order: { id: :desc }, where: "(deleted_at IS NULL)"
+    t.index ["deleted_at"], name: "index_statuses_on_deleted_at", where: "(deleted_at IS NOT NULL)"
     t.index ["id", "account_id"], name: "index_statuses_local_20190824", order: { id: :desc }, where: "((local OR (uri IS NULL)) AND (deleted_at IS NULL) AND (visibility = 0) AND (reblog_of_id IS NULL) AND ((NOT reply) OR (in_reply_to_account_id = account_id)))"
     t.index ["id", "account_id"], name: "index_statuses_public_20200119", order: { id: :desc }, where: "((deleted_at IS NULL) AND (visibility = 0) AND (reblog_of_id IS NULL) AND ((NOT reply) OR (in_reply_to_account_id = account_id)))"
     t.index ["in_reply_to_account_id"], name: "index_statuses_on_in_reply_to_account_id"
@@ -924,7 +955,6 @@ ActiveRecord::Schema.define(version: 2022_04_12_023833) do
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
     t.integer "sign_in_count", default: 0, null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
@@ -946,7 +976,6 @@ ActiveRecord::Schema.define(version: 2022_04_12_023833) do
     t.boolean "disabled", default: false, null: false
     t.boolean "moderator", default: false, null: false
     t.bigint "invite_id"
-    t.string "remember_token"
     t.string "chosen_languages", array: true
     t.bigint "created_by_application_id"
     t.boolean "approved", default: true, null: false
@@ -959,7 +988,6 @@ ActiveRecord::Schema.define(version: 2022_04_12_023833) do
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["created_by_application_id"], name: "index_users_on_created_by_application_id"
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["remember_token"], name: "index_users_on_remember_token", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
@@ -1001,6 +1029,7 @@ ActiveRecord::Schema.define(version: 2022_04_12_023833) do
   add_foreign_key "account_conversations", "conversations", on_delete: :cascade
   add_foreign_key "account_deletion_requests", "accounts", on_delete: :cascade
   add_foreign_key "account_domain_blocks", "accounts", name: "fk_206c6029bd", on_delete: :cascade
+  add_foreign_key "account_identity_proofs", "accounts", on_delete: :cascade
   add_foreign_key "account_migrations", "accounts", column: "target_account_id", on_delete: :nullify
   add_foreign_key "account_migrations", "accounts", on_delete: :cascade
   add_foreign_key "account_moderation_notes", "accounts"
@@ -1013,6 +1042,7 @@ ActiveRecord::Schema.define(version: 2022_04_12_023833) do
   add_foreign_key "account_statuses_cleanup_policies", "accounts", on_delete: :cascade
   add_foreign_key "account_warnings", "accounts", column: "target_account_id", on_delete: :cascade
   add_foreign_key "account_warnings", "accounts", on_delete: :nullify
+  add_foreign_key "account_warnings", "reports", on_delete: :cascade
   add_foreign_key "accounts", "accounts", column: "moved_to_account_id", on_delete: :nullify
   add_foreign_key "admin_action_logs", "accounts", on_delete: :cascade
   add_foreign_key "announcement_mutes", "accounts", on_delete: :cascade
@@ -1080,6 +1110,8 @@ ActiveRecord::Schema.define(version: 2022_04_12_023833) do
   add_foreign_key "scheduled_statuses", "accounts", on_delete: :cascade
   add_foreign_key "session_activations", "oauth_access_tokens", column: "access_token_id", name: "fk_957e5bda89", on_delete: :cascade
   add_foreign_key "session_activations", "users", name: "fk_e5fda67334", on_delete: :cascade
+  add_foreign_key "status_edits", "accounts", on_delete: :nullify
+  add_foreign_key "status_edits", "statuses", on_delete: :cascade
   add_foreign_key "status_pins", "accounts", name: "fk_d4cb435b62", on_delete: :cascade
   add_foreign_key "status_pins", "statuses", on_delete: :cascade
   add_foreign_key "status_stats", "statuses", on_delete: :cascade

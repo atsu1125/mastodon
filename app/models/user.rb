@@ -10,7 +10,6 @@
 #  encrypted_password        :string           default(""), not null
 #  reset_password_token      :string
 #  reset_password_sent_at    :datetime
-#  remember_created_at       :datetime
 #  sign_in_count             :integer          default(0), not null
 #  current_sign_in_at        :datetime
 #  last_sign_in_at           :datetime
@@ -32,7 +31,6 @@
 #  disabled                  :boolean          default(FALSE), not null
 #  moderator                 :boolean          default(FALSE), not null
 #  invite_id                 :bigint(8)
-#  remember_token            :string
 #  chosen_languages          :string           is an Array
 #  created_by_application_id :bigint(8)
 #  approved                  :boolean          default(TRUE), not null
@@ -44,6 +42,13 @@
 #
 
 class User < ApplicationRecord
+  self.ignored_columns = %w(
+    remember_created_at
+    remember_token
+    current_sign_in_ip
+    last_sign_in_ip
+  )
+
   include Settings::Extend
   include UserRoles
 
@@ -86,11 +91,11 @@ class User < ApplicationRecord
   validates :invite_request, presence: true, on: :create, if: :invite_text_required?
 
   validates :locale, inclusion: I18n.available_locales.map(&:to_s), if: :locale?
-  validates_with BlacklistedEmailValidator, on: :create
+  validates_with BlacklistedEmailValidator, if: -> { !confirmed? }
   validates_with EmailMxValidator, if: :validate_email_dns?
   validates :agreement, acceptance: { allow_nil: false, accept: [true, 'true', '1'] }, on: :create
 
-  # Those are honeypot/antispam fields
+  # Honeypot/anti-spam fields
   attr_accessor :registration_form_time, :website, :confirm_password
 
   validates_with RegistrationFormTimeValidator, on: :create
@@ -240,6 +245,10 @@ class User < ApplicationRecord
     save!
   end
 
+  def preferred_posting_language
+    settings.default_language || locale
+  end
+
   def setting_default_privacy
     settings.default_privacy || (account.locked? ? 'private' : 'public')
   end
@@ -329,10 +338,9 @@ class User < ApplicationRecord
   end
 
   def reset_password!
-    # First, change password to something random, invalidate the remember-me token,
-    # and deactivate all sessions
+    # First, change password to something random and deactivate all sessions
     transaction do
-      update(remember_token: nil, remember_created_at: nil, password: SecureRandom.hex)
+      update(password: SecureRandom.hex)
       session_activations.destroy_all
     end
 

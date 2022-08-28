@@ -17,6 +17,7 @@ class DeleteAccountService < BaseService
     domain_blocks
     featured_tags
     follow_requests
+    identity_proofs
     list_accounts
     migrations
     mute_relationships
@@ -44,6 +45,7 @@ class DeleteAccountService < BaseService
     domain_blocks
     featured_tags
     follow_requests
+    identity_proofs
     list_accounts
     migrations
     mute_relationships
@@ -265,7 +267,7 @@ class DeleteAccountService < BaseService
   end
 
   def delete_actor_json
-    @delete_actor_json ||= Oj.dump(serialize_payload(@account, ActivityPub::DeleteActorSerializer, signer: @account))
+    @delete_actor_json ||= Oj.dump(serialize_payload(@account, ActivityPub::DeleteActorSerializer, signer: @account, always_sign: true))
   end
 
   def delivery_inboxes
