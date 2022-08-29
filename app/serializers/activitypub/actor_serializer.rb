@@ -12,8 +12,8 @@ class ActivityPub::ActorSerializer < ActivityPub::Serializer
   attributes :id, :type, :following, :followers,
              :inbox, :outbox, :featured, :featured_tags,
              :preferred_username, :name, :summary,
-             :url, :manually_approves_followers, :is_cat
-             :discoverable
+             :url, :manually_approves_followers, :is_cat,
+             :discoverable, :published
 
   has_one :public_key, serializer: ActivityPub::PublicKeySerializer
 

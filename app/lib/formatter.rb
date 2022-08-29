@@ -259,7 +259,6 @@ class Formatter
   end
   # rubocop:enable Metrics/BlockNesting
 
-
   def nyaize(html)
     html.gsub(/な/, "にゃ").gsub(/ナ/, "ニャ").gsub(/ﾅ/, "ﾆｬ").gsub(/[나-낳]/){|c|(c.ord + '냐'.ord - '나'.ord).chr}
   end

@@ -5,4 +5,3 @@ class AddCatToAccounts < ActiveRecord::Migration[5.2]
     add_column :accounts, :cat, :boolean, default: false, null: false
   end
 end
-
