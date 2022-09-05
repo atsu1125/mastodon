@@ -30,8 +30,11 @@ https://github.com/atsu1125/atsuchanpage/blob/main/mastodonobjectstorage.md
 </li>
   <li>モデレータの権限が強いです！カスタム絵文字関連なんでもいじれちゃう！すごい！</li>
   <li>一つのカラムで2000件のトゥートまで遡れる（デフォルトは400件）（<a href=https://fedibird.com/about>Fedibird</a>から） </li>
-  <li>新規登録時の自動フォロー機能を有効に（<a href=https://hello.2heng.xin/about>小森林</a>から）</li>
+  <li>削除されていた新規登録時の自動フォロー機能を有効に（<a href=https://hello.2heng.xin/about>小森林</a>から）</li>
   <li>ドメインタイムライン（連合タイムラインから特定のインスタンスの投稿だけを抜き出して表示する機能・現在Mastodon Flavorのみ対応）（<a href=https://fedibird.com/about>Fedibird</a>から）</li>
+  <li>リストタイムラインの追加にフォローが必須ではない。フォローしてなくても追加できる機能</li>
+  <li>ホワイトリストモード（連合制限モード）でもインスタンス情報を開示するように</li>
+  <li>削除されていたKeybase統合を復活</li>
 </ul>
 
 #  Mastodon Glitch Edition  #
