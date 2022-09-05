@@ -209,7 +209,6 @@ class Header extends ImmutablePureComponent {
         }
 
         menu.push({ text: intl.formatMessage(account.getIn(['relationship', 'endorsed']) ? messages.unendorse : messages.endorse), action: this.props.onEndorseToggle });
-        menu.push({ text: intl.formatMessage(messages.add_or_remove_from_list), action: this.props.onAddToList });
         menu.push(null);
       }
 
@@ -226,6 +225,7 @@ class Header extends ImmutablePureComponent {
       }
 
       menu.push({ text: intl.formatMessage(messages.report, { name: account.get('username') }), action: this.props.onReport });
+      menu.push({ text: intl.formatMessage(messages.add_or_remove_from_list), action: this.props.onAddToList });
     }
 
     if (account.get('acct') !== account.get('username')) {
