@@ -238,7 +238,6 @@ export const fetchListSuggestions = q => (dispatch, getState) => {
     q,
     resolve: false,
     limit: 4,
-    following: true,
   };
 
   api(getState).get('/api/v1/accounts/search', { params }).then(({ data }) => {
@@ -369,4 +368,3 @@ export const addToListAdder = listId => (dispatch, getState) => {
 export const removeFromListAdder = listId => (dispatch, getState) => {
   dispatch(removeFromList(listId, getState().getIn(['listAdder', 'accountId'])));
 };
-
