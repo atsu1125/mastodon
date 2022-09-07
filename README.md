@@ -10,12 +10,16 @@ ElasticSearchは使わないようになってるので有効化しなくてよ�
 その代わりにPGroongaを使用しているのだわ  
 そのためPostgreSQLは13以上のバージョンでPGroongaのエクステンションを使えるようにして欲しいのだわ  
 そうするとデータベースのマイグレーションが通るようになるはずなのだわ  
-PGroongaの実装方法：  
+PGroongaのインストール方法：  
 https://github.com/atsu1125/mastodon/blob/main/INSTALL-PGROONGA.md  
 
 ### オブジェクトストレージを使う場合  
 なんか公式にマニュアルないんだけど結構手間かかるからマニュアル作成したから読めなのだわ  
 https://github.com/atsu1125/atsuchanpage/blob/main/mastodonobjectstorage.md  
+
+### データベースのバックアップの設定方法
+データベースさえ生き残ればなんとかなるからバックアップを必ず設定するのだわ  
+https://github.com/atsu1125/atsuchanpage/blob/main/wal-g-backup.md
 
 <h2 id="sec-7">独自機能</h2>
 <p>このインスタンスでは以下の独自機能が使えるのだわ</p>
