@@ -1,31 +1,28 @@
 PGroongaの実装方法  
-環境：Fedora 34, PostgreSQL14.1, pgroonga-2.3.4  
+環境：Fedora 35, PostgreSQL14.5, pgroonga-2.3.8  
 
 GroongaとPGroongaをインストール  
 ソースを展開  
 
 ```
-wget https://packages.groonga.org/source/groonga/groonga-11.0.9.tar.gz
-tar xvzf groonga-11.0.9.tar.gz
-mv groonga-11.0.9 /usr/local/
-wget https://packages.groonga.org/source/pgroonga/pgroonga-2.3.4.tar.gz
-tar xvf pgroonga-2.3.4.tar.gz
-mv pgroonga-2.3.4 /usr/local/
+wget https://packages.groonga.org/source/groonga/groonga-12.0.7.tar.gz
+tar xvzf groonga-12.0.7.tar.gz
+wget https://packages.groonga.org/source/pgroonga/pgroonga-2.3.8.tar.gz
+tar xvf pgroonga-2.3.8.tar.gz
 ```
 ビルドしてインストール  
 
 ```
-sudo su -
 dnf install postgresql14-devel postgresql14-contrib msgpack-devel ccache
-cd /usr/local/groonga-11.0.9
+cd groonga-12.0.7
 ./configure
 make -j$(grep '^processor' /proc/cpuinfo | wc -l)
 sudo make install
-cd /usr/local/pgroonga-2.3.4
+cd pgroonga-2.3.8
 export PATH=/usr/pgsql-14/bin:$PATH
-export PKG_CONFIG_PATH=/usr/local/lib/pkg-config
+export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 make HAVE_MSGPACK=1
-make install
+sudo make install PG_CONFIG=/usr/pgsql-14/bin/pg_config PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 echo "/usr/local/lib">> /etc/ld.so.conf.d/groongalib.conf
 sudo ldconfig
 exit
