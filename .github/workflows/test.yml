@@ -80,13 +80,11 @@ jobs:
 
     - name: Run rails assets:precompile
       run: ./bin/rails assets:precompile
-    - name: Run rails error_page:generate
-      run: ./bin/rails error_page:generate
 
     - name: Create database
-      run: ./bin/rails parallel:create
+      run: ./bin/rails db:create
     - name: Run migrations
-      run: ./bin/rails parallel:migrate
+      run: ./bin/rails db:migrate
 
     # When the test is run on github actions,
     # paperclip uploads a file with 0 bytes and the test fails.
