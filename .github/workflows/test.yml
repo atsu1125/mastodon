@@ -18,12 +18,12 @@ jobs:
         # needed because the postgres container does not provide a healthcheck
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
       redis:
-        image: redis:3.2.4
+        image: redis:6.0
         ports:
           - 6379:6379
         options: --health-cmd "redis-cli -h localhost ping" --health-interval 10s --health-timeout 5s --health-retries 15
     container:
-      image: ruby:2.6.6-stretch
+      image: ruby:3.0.3-bullseye
       env:
         DB_HOST: postgres
         DB_USER: root
@@ -43,9 +43,7 @@ jobs:
         curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
         echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
         apt update
-        apt install -y yarn ffmpeg libicu-dev libidn11-dev libprotobuf-dev protobuf-compiler
-        wget http://deb.nodesource.com/node_10.x/pool/main/n/nodejs/nodejs_10.23.0-deb-1nodesource1_amd64.deb
-        dpkg -i nodejs_10.23.0-deb-1nodesource1_amd64.deb
+        apt install -y yarn ffmpeg libicu-dev libidn11-dev libprotobuf-dev protobuf-compiler nodejs
     - name: Cache ruby dependencies
       uses: actions/cache@v1
       with:
