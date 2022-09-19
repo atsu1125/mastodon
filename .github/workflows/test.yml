@@ -69,8 +69,8 @@ jobs:
 
   #  - name: Run rubocop
   #    run: bundle exec rubocop --fail-level W --display-only-fail-level-offenses --parallel
-    - name: Run eslint
-      run: yarn test:lint
+  #  - name: Run eslint
+  #    run: yarn test:lint
 
     - name: Run jest
       run: yarn test:jest
