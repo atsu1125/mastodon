@@ -87,7 +87,7 @@ jobs:
     # When the test is run on github actions,
     # paperclip uploads a file with 0 bytes and the test fails.
     # To avoid this, change TMPDIR to a directory on the same partition.
-    - name: Create tmp dir
-      run: mkdir -p tmp_for_ci && echo "TMPDIR=$(pwd)/tmp_for_ci" >> $GITHUB_ENV
-    - name: Run rspec
-      run: bundle exec parallel_test ./spec/ --group-by filesize --type rspec
+  #  - name: Create tmp dir
+  #    run: mkdir -p tmp_for_ci && echo "TMPDIR=$(pwd)/tmp_for_ci" >> $GITHUB_ENV
+  #  - name: Run rspec
+  #    run: bundle exec parallel_test ./spec/ --group-by filesize --type rspec
