@@ -75,8 +75,8 @@ jobs:
     - name: Run jest
       run: yarn test:jest
 
-    - name: Run brakeman
-      run: bundle exec brakeman --exit-on-error
+  #  - name: Run brakeman
+  #    run: bundle exec brakeman --exit-on-error
 
     - name: Run rails assets:precompile
       run: ./bin/rails assets:precompile
