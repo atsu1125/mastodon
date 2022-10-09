@@ -30,7 +30,7 @@ class ActivityPub::Activity::Follow < ActivityPub::Activity
 
     follow_request = FollowRequest.create!(account: @account, target_account: target_account, uri: @json['id'])
 
-    if target_account.locked? || @account.silenced? || @account.bot?
+    if target_account.locked? || @account.silenced? || @account.bot? || target_account.blocking?(@account) || target_account.domain_blocking?(@account.domain)
       NotifyService.new.call(target_account, :follow_request, follow_request)
     else
       AuthorizeFollowService.new.call(@account, target_account)
