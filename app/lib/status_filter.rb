@@ -11,7 +11,7 @@ class StatusFilter
 
   def filtered?
     return false if !account.nil? && account.id == status.account_id
-    blocked_by_policy? || (account_present? && filtered_status?) || silenced_account?
+    (account_present? && filtered_status?) || silenced_account?
   end
 
   private
@@ -46,10 +46,6 @@ class StatusFilter
 
   def account_following_status_account?
     @preloaded_relations[:following] ? @preloaded_relations[:following][status.account_id] : account&.following?(status.account_id)
-  end
-
-  def blocked_by_policy?
-    !policy_allows_show?
   end
 
   def policy_allows_show?

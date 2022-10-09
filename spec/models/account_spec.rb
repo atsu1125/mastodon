@@ -318,17 +318,15 @@ RSpec.describe Account, type: :model do
   end
 
   describe '#excluded_from_timeline_account_ids' do
-    it 'includes account ids of blockings, blocked_bys and mutes' do
+    it 'includes account ids of blockings and mutes' do
       account = Fabricate(:account)
       block = Fabricate(:block, account: account)
       mute = Fabricate(:mute, account: account)
-      block_by = Fabricate(:block, target_account: account)
 
       results = account.excluded_from_timeline_account_ids
-      expect(results.size).to eq 3
+      expect(results.size).to eq 2
       expect(results).to include(block.target_account.id)
       expect(results).to include(mute.target_account.id)
-      expect(results).to include(block_by.account.id)
     end
   end
 
