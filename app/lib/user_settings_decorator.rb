@@ -44,6 +44,8 @@ class UserSettingsDecorator
     user.settings['use_pending_items']   = use_pending_items_preference if change?('setting_use_pending_items')
     user.settings['trends']              = trends_preference if change?('setting_trends')
     user.settings['crop_images']         = crop_images_preference if change?('setting_crop_images')
+    user.settings['disable_block']       = disable_block_preference if change?('setting_disable_block')
+    user.settings['disable_domain_block']= disable_domain_block_preference if change?('setting_disable_domain_block')
   end
 
   def merged_notification_emails
@@ -160,6 +162,14 @@ class UserSettingsDecorator
 
   def crop_images_preference
     boolean_cast_setting 'setting_crop_images'
+  end
+
+  def disable_block_preference
+    boolean_cast_setting 'setting_disable_block'
+  end
+
+  def disable_domain_block_preference
+    boolean_cast_setting 'setting_disable_block'
   end
 
   def boolean_cast_setting(key)

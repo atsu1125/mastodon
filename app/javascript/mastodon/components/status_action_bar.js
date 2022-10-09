@@ -6,7 +6,7 @@ import IconButton from './icon_button';
 import DropdownMenuContainer from '../containers/dropdown_menu_container';
 import { defineMessages, injectIntl } from 'react-intl';
 import ImmutablePureComponent from 'react-immutable-pure-component';
-import { me, isStaff } from '../initial_state';
+import { me, isStaff, disableBlock, disableDomainBlock } from '../initial_state';
 import classNames from 'classnames';
 
 const messages = defineMessages({
@@ -284,7 +284,7 @@ class StatusActionBar extends ImmutablePureComponent {
 
       if (relationship && relationship.get('blocking')) {
         menu.push({ text: intl.formatMessage(messages.unblock, { name: account.get('username') }), action: this.handleBlockClick });
-      } else {
+      } else if (!disableBlock) {
         menu.push({ text: intl.formatMessage(messages.block, { name: account.get('username') }), action: this.handleBlockClick });
       }
 
@@ -293,11 +293,11 @@ class StatusActionBar extends ImmutablePureComponent {
       if (account.get('acct') !== account.get('username')) {
         const domain = account.get('acct').split('@')[1];
 
-        menu.push(null);
-
         if (relationship && relationship.get('domain_blocking')) {
+          menu.push(null);
           menu.push({ text: intl.formatMessage(messages.unblockDomain, { domain }), action: this.handleUnblockDomain });
-        } else {
+        } else if (!disableDomainBlock) {
+          menu.push(null);
           menu.push({ text: intl.formatMessage(messages.blockDomain, { domain }), action: this.handleBlockDomain });
         }
         menu.push({ text: intl.formatMessage(messages.openDomainTimeline, { domain }), action: this.handleOpenDomainTimeline });
