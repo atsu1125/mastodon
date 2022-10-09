@@ -39,6 +39,8 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def block
+    raise Mastodon::NotPermittedError if current_user.setting_disable_block
+
     BlockService.new.call(current_user.account, @account)
     render json: @account, serializer: REST::RelationshipSerializer, relationships: relationships
   end
