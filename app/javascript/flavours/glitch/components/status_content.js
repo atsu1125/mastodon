@@ -1,12 +1,16 @@
 import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { injectIntl, defineMessages, FormattedMessage } from 'react-intl';
 import Permalink from './permalink';
 import classnames from 'classnames';
 import Icon from 'flavours/glitch/components/icon';
 import { autoPlayGif } from 'flavours/glitch/util/initial_state';
 import { decode as decodeIDNA } from 'flavours/glitch/util/idna';
+
+const messages = defineMessages({
+  postByAcct: { id: 'status.post_by_acct', defaultMessage: 'Post by @{acct}' },
+});
 
 const textMatchesTarget = (text, origin, host) => {
   return (text === origin || text === host
@@ -62,6 +66,7 @@ const isLinkMisleading = (link) => {
   return !(textMatchesTarget(text, origin, host) || textMatchesTarget(text.toLowerCase(), origin, host));
 };
 
+@injectIntl
 export default class StatusContent extends React.PureComponent {
 
   static propTypes = {
@@ -76,6 +81,7 @@ export default class StatusContent extends React.PureComponent {
     onUpdate: PropTypes.func,
     tagLinks: PropTypes.bool,
     rewriteMentions: PropTypes.string,
+    intl: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -118,6 +124,9 @@ export default class StatusContent extends React.PureComponent {
         }
       } else if (link.textContent[0] === '#' || (link.previousSibling && link.previousSibling.textContent && link.previousSibling.textContent[link.previousSibling.textContent.length - 1] === '#')) {
         link.addEventListener('click', this.onHashtagClick.bind(this, link.text), false);
+      } else if (link.classList.contains('status-url-link')) {
+        link.setAttribute('title', this.props.intl.formatMessage(messages.postByAcct, { acct: link.dataset.statusAccountAcct }));
+        link.addEventListener('click', this.onStatusUrlClick.bind(this, link.dataset.statusId), false);
       } else {
         link.addEventListener('click', this.onLinkClick.bind(this), false);
         link.setAttribute('title', link.href);
@@ -206,6 +215,12 @@ export default class StatusContent extends React.PureComponent {
 
     if (this.props.parseClick) {
       this.props.parseClick(e, `/tags/${hashtag}`);
+    }
+  }
+
+  onStatusUrlClick = (statusId, e) => {
+    if (this.props.parseClick) {
+      this.props.parseClick(e, `/statuses/${statusId}`);
     }
   }
 
