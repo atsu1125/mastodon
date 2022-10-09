@@ -169,7 +169,7 @@ class UserSettingsDecorator
   end
 
   def disable_domain_block_preference
-    boolean_cast_setting 'setting_disable_block'
+    boolean_cast_setting 'setting_disable_domain_block'
   end
 
   def boolean_cast_setting(key)
