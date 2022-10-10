@@ -60,6 +60,8 @@ class Settings::PreferencesController < Settings::BaseController
       :setting_crop_images,
       :setting_disable_block,
       :setting_disable_domain_block,
+      :setting_confirm_follow_from_remote,
+      :setting_do_not_allow_follow,
       notification_emails: %i(follow follow_request reblog favourite mention digest report pending_account trending_tag),
       interactions: %i(must_be_follower must_be_following must_be_following_dm)
     )
