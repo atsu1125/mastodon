@@ -60,6 +60,8 @@ class InitialStateSerializer < ActiveModel::Serializer
       store[:crop_images]       = object.current_account.user.setting_crop_images
       store[:disable_block]     = object.current_account.user.setting_disable_block
       store[:disable_domain_block] = object.current_account.user.setting_disable_domain_block
+      store[:confirm_follow_from_remote] = object.current_account.user.setting_confirm_follow_from_remote
+      store[:do_not_allow_follow] = object.current_account.user.setting_do_not_allow_follow
     else
       store[:auto_play_gif] = Setting.auto_play_gif
       store[:display_media] = Setting.display_media
