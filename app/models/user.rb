@@ -130,7 +130,7 @@ class User < ApplicationRecord
            :expand_spoilers, :default_language, :aggregate_reblogs, :show_application,
            :advanced_layout, :use_blurhash, :use_pending_items, :trends, :crop_images,
            :disable_swiping, :default_content_type, :system_emoji_font,
-           :disable_block, :disable_domain_block,
+           :disable_block, :disable_domain_block, :confirm_follow_from_remote, :do_not_allow_follow,
            to: :settings, prefix: :setting, allow_nil: false
 
   attr_reader :invite_code, :sign_in_token_attempt

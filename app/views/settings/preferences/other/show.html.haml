@@ -26,6 +26,13 @@
   .fields-group
     = f.input :setting_disable_domain_block, as: :boolean, wrapper: :with_label, recommended: true
 
+  .fields-group
+    = f.input :setting_confirm_follow_from_remote, as: :boolean, wrapper: :with_label
+
+  .fields-group
+    = f.input :setting_do_not_allow_follow, as: :boolean, wrapper: :with_label
+
+
   %h4= t 'preferences.posting_defaults'
 
   .fields-row

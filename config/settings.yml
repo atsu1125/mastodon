@@ -83,6 +83,8 @@ defaults: &defaults
   captcha_enabled: false
   disable_block: true
   disable_domain_block: true
+  confirm_follow_from_remote: false
+  do_not_allow_follow: false
 
 development:
   <<: *defaults
