@@ -1,8 +1,6 @@
 ---
 ja:
   simple_form:
-    glitch_features: Mastodon Glitch
-    atsu1125_features: atsu1125
     hints:
       account_alias:
         acct: 引っ越し元のユーザー名@ドメインを指定してください
