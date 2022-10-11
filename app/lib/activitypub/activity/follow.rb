@@ -15,7 +15,7 @@ class ActivityPub::Activity::Follow < ActivityPub::Activity
       return
     end
 
-    if target_account.moved? || target_account.instance_actor? || target_account.user.setting_do_not_allow_follow
+    if target_account.moved? || target_account.instance_actor? || (target_account.local? && target_account.user.setting_do_not_allow_follow)
       reject_follow_request!(target_account)
       return
     end
