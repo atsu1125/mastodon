@@ -12,7 +12,7 @@
 
   .fields-row
     .fields-row__column.fields-row__column-6.fields-group
-      = f.input :flavour_and_skin, collection: Themes.instance.flavours_and_skins, group_label_method: lambda { |(flavour, _)| I18n.t("flavours.#{flavour}.name", default: flavour) }, wrapper: :with_label, include_blank: false, as: :grouped_select, label_method: :last, value_method: lambda { |value| value.join('/') }, group_method: :last
+      = f.input :flavour_and_skin, collection: Themes.instance.flavours_and_skins, group_label_method: lambda { |(flavour, _)| I18n.t("flavours.#{flavour}.name", default: flavour) }, wrapper: :with_label, include_blank: false, as: :grouped_select, label_method: :last, value_method: lambda { |value| value.join('/') }, group_method: :last, glitch_features: true
     .fields-row__column.fields-row__column-6.fields-group
       = f.input :registrations_mode, collection: %w(open approved none), wrapper: :with_label, label: t('admin.settings.registrations_mode.title'), include_blank: false, label_method: lambda { |mode| I18n.t("admin.settings.registrations_mode.modes.#{mode}") }
 
@@ -50,7 +50,7 @@
   %hr.spacer/
 
   .fields-group
-    = f.input :enable_auto_follow_bootstrap_timeline_accounts, as: :boolean, wrapper: :with_label, label: t('admin.settings.enable_auto_follow_bootstrap_timeline_accounts.title'), hint: t('admin.settings.enable_auto_follow_bootstrap_timeline_accounts.desc_html')
+    = f.input :enable_auto_follow_bootstrap_timeline_accounts, as: :boolean, wrapper: :with_label, label: t('admin.settings.enable_auto_follow_bootstrap_timeline_accounts.title'), hint: t('admin.settings.enable_auto_follow_bootstrap_timeline_accounts.desc_html'), atsu1125_features: true
 
   .fields-group
     = f.input :auto_follow_bootstrap_timeline_accounts, wrapper: :with_block_label, label: t('admin.settings.auto_follow_bootstrap_timeline_accounts.title'), hint: t('admin.settings.auto_follow_bootstrap_timeline_accounts.desc_html'), disabled: !Setting.enable_auto_follow_bootstrap_timeline_accounts
@@ -96,16 +96,16 @@
       = f.input :noindex, as: :boolean, wrapper: :with_label, label: t('admin.settings.default_noindex.title'), hint: t('admin.settings.default_noindex.desc_html')
 
   .fields-group
-    = f.input :hide_followers_count, as: :boolean, wrapper: :with_label, label: t('admin.settings.hide_followers_count.title'), hint: t('admin.settings.hide_followers_count.desc_html')
+    = f.input :hide_followers_count, as: :boolean, wrapper: :with_label, label: t('admin.settings.hide_followers_count.title'), hint: t('admin.settings.hide_followers_count.desc_html'), glitch_features: true
 
   .fields-group
-    = f.input :enable_keybase, as: :boolean, wrapper: :with_label, label: t('admin.settings.enable_keybase.title'), hint: t('admin.settings.enable_keybase.desc_html')
+    = f.input :enable_keybase, as: :boolean, wrapper: :with_label, label: t('admin.settings.enable_keybase.title'), hint: t('admin.settings.enable_keybase.desc_html'), atsu1125_features: true
 
   .fields-group
-    = f.input :show_reblogs_in_public_timelines, as: :boolean, wrapper: :with_label, label: t('admin.settings.show_reblogs_in_public_timelines.title'), hint: t('admin.settings.show_reblogs_in_public_timelines.desc_html')
+    = f.input :show_reblogs_in_public_timelines, as: :boolean, wrapper: :with_label, label: t('admin.settings.show_reblogs_in_public_timelines.title'), hint: t('admin.settings.show_reblogs_in_public_timelines.desc_html'), glitch_features: true
 
   .fields-group
-    = f.input :show_replies_in_public_timelines, as: :boolean, wrapper: :with_label, label: t('admin.settings.show_replies_in_public_timelines.title'), hint: t('admin.settings.show_replies_in_public_timelines.desc_html')
+    = f.input :show_replies_in_public_timelines, as: :boolean, wrapper: :with_label, label: t('admin.settings.show_replies_in_public_timelines.title'), hint: t('admin.settings.show_replies_in_public_timelines.desc_html'), glitch_features: true
 
   %hr.spacer/
 
