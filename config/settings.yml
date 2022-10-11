@@ -13,7 +13,7 @@ defaults: &defaults
   profile_directory: true
   closed_registrations_message: ''
   open_deletion: true
-  timeline_preview: false
+  timeline_preview: true
   min_invite_role: 'admin'
   show_staff_badge: true
   default_sensitive: false
@@ -33,7 +33,7 @@ defaults: &defaults
   system_emoji_font: false
   noindex: false
   hide_followers_count: false
-  enable_keybase: true
+  enable_keybase: false
   flavour: 'glitch'
   skin: 'default'
   aggregate_reblogs: true
@@ -72,12 +72,12 @@ defaults: &defaults
   bootstrap_timeline_accounts: ''
   activity_api_enabled: true
   peers_api_enabled: true
-  show_known_fediverse_at_about_page: true
+  show_known_fediverse_at_about_page: false
   show_reblogs_in_public_timelines: false
   show_replies_in_public_timelines: false
   default_content_type: 'text/plain'
-  show_domain_blocks: 'disabled'
-  show_domain_blocks_rationale: 'disabled'
+  show_domain_blocks: 'all'
+  show_domain_blocks_rationale: 'all'
   outgoing_spoilers: ''
   require_invite_text: false
   captcha_enabled: false

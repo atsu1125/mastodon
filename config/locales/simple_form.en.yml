@@ -1,6 +1,8 @@
 ---
 en:
   simple_form:
+    glitch_features: Mastodon Glitch
+    atsu1125_features: atsu1125
     hints:
       account_alias:
         acct: Specify the username@domain of the account you want to move from
