@@ -662,6 +662,30 @@ html {
     color: $ui-highlight-color;
     background-color: rgba($ui-highlight-color, 0.1);
   }
+
+  .glitch_features {
+    border-color: $glitch-theme-color;
+    color: $glitch-theme-color;
+    background-color: rgba($glitch-theme-color, 0.1);
+  }
+
+  .atsu1125_features {
+    border-color: $atsu1125-theme-color;
+    color: $atsu1125-theme-color;
+    background-color: rgba($atsu1125-theme-color, 0.1);
+  }
+}
+
+.glitch_features {
+  border-color: $ui-highlight-color;
+  color: $ui-highlight-color;
+  background-color: rgba($ui-highlight-color, 0.1);
+}
+
+.atsu1125_features {
+  border-color: $ui-highlight-color;
+  color: $ui-highlight-color;
+  background-color: rgba($ui-highlight-color, 0.1);
 }
 
 .compose-form .compose-form__warning {
