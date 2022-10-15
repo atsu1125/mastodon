@@ -45,7 +45,7 @@
 
   - if captcha_available?
     .fields-group
-      = f.input :captcha_enabled, as: :boolean, wrapper: :with_label, label: t('admin.settings.captcha_enabled.title'), hint: t('admin.settings.captcha_enabled.desc_html')
+      = f.input :captcha_enabled, as: :boolean, wrapper: :with_label, label: t('admin.settings.captcha_enabled.title'), hint: t('admin.settings.captcha_enabled.desc_html'), glitch_features: true
 
   %hr.spacer/
 
@@ -119,7 +119,7 @@
       = f.input :show_domain_blocks_rationale, wrapper: :with_label, collection: %i(disabled users all), label: t('admin.settings.domain_blocks_rationale.title'), label_method: lambda { |value| t("admin.settings.domain_blocks.#{value}") }, include_blank: false, collection_wrapper_tag: 'ul', item_wrapper_tag: 'li'
 
   .fields-group
-    = f.input :outgoing_spoilers, wrapper: :with_label, label: t('admin.settings.outgoing_spoilers.title'), hint: t('admin.settings.outgoing_spoilers.desc_html')
+    = f.input :outgoing_spoilers, wrapper: :with_label, label: t('admin.settings.outgoing_spoilers.title'), hint: t('admin.settings.outgoing_spoilers.desc_html'), glitch_features: true
 
   .fields-group
     = f.input :site_extended_description, wrapper: :with_block_label, as: :text, label: t('admin.settings.site_description_extended.title'), hint: t('admin.settings.site_description_extended.desc_html'), input_html: { rows: 8 } unless whitelist_mode?
