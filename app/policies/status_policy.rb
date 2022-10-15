@@ -20,7 +20,7 @@ class StatusPolicy < ApplicationPolicy
     elsif private?
       owned? || following_author? || mention_exists?
     else
-      !current_account.nil?
+      true
     end
   end
 
