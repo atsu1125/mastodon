@@ -26,7 +26,7 @@ import {
   directCompose,
 } from 'flavours/glitch/actions/compose';
 import { changeLocalSetting } from 'flavours/glitch/actions/local_settings';
-import { muteStatus, unmuteStatus, deleteStatus } from 'flavours/glitch/actions/statuses';
+import { muteStatus, unmuteStatus, deleteStatus, editStatus } from 'flavours/glitch/actions/statuses';
 import { initMuteModal } from 'flavours/glitch/actions/mutes';
 import { initBlockModal } from 'flavours/glitch/actions/blocks';
 import { initReport } from 'flavours/glitch/actions/reports';
@@ -70,7 +70,7 @@ const makeMapStateToProps = () => {
     ancestorsIds = ancestorsIds.withMutations(mutable => {
       let id = statusId;
 
-      while (id) {
+      while (id && !mutable.includes(id)) {
         mutable.unshift(id);
         id = inReplyTos.get(id);
       }
@@ -88,7 +88,7 @@ const makeMapStateToProps = () => {
     const ids = [statusId];
 
     while (ids.length > 0) {
-      let id        = ids.shift();
+      let id        = ids.pop();
       const replies = contextReplies.get(id);
 
       if (statusId !== id) {
@@ -97,7 +97,7 @@ const makeMapStateToProps = () => {
 
       if (replies) {
         replies.reverse().forEach(reply => {
-          ids.unshift(reply);
+          if (!ids.includes(reply) && !descendantsIds.includes(reply) && statusId !== reply) ids.push(reply);
         });
       }
     }
@@ -305,6 +305,10 @@ class Status extends ImmutablePureComponent {
         onConfirm: () => dispatch(deleteStatus(status.get('id'), history, withRedraft)),
       }));
     }
+  }
+
+  handleEditClick = (status, history) => {
+    this.props.dispatch(editStatus(status.get('id'), history));
   }
 
   handleDirectClick = (account, router) => {
@@ -585,6 +589,7 @@ class Status extends ImmutablePureComponent {
                   onReblog={this.handleReblogClick}
                   onBookmark={this.handleBookmarkClick}
                   onDelete={this.handleDeleteClick}
+                  onEdit={this.handleEditClick}
                   onDirect={this.handleDirectClick}
                   onMention={this.handleMentionClick}
                   onMute={this.handleMuteClick}

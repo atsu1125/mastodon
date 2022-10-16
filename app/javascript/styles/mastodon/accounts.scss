@@ -202,6 +202,10 @@
 }
 
 .account-role,
+.glitch_features,
+.atsu1125_features,
+.simple_form .glitch_features,
+.simple_form .atsu1125_features,
 .simple_form .recommended {
   display: inline-block;
   padding: 4px 6px;
@@ -225,6 +229,18 @@
     background-color: rgba(lighten($error-red, 12%), 0.1);
     border-color: rgba(lighten($error-red, 12%), 0.5);
   }
+}
+
+.glitch_features,
+.simple_form .glitch_features {
+  background-color: rgba($glitch-theme-color, 0.1);
+  border: 1px solid $glitch-theme-color;
+}
+
+.atsu1125_features,
+.simple_form .atsu1125_features {
+  background-color: rgba($atsu1125-theme-color, 0.1);
+  border: 1px solid $atsu1125-theme-color;
 }
 
 .account__header__fields {
@@ -323,5 +339,47 @@
 
   &__body {
     margin-top: 10px;
+  }
+}
+
+.batch-table__row--muted {
+  color: lighten($ui-base-color, 26%);
+}
+
+.batch-table__row--muted .pending-account__header,
+.batch-table__row--muted .accounts-table {
+  &,
+  a,
+  strong {
+    color: lighten($ui-base-color, 26%);
+  }
+}
+
+.batch-table__row--muted .accounts-table {
+  tbody td.accounts-table__extra,
+  &__count,
+  &__count small {
+    color: lighten($ui-base-color, 26%);
+  }
+}
+
+.batch-table__row--attention {
+  color: $gold-star;
+}
+
+.batch-table__row--attention .pending-account__header,
+.batch-table__row--attention .accounts-table {
+  &,
+  a,
+  strong {
+    color: $gold-star;
+  }
+}
+
+.batch-table__row--attention .accounts-table {
+  tbody td.accounts-table__extra,
+  &__count,
+  &__count small {
+    color: $gold-star;
   }
 }

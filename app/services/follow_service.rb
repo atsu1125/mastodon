@@ -35,7 +35,7 @@ class FollowService < BaseService
     # and the feeds are being merged
     mark_home_feed_as_partial! if @source_account.not_following_anyone?
 
-    if (@target_account.locked? && !@options[:bypass_locked]) || @source_account.silenced? || @target_account.activitypub?
+    if ((@target_account.locked? || @target_account.local? && @source_account.bot? || @target_account.local? && !@source_account.local? && @target_account.user.setting_confirm_follow_from_remote) && !@options[:bypass_locked]) || @source_account.silenced? || @target_account.activitypub? || @target_account.blocking?(@source_account)
       request_follow!
     elsif @target_account.local?
       direct_follow!
@@ -53,7 +53,7 @@ class FollowService < BaseService
   end
 
   def following_not_allowed?
-    domain_not_allowed?(@target_account.domain) || @target_account.blocking?(@source_account) || @source_account.blocking?(@target_account) || @target_account.moved? || (!@target_account.local? && @target_account.ostatus?) || @source_account.domain_blocking?(@target_account.domain)
+    domain_not_allowed?(@target_account.domain) || @source_account.blocking?(@target_account) || @target_account.moved? || (!@target_account.local? && @target_account.ostatus?) || @source_account.domain_blocking?(@target_account.domain) || (@target_account.local? && @target_account.user.setting_do_not_allow_follow)
   end
 
   def change_follow_options!
@@ -68,7 +68,7 @@ class FollowService < BaseService
     follow_request = @source_account.request_follow!(@target_account, reblogs: @options[:reblogs], notify: @options[:notify], rate_limit: @options[:with_rate_limit], bypass_limit: @options[:bypass_limit])
 
     if @target_account.local?
-      LocalNotificationWorker.perform_async(@target_account.id, follow_request.id, follow_request.class.name, :follow_request)
+      LocalNotificationWorker.perform_async(@target_account.id, follow_request.id, follow_request.class.name, 'follow_request')
     elsif @target_account.activitypub?
       ActivityPub::DeliveryWorker.perform_async(build_json(follow_request), @source_account.id, @target_account.inbox_url)
     end
@@ -79,7 +79,7 @@ class FollowService < BaseService
   def direct_follow!
     follow = @source_account.follow!(@target_account, reblogs: @options[:reblogs], notify: @options[:notify], rate_limit: @options[:with_rate_limit], bypass_limit: @options[:bypass_limit])
 
-    LocalNotificationWorker.perform_async(@target_account.id, follow.id, follow.class.name, :follow)
+    LocalNotificationWorker.perform_async(@target_account.id, follow.id, follow.class.name, 'follow')
     MergeWorker.perform_async(@target_account.id, @source_account.id)
 
     follow

@@ -20,16 +20,16 @@ class StatusPolicy < ApplicationPolicy
     elsif private?
       owned? || following_author? || mention_exists?
     else
-      current_account.nil? || (!author_blocking? && !author_blocking_domain?)
+      true
     end
   end
 
   def reblog?
-    !requires_mention? && (!private? || owned?) && show? && !blocking_author?
+    !requires_mention? && (!private? || owned?) && show?
   end
 
   def favourite?
-    show? && !blocking_author?
+    show?
   end
 
   def destroy?
@@ -39,7 +39,7 @@ class StatusPolicy < ApplicationPolicy
   alias unreblog? destroy?
 
   def update?
-    staff?
+    staff? || owned?
   end
 
   private
@@ -93,7 +93,7 @@ class StatusPolicy < ApplicationPolicy
   def author
     record.account
   end
-  
+
   def local_only?
     record.local_only?
   end

@@ -5,6 +5,37 @@ RSpec.describe Account, type: :model do
     let(:bob) { Fabricate(:account, username: 'bob') }
     subject { Fabricate(:account) }
 
+    describe '#suspend!' do
+      it 'marks the account as suspended' do
+        subject.suspend!
+        expect(subject.suspended?).to be true
+      end
+
+      it 'creates a deletion request' do
+        subject.suspend!
+        expect(AccountDeletionRequest.where(account: subject).exists?).to be true
+      end
+
+      context 'when the account is of a local user' do
+        let!(:subject) { Fabricate(:user, email: 'foo+bar@domain.org').account }
+
+        it 'creates a canonical domain block' do
+          subject.suspend!
+          expect(CanonicalEmailBlock.block?(subject.user_email)).to be true
+        end
+
+        context 'when a canonical domain block already exists for that email' do
+          before do
+            Fabricate(:canonical_email_block, email: subject.user_email)
+          end
+
+          it 'does not raise an error' do
+            expect { subject.suspend! }.not_to raise_error
+          end
+        end
+      end
+    end
+
     describe '#follow!' do
       it 'creates a follow' do
         follow = subject.follow!(bob)
@@ -287,17 +318,15 @@ RSpec.describe Account, type: :model do
   end
 
   describe '#excluded_from_timeline_account_ids' do
-    it 'includes account ids of blockings, blocked_bys and mutes' do
+    it 'includes account ids of blockings and mutes' do
       account = Fabricate(:account)
       block = Fabricate(:block, account: account)
       mute = Fabricate(:mute, account: account)
-      block_by = Fabricate(:block, target_account: account)
 
       results = account.excluded_from_timeline_account_ids
-      expect(results.size).to eq 3
+      expect(results.size).to eq 2
       expect(results).to include(block.target_account.id)
       expect(results).to include(mute.target_account.id)
-      expect(results).to include(block_by.account.id)
     end
   end
 

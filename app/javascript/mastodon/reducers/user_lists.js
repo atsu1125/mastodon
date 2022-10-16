@@ -51,14 +51,6 @@ import {
   DIRECTORY_EXPAND_SUCCESS,
   DIRECTORY_EXPAND_FAIL,
 } from 'mastodon/actions/directory';
-import {
-  VISITS_FETCH_REQUEST,
-  VISITS_FETCH_SUCCESS,
-  VISITS_FETCH_FAIL,
-  VISITS_EXPAND_REQUEST,
-  VISITS_EXPAND_SUCCESS,
-  VISITS_EXPAND_FAIL,
-} from '../actions/visits';
 import { Map as ImmutableMap, List as ImmutableList } from 'immutable';
 
 const initialListState = ImmutableMap({
@@ -75,7 +67,6 @@ const initialState = ImmutableMap({
   follow_requests: initialListState,
   blocks: initialListState,
   mutes: initialListState,
-  visits: initialListState,
 });
 
 const normalizeList = (state, path, accounts, next) => {
@@ -169,16 +160,6 @@ export default function userLists(state = initialState, action) {
   case DIRECTORY_FETCH_FAIL:
   case DIRECTORY_EXPAND_FAIL:
     return state.setIn(['directory', 'isLoading'], false);
-  case VISITS_FETCH_SUCCESS:
-    return normalizeList(state, ['visits'], action.accounts, action.next);
-  case VISITS_EXPAND_SUCCESS:
-    return appendToList(state, ['visits'], action.accounts, action.next);
-  case VISITS_FETCH_REQUEST:
-  case VISITS_EXPAND_REQUEST:
-    return state.setIn(['visits', 'isLoading'], true);
-  case VISITS_FETCH_FAIL:
-  case VISITS_EXPAND_FAIL:
-    return state.setIn(['visits', 'isLoading'], false);
   default:
     return state;
   }

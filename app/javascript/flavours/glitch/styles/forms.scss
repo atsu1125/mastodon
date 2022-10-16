@@ -102,6 +102,8 @@ code {
         }
       }
 
+      .glitch_features,
+      .atsu1125_features,
       .recommended {
         position: absolute;
         margin: 0 4px;
@@ -1057,4 +1059,8 @@ code {
   &:not(.field_with_errors) {
     display: none;
   }
+}
+
+.simple_form .h-captcha {
+  text-align: center;
 }

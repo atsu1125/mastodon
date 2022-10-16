@@ -45,6 +45,7 @@ Rails.application.routes.draw do
       resource :setup, only: [:show, :update], controller: :setup
       resource :challenge, only: [:create], controller: :challenges
       get 'sessions/security_key_options', to: 'sessions#webauthn_options'
+      post 'captcha_confirmation', to: 'confirmations#confirm_captcha', as: :captcha_confirmation
     end
   end
 
@@ -219,7 +220,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :instances, only: [:index, :show], constraints: { id: /[^\/]+/ } do
+    resources :instances, only: [:index, :show, :destroy], constraints: { id: /[^\/]+/ } do
       member do
         post :clear_delivery_errors
         post :restart_delivery
@@ -230,14 +231,14 @@ Rails.application.routes.draw do
     resources :rules
 
     resources :reports, only: [:index, :show] do
+      resources :actions, only: [:create], controller: 'reports/actions'
+
       member do
         post :assign_to_self
         post :unassign
         post :reopen
         post :resolve
       end
-
-      resources :reported_statuses, only: [:create]
     end
 
     resources :report_notes, only: [:create, :destroy]
@@ -254,12 +255,23 @@ Rails.application.routes.draw do
         post :memorialize
         post :approve
         post :reject
+        post :unblock_email
+      end
+
+      collection do
+        post :batch
       end
 
       resource :change_email, only: [:show, :update]
       resource :reset, only: [:create]
       resource :action, only: [:new, :create], controller: 'account_actions'
-      resources :statuses, only: [:index, :show, :create, :update, :destroy]
+
+      resources :statuses, only: [:index] do
+        collection do
+          post :batch
+        end
+      end
+
       resources :relationships, only: [:index]
 
       resource :confirmation, only: [:create] do
@@ -273,14 +285,6 @@ Rails.application.routes.draw do
           post :promote
           post :demote
         end
-      end
-    end
-
-    resources :pending_accounts, only: [:index] do
-      collection do
-        post :approve_all
-        post :reject_all
-        post :batch
       end
     end
 
@@ -303,12 +307,27 @@ Rails.application.routes.draw do
 
     resources :account_moderation_notes, only: [:create, :destroy]
     resource :follow_recommendations, only: [:show, :update]
+    resources :tags, only: [:show, :update]
 
-    resources :tags, only: [:index, :show, :update] do
-      collection do
-        post :approve_all
-        post :reject_all
-        post :batch
+    namespace :trends do
+      resources :links, only: [:index] do
+        collection do
+          post :batch
+        end
+      end
+
+      resources :tags, only: [:index] do
+        collection do
+          post :batch
+        end
+      end
+
+      namespace :links do
+        resources :preview_card_providers, only: [:index], path: :publishers do
+          collection do
+            post :batch
+          end
+        end
       end
     end
   end
@@ -324,7 +343,7 @@ Rails.application.routes.draw do
 
     # JSON / REST API
     namespace :v1 do
-      resources :statuses, only: [:create, :show, :destroy] do
+      resources :statuses, only: [:create, :show, :update, :destroy] do
         scope module: :statuses do
           resources :reblogged_by, controller: :reblogged_by_accounts, only: :index
           resources :favourited_by, controller: :favourited_by_accounts, only: :index
@@ -342,6 +361,9 @@ Rails.application.routes.draw do
 
           resource :pin, only: :create
           post :unpin, to: 'pins#destroy'
+
+          resource :history, only: :show
+          resource :source, only: :show
         end
 
         member do
@@ -396,23 +418,27 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :media,           only: [:create, :update, :show]
-      resources :blocks,          only: [:index]
-      resources :mutes,           only: [:index]
-      resources :favourites,      only: [:index]
-      resources :bookmarks,       only: [:index]
-      resources :reports,         only: [:create]
-      resources :trends,          only: [:index]
-      resources :filters,         only: [:index, :create, :show, :update, :destroy]
-      resources :endorsements,    only: [:index]
-      resources :markers,         only: [:index, :create]
-      resources :visits,          only: [:index]
+      resources :media,        only: [:create, :update, :show]
+      resources :blocks,       only: [:index]
+      resources :mutes,        only: [:index]
+      resources :favourites,   only: [:index]
+      resources :bookmarks,    only: [:index]
+      resources :reports,      only: [:create]
+      resources :trends,       only: [:index], controller: 'trends/tags'
+      resources :filters,      only: [:index, :create, :show, :update, :destroy]
+      resources :endorsements, only: [:index]
+      resources :markers,      only: [:index, :create]
 
       namespace :apps do
         get :verify_credentials, to: 'credentials#show'
       end
 
       resources :apps, only: [:create]
+
+      namespace :trends do
+        resources :links, only: [:index]
+        resources :tags, only: [:index]
+      end
 
       namespace :emails do
         resources :confirmations, only: [:create]
@@ -469,7 +495,6 @@ Rails.application.routes.draw do
           post :unblock
           post :mute
           post :unmute
-          post :visit
         end
 
         resource :pin, only: :create, controller: 'accounts/pins'
@@ -509,7 +534,7 @@ Rails.application.routes.draw do
           resource :action, only: [:create], controller: 'account_actions'
         end
 
-        resources :reports, only: [:index, :show] do
+        resources :reports, only: [:index, :update, :show] do
           member do
             post :assign_to_self
             post :unassign
@@ -518,7 +543,9 @@ Rails.application.routes.draw do
           end
         end
 
-        resources :trends, only: [:index]
+        namespace :trends do
+          resources :tags, only: [:index]
+        end
 
         post :measures, to: 'measures#create'
         post :dimensions, to: 'dimensions#create'

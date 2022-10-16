@@ -6,7 +6,7 @@
 
 = simple_form_for current_user, url: settings_preferences_appearance_path, html: { method: :put, id: 'edit_user' } do |f|
   .fields-group
-    = f.input :locale, collection: I18n.available_locales, wrapper: :with_label, include_blank: false, label_method: lambda { |locale| human_locale(locale) }, selected: I18n.locale, hint: false
+    = f.input :locale, collection: I18n.available_locales, wrapper: :with_label, include_blank: false, label_method: lambda { |locale| native_locale_name(locale) }, selected: I18n.locale, hint: false
 
   - unless I18n.locale == :en
     .flash-message.translation-prompt
@@ -29,7 +29,7 @@
     = f.input :setting_reduce_motion, as: :boolean, wrapper: :with_label
     = f.input :setting_disable_swiping, as: :boolean, wrapper: :with_label
     = f.input :setting_system_font_ui, as: :boolean, wrapper: :with_label
-    = f.input :setting_system_emoji_font, as: :boolean, wrapper: :with_label
+    = f.input :setting_system_emoji_font, as: :boolean, wrapper: :with_label, glitch_features: true
 
   %h4= t 'appearance.toot_layout'
 
@@ -46,7 +46,7 @@
   .fields-group
     = f.input :setting_unfollow_modal, as: :boolean, wrapper: :with_label
     = f.input :setting_boost_modal, as: :boolean, wrapper: :with_label
-    = f.input :setting_favourite_modal, as: :boolean, wrapper: :with_label
+    = f.input :setting_favourite_modal, as: :boolean, wrapper: :with_label, glitch_features: true
     = f.input :setting_delete_modal, as: :boolean, wrapper: :with_label
 
   %h4= t 'appearance.sensitive_content'

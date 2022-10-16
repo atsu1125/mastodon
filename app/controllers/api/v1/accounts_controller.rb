@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Api::V1::AccountsController < Api::BaseController
-  before_action -> { authorize_if_got_token! :read, :'read:accounts' }, except: [:create, :follow, :unfollow, :remove_from_followers, :block, :unblock, :mute, :unmute, :visit]
+  before_action -> { authorize_if_got_token! :read, :'read:accounts' }, except: [:create, :follow, :unfollow, :remove_from_followers, :block, :unblock, :mute, :unmute]
   before_action -> { doorkeeper_authorize! :follow, :'write:follows' }, only: [:follow, :unfollow, :remove_from_followers]
   before_action -> { doorkeeper_authorize! :follow, :'write:mutes' }, only: [:mute, :unmute]
   before_action -> { doorkeeper_authorize! :follow, :'write:blocks' }, only: [:block, :unblock]
@@ -39,6 +39,8 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def block
+    raise Mastodon::NotPermittedError if current_user.setting_disable_block
+
     BlockService.new.call(current_user.account, @account)
     render json: @account, serializer: REST::RelationshipSerializer, relationships: relationships
   end
@@ -68,12 +70,6 @@ class Api::V1::AccountsController < Api::BaseController
     render json: @account, serializer: REST::RelationshipSerializer, relationships: relationships
   end
 
-  def visit
-    Rails.logger.info "test"
-    VisitService.new.call(current_user.account, @account)
-    render json: @account, serializer: REST::RelationshipSerializer, relationships: relationships
-  end
-
   private
 
   def set_account
@@ -89,10 +85,14 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def check_enabled_registrations
-    forbidden if single_user_mode? || !allowed_registrations?
+    forbidden if single_user_mode? || omniauth_only? || !allowed_registrations?
   end
 
   def allowed_registrations?
     Setting.registrations_mode != 'none'
+  end
+
+  def omniauth_only?
+    ENV['OMNIAUTH_ONLY'] == 'true'
   end
 end

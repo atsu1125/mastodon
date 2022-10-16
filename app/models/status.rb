@@ -27,6 +27,7 @@
 #  content_type           :string
 #  deleted_at             :datetime
 #  activity_pub_type      :string
+#  edited_at              :datetime
 #
 
 class Status < ApplicationRecord
@@ -46,7 +47,7 @@ class Status < ApplicationRecord
   # will be based on current time instead of `created_at`
   attr_accessor :override_timestamps
 
-  update_index('statuses#status', :proper)
+  update_index('statuses', :proper)
 
   enum visibility: [:public, :unlisted, :private, :direct, :limited], _suffix: :visibility
 
@@ -59,6 +60,8 @@ class Status < ApplicationRecord
 
   belongs_to :thread, foreign_key: 'in_reply_to_id', class_name: 'Status', inverse_of: :replies, optional: true
   belongs_to :reblog, foreign_key: 'reblog_of_id', class_name: 'Status', inverse_of: :reblogs, optional: true
+
+  has_many :edits, class_name: 'StatusEdit', inverse_of: :status, dependent: :destroy
 
   has_many :favourites, inverse_of: :status, dependent: :destroy
   has_many :bookmarks, inverse_of: :status, dependent: :destroy
@@ -102,15 +105,12 @@ class Status < ApplicationRecord
   scope :not_excluded_by_account, ->(account) { where.not(account_id: account.excluded_from_timeline_account_ids) }
   scope :not_domain_blocked_by_account, ->(account) { account.excluded_from_timeline_domains.blank? ? left_outer_joins(:account) : left_outer_joins(:account).where('accounts.domain IS NULL OR accounts.domain NOT IN (?)', account.excluded_from_timeline_domains) }
   scope :tagged_with_all, ->(tag_ids) {
-    Array(tag_ids).reduce(self) do |result, id|
+    Array(tag_ids).map(&:to_i).reduce(self) do |result, id|
       result.joins("INNER JOIN statuses_tags t#{id} ON t#{id}.status_id = statuses.id AND t#{id}.tag_id = #{id}")
     end
   }
   scope :tagged_with_none, ->(tag_ids) {
-    Array(tag_ids).reduce(self) do |result, id|
-      result.joins("LEFT OUTER JOIN statuses_tags t#{id} ON t#{id}.status_id = statuses.id AND t#{id}.tag_id = #{id}")
-            .where("t#{id}.tag_id IS NULL")
-    end
+    where('NOT EXISTS (SELECT * FROM statuses_tags forbidden WHERE forbidden.status_id = statuses.id AND forbidden.tag_id IN (?))', tag_ids)
   }
 
   scope :not_local_only, -> { where(local_only: [false, nil]) }
@@ -218,6 +218,21 @@ class Status < ApplicationRecord
 
   def distributable?
     public_visibility? || unlisted_visibility?
+  end
+
+  def snapshot!(media_attachments_changed: false, account_id: nil, at_time: nil)
+    edits.create!(
+      text: text,
+      spoiler_text: spoiler_text,
+      media_attachments_changed: media_attachments_changed,
+      account_id: account_id || self.account_id,
+      content_type: content_type,
+      created_at: at_time || edited_at
+    )
+  end
+
+  def edited?
+    edited_at.present?
   end
 
   alias sign? distributable?
@@ -377,7 +392,15 @@ class Status < ApplicationRecord
       if account.nil?
         where(visibility: visibility).not_local_only
       elsif target_account.blocking?(account) || (account.domain.present? && target_account.domain_blocking?(account.domain)) # get rid of blocked peeps
-        none
+        # followers can see followers-only stuff, but also things they are mentioned in.
+        # non-followers can see everything that isn't private/direct, but can see stuff they are mentioned in.
+        visibility.push(:private) if account.following?(target_account)
+
+        scope = left_outer_joins(:reblog)
+
+        scope.where(visibility: visibility)
+             .or(scope.where(id: account.mentions.select(:status_id)))
+             .merge(scope.where(reblog_of_id: nil).or(scope.where.not(reblogs_statuses: { account_id: account.excluded_from_timeline_account_ids })))
       elsif account.id == target_account.id # author can see own stuff
         all
       else
@@ -396,7 +419,7 @@ class Status < ApplicationRecord
     def from_text(text)
       return [] if text.blank?
 
-      text.scan(FetchLinkCardService::URL_PATTERN).map(&:first).uniq.filter_map do |url|
+      text.scan(FetchLinkCardService::URL_PATTERN).map(&:second).uniq.filter_map do |url|
         status = begin
           if TagManager.instance.local_url?(url)
             ActivityPub::TagManager.instance.uri_to_resource(url, Status)

@@ -1,6 +1,8 @@
 ---
 en:
   simple_form:
+    atsu1125_features: atsu1125
+    glitch_features: Mastodon Glitch
     hints:
       account_alias:
         acct: Specify the username@domain of the account you want to move from
@@ -49,10 +51,14 @@ en:
         phrase: Will be matched regardless of casing in text or content warning of a post
         scopes: Which APIs the application will be allowed to access. If you select a top-level scope, you don't need to select individual ones.
         setting_aggregate_reblogs: Do not show new boosts for posts that have been recently boosted (only affects newly-received boosts)
+        setting_confirm_follow_from_remote: Manually approve followers from remote accounts
         setting_default_sensitive: Sensitive media is hidden by default and can be revealed with a click
+        setting_disable_block: Restricts you from accidentally blocking
+        setting_disable_domain_block: Restrict domain blocking
         setting_display_media_default: Hide media marked as sensitive
         setting_display_media_hide_all: Always hide media
         setting_display_media_show_all: Always show media
+        setting_do_not_allow_follow: Reject any follow activity
         setting_hide_network: Who you follow and who follows you will be hidden on your profile
         setting_noindex: Affects your public profile and post pages
         setting_show_application: The application you use to post will be displayed in the detailed view of your posts
@@ -124,6 +130,7 @@ en:
         autofollow: Invite to follow your account
         avatar: Avatar
         bot: This is a bot account
+        cat: This is a cat account
         chosen_languages: Filter languages
         confirm_new_password: Confirm new password
         confirm_password: Confirm password
@@ -151,16 +158,20 @@ en:
         setting_aggregate_reblogs: Group boosts in timelines
         setting_auto_play_gif: Auto-play animated GIFs
         setting_boost_modal: Show confirmation dialog before boosting
+        setting_confirm_follow_from_remote: Require follow requests from remote account
         setting_crop_images: Crop images in non-expanded posts to 16x9
         setting_default_language: Posting language
         setting_default_privacy: Posting privacy
         setting_default_sensitive: Always mark media as sensitive
         setting_delete_modal: Show confirmation dialog before deleting a post
+        setting_disable_block: Disable block
+        setting_disable_domain_block: Disable domain block
         setting_disable_swiping: Disable swiping motions
         setting_display_media: Media display
         setting_display_media_default: Default
         setting_display_media_hide_all: Hide all
         setting_display_media_show_all: Show all
+        setting_do_not_allow_follow: Do not allow follow
         setting_expand_spoilers: Always expand posts marked with content warnings
         setting_hide_network: Hide your social graph
         setting_noindex: Opt-out of search engine indexing
@@ -205,8 +216,8 @@ en:
         mention: Someone mentioned you
         pending_account: New account needs review
         reblog: Someone boosted your post
-        report: New report is submitted
-        trending_tag: An unreviewed hashtag is trending
+        report: A new report is submitted
+        trending_tag: A new trend requires approval
       rule:
         text: Rule
       tag:

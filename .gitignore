@@ -25,6 +25,7 @@
 .env
 .env.production
 .env.development
+.env.docker
 /node_modules/
 /build/
 
@@ -40,6 +41,7 @@
 
 # Ignore postgres + redis + elasticsearch volume optionally created by docker-compose
 /postgres
+/postgres14
 /redis
 /elasticsearch
 
