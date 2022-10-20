@@ -64,11 +64,6 @@ class ActivityPub::CollectionsController < ActivityPub::BaseController
     # Because in public fetch mode we cache the response, there would be no
     # benefit from performing the check below, since a blocked account or domain
     # would likely be served the cache from the reverse proxy anyway
-
-    if authorized_fetch_mode? && !signed_request_account.nil? && (@account.blocking?(signed_request_account) || (!signed_request_account.domain.nil? && @account.domain_blocking?(signed_request_account.domain)))
-      []
-    else
-      yield
-    end
+    yield
   end
 end
