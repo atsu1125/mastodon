@@ -212,6 +212,8 @@ class Header extends ImmutablePureComponent {
         menu.push(null);
       }
 
+      menu.push({ text: intl.formatMessage(messages.add_or_remove_from_list), action: this.props.onAddToList });
+
       if (account.getIn(['relationship', 'muting'])) {
         menu.push({ text: intl.formatMessage(messages.unmute, { name: account.get('username') }), action: this.props.onMute });
       } else {
@@ -225,7 +227,6 @@ class Header extends ImmutablePureComponent {
       }
 
       menu.push({ text: intl.formatMessage(messages.report, { name: account.get('username') }), action: this.props.onReport });
-      menu.push({ text: intl.formatMessage(messages.add_or_remove_from_list), action: this.props.onAddToList });
     }
 
     if (account.get('acct') !== account.get('username')) {
@@ -256,6 +257,8 @@ class Header extends ImmutablePureComponent {
 
     if (account.get('bot')) {
       badge = (<div className='account-role bot'><FormattedMessage id='account.badges.bot' defaultMessage='Bot' /></div>);
+    } else if (account.get('cat')) {
+      badge = (<div className='account-role cat'><FormattedMessage id='account.badges.cat' defaultMessage='Cat' /></div>);
     } else if (account.get('group')) {
       badge = (<div className='account-role group'><FormattedMessage id='account.badges.group' defaultMessage='Group' /></div>);
     } else {
