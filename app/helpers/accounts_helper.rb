@@ -62,6 +62,8 @@ module AccountsHelper
   def account_badge(account, all: false)
     if account.bot?
       content_tag(:div, content_tag(:div, t('accounts.roles.bot'), class: 'account-role bot'), class: 'roles')
+    elsif account.cat?
+      content_tag(:div, content_tag(:div, t('accounts.roles.cat'), class: 'account-role cat'), class: 'roles')
     elsif account.group?
       content_tag(:div, content_tag(:div, t('accounts.roles.group'), class: 'account-role group'), class: 'roles')
     elsif (Setting.show_staff_badge && account.user_staff?) || all

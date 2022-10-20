@@ -1023,6 +1023,10 @@
         "id": "account.badges.bot"
       },
       {
+        "defaultMessage": "Cat",
+        "id": "account.badges.cat"
+      },
+      {
         "defaultMessage": "Group",
         "id": "account.badges.group"
       },
