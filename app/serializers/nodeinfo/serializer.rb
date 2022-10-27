@@ -37,10 +37,14 @@ class NodeInfo::Serializer < ActiveModel::Serializer
     Setting.registrations_mode != 'none' && !Rails.configuration.x.single_user_mode
   end
 
-
   def metadata
     {
       themeColor: "#41adef",
+
+      maintainer: {
+        name: instance_presenter.contact_account.username,
+        email: instance_presenter.site_contact_email,
+      },
     }
   end
 
