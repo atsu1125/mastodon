@@ -668,13 +668,13 @@ const startWorker = async (workerId) => {
         const queries = [
           client.query(`SELECT 1
                         FROM blocks
-                        WHERE (account_id = $1 AND target_account_id IN (${placeholders(targetAccountIds, 2)}))
-                           OR (account_id = $2 AND target_account_id = $1)
+                        WHERE account_id = $1
+                          AND target_account_id IN (${placeholders(targetAccountIds, 1)})
                         UNION
                         SELECT 1
                         FROM mutes
                         WHERE account_id = $1
-                          AND target_account_id IN (${placeholders(targetAccountIds, 2)})`, [req.accountId, unpackedPayload.account.id].concat(targetAccountIds)),
+                          AND target_account_id IN (${placeholders(targetAccountIds, 1)})`, [req.accountId].concat(targetAccountIds)),
         ];
 
         if (accountDomain) {
