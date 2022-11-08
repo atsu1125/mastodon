@@ -85,6 +85,7 @@ defaults: &defaults
   disable_domain_block: true
   confirm_follow_from_remote: false
   do_not_allow_follow: false
+  auto_accept_followed: true
 
 development:
   <<: *defaults

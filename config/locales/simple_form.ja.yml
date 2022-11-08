@@ -1,6 +1,8 @@
 ---
 ja:
   simple_form:
+    atsu1125_features: atsu1125
+    glitch_features: Mastodon Glitch
     hints:
       account_alias:
         acct: 引っ越し元のユーザー名@ドメインを指定してください
@@ -48,6 +50,7 @@ ja:
         password: 少なくとも8文字は入力してください
         phrase: 投稿内容の大文字小文字や閲覧注意に関係なく一致
         scopes: アプリの API に許可するアクセス権を選択してください。最上位のスコープを選択する場合、個々のスコープを選択する必要はありません。
+        setting_auto_accept_followed: フォローしているユーザーからのフォローリクエストは自動承認する
         setting_aggregate_reblogs: 最近ブーストされた投稿が新たにブーストされても表示しません (設定後受信したものにのみ影響)
         setting_confirm_follow_from_remote: リモートアカウントからのフォローを手動で承認する
         setting_default_sensitive: 閲覧注意状態のメディアはデフォルトでは内容が伏せられ、クリックして初めて閲覧できるようになります
@@ -154,6 +157,7 @@ ja:
         phrase: キーワードまたはフレーズ
         setting_advanced_layout: 上級者向け UI を有効にする
         setting_aggregate_reblogs: ブーストをまとめる
+        setting_auto_accept_followed: フォローしているなら自動承認する
         setting_auto_play_gif: アニメーションGIFを自動再生する
         setting_boost_modal: ブーストする前に確認ダイアログを表示する
         setting_confirm_follow_from_remote: リモートからのフォローは承認制にする
