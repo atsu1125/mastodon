@@ -62,6 +62,7 @@ class InitialStateSerializer < ActiveModel::Serializer
       store[:disable_domain_block] = object.current_account.user.setting_disable_domain_block
       store[:confirm_follow_from_remote] = object.current_account.user.setting_confirm_follow_from_remote
       store[:do_not_allow_follow] = object.current_account.user.setting_do_not_allow_follow
+      store[:auto_accept_followed] = object.current_account.user.setting_auto_accept_followed
     else
       store[:auto_play_gif] = Setting.auto_play_gif
       store[:display_media] = Setting.display_media

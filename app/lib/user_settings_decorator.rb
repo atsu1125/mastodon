@@ -48,6 +48,7 @@ class UserSettingsDecorator
     user.settings['disable_domain_block']= disable_domain_block_preference if change?('setting_disable_domain_block')
     user.settings['confirm_follow_from_remote'] = confirm_follow_from_remote_preference if change?('setting_confirm_follow_from_remote')
     user.settings['do_not_allow_follow'] = do_not_allow_follow_preference if change?('setting_do_not_allow_follow')
+    user.settings['auto_accept_followed'] = auto_accept_followed_preference if change?('setting_auto_accept_followed')
   end
 
   def merged_notification_emails
@@ -180,6 +181,10 @@ class UserSettingsDecorator
 
   def do_not_allow_follow_preference
     boolean_cast_setting 'setting_do_not_allow_follow'
+  end
+
+  def auto_accept_followed_preference
+    boolean_cast_setting 'setting_auto_accept_followed'
   end
 
   def boolean_cast_setting(key)
