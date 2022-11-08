@@ -35,7 +35,16 @@ class FollowService < BaseService
     # and the feeds are being merged
     mark_home_feed_as_partial! if @source_account.not_following_anyone?
 
-    if (((@target_account.local? && @target_account.locked? && !@target_account.user.setting_auto_accept_followed) || (@target_account.local? && @target_account.locked? && @target_account.user.setting_auto_accept_followed && !@target_account.following?(@source_account)) || (@target_account.local? && @source_account.bot?) || (@target_account.local? && !@source_account.local? && @target_account.user.setting_confirm_follow_from_remote)) && !@options[:bypass_locked]) || @source_account.silenced? || @target_account.activitypub? || @target_account.blocking?(@source_account)
+    # フォロー対象アカウントがローカルでフォロー承認制である or
+    # フォロー対象アカウントがローカルでフォロー承認制だがフォローしているユーザーからのフォローは許可する設定でかつフォローしていない場合 or
+    # フォロワーがサイレンスされている場合　or
+    # フォロワーがBotである場合 or
+    # フォロー対象アカウントがブロックしている場合 or
+    # フォロー対象アカウントがドメインブロックしている場合 or
+    # フォロー対象アカウントがローカルでリモートからのフォローは承認制である場合 or
+    # フォロー対象アカウントがリモートである
+    # 以上の場合にフォローリクエストを発行する
+    if (((@target_account.local? && @target_account.locked? && !@target_account.user.setting_auto_accept_followed) || (@target_account.local? && @target_account.locked? && @target_account.user.setting_auto_accept_followed && !@target_account.following?(@source_account)) || (@target_account.local? && @source_account.bot? && !@target_account.user.setting_auto_accept_followed) || (@target_account.local? && @source_account.bot? && @target_account.user.setting_auto_accept_followed && !@target_account.following?(@source_account)) || (@target_account.local? && !@source_account.local? && @target_account.user.setting_confirm_follow_from_remote && !@target_account.user.setting_auto_accept_followed) || (@target_account.local? && !@source_account.local? && @target_account.user.setting_confirm_follow_from_remote && @target_account.user.setting_auto_accept_followed && !@target_account.following?(@source_account)))&& !@options[:bypass_locked]) || (@source_account.silenced? && @target_account.local? && !@target_account.user.setting_auto_accept_followed) || (@source_account.silenced? && @target_account.local? && @target_account.user.setting_auto_accept_followed && !@target_account.following?(@source_account)) || @target_account.activitypub? || @target_account.blocking?(@source_account)
       request_follow!
     elsif @target_account.local?
       direct_follow!
@@ -52,6 +61,11 @@ class FollowService < BaseService
     @target_account.nil? || @target_account.id == @source_account.id || @target_account.suspended?
   end
 
+  # フォロー対象アカウントをブロックしている or
+  # フォロー対象アカウントのドメインをブロックしている or
+  # フォロー対象アカウントが引越し済み or
+  # フォロー対象アカウントがローカルでフォローを許可しない設定
+  # 以上の場合にフォローを拒否する
   def following_not_allowed?
     domain_not_allowed?(@target_account.domain) || @source_account.blocking?(@target_account) || @target_account.moved? || (!@target_account.local? && @target_account.ostatus?) || @source_account.domain_blocking?(@target_account.domain) || (@target_account.local? && @target_account.user.setting_do_not_allow_follow)
   end
