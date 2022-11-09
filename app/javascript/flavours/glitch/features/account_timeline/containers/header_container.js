@@ -9,6 +9,7 @@ import {
   unmuteAccount,
   pinAccount,
   unpinAccount,
+  removeFollower,
 } from 'flavours/glitch/actions/accounts';
 import {
   mentionCompose,
@@ -27,6 +28,7 @@ import { List as ImmutableList } from 'immutable';
 const messages = defineMessages({
   unfollowConfirm: { id: 'confirmations.unfollow.confirm', defaultMessage: 'Unfollow' },
   blockDomainConfirm: { id: 'confirmations.domain_block.confirm', defaultMessage: 'Hide entire domain' },
+  removeFollowerConfirm: { id: 'confirmations.remove_follower.confirm', defaultMessage: 'Remove Follower' },
 });
 
 const makeMapStateToProps = () => {
@@ -134,6 +136,14 @@ const mapDispatchToProps = (dispatch, { intl }) => ({
   onAddToList(account){
     dispatch(openModal('LIST_ADDER', {
       accountId: account.get('id'),
+    }));
+  },
+
+  onRemoveFollower (account) {
+    dispatch(openModal('CONFIRM', {
+      message: <FormattedMessage id='confirmations.remove_follower.message' defaultMessage='Are you sure you want to remove {name} from follower?' values={{ name: <strong>@{account.get('acct')}</strong> }} />,
+      confirm: intl.formatMessage(messages.removeFollowerConfirm),
+      onConfirm: () => dispatch(removeFollower(account.get('id'))),
     }));
   },
 
