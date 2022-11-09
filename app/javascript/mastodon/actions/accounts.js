@@ -780,3 +780,15 @@ export function unpinAccountFail(error) {
     error,
   };
 };
+
+export function removeFollower(id) {
+  return (dispatch, getState) => {
+    dispatch(unfollowAccountRequest(id));
+
+    api(getState).post(`/api/v1/accounts/${id}/remove_from_followers`).then(response => {
+      dispatch(unfollowAccountSuccess(response.data, getState().get('statuses')));
+    }).catch(error => {
+      dispatch(unfollowAccountFail(error));
+    });
+  };
+};

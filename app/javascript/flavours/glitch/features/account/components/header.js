@@ -50,6 +50,7 @@ const messages = defineMessages({
   add_or_remove_from_list: { id: 'account.add_or_remove_from_list', defaultMessage: 'Add or Remove from lists' },
   admin_account: { id: 'status.admin_account', defaultMessage: 'Open moderation interface for @{name}' },
   add_account_note: { id: 'account.add_account_note', defaultMessage: 'Add note for @{name}' },
+  remove_follower: { id: 'account.remove_follower', defaultMessage: 'Remove @{name} from follower'},
 });
 
 const dateFormatOptions = {
@@ -82,6 +83,7 @@ class Header extends ImmutablePureComponent {
     onEditAccountNote: PropTypes.func.isRequired,
     intl: PropTypes.object.isRequired,
     domain: PropTypes.string.isRequired,
+    onRemoveFollower: PropTypes.func.isRequired,
   };
 
   openEditProfile = () => {
@@ -242,6 +244,10 @@ class Header extends ImmutablePureComponent {
       } else {
         menu.push({ text: intl.formatMessage(messages.blockDomain, { domain }), action: this.props.onBlockDomain });
       }
+    }
+
+    if (me !== account.get('id') && account.getIn(['relationship', 'followed_by'])) {
+      menu.push({ text: intl.formatMessage(messages.remove_follower, { name: account.get('username') }), action: this.props.onRemoveFollower });
     }
 
     if (account.get('id') !== me && isStaff && accountAdminLink) {

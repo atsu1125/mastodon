@@ -26,6 +26,7 @@ export default class Header extends ImmutablePureComponent {
     onAddToList: PropTypes.func.isRequired,
     hideTabs: PropTypes.bool,
     domain: PropTypes.string.isRequired,
+    onRemoveFollower: PropTypes.func.isRequired,
   };
 
   static contextTypes = {
@@ -92,6 +93,10 @@ export default class Header extends ImmutablePureComponent {
     this.props.onEditAccountNote(this.props.account);
   }
 
+  handleRemoveFollower = () => {
+    this.props.onRemoveFollower(this.props.account);
+  }
+
   render () {
     const { account, hideTabs, identity_proofs } = this.props;
 
@@ -120,6 +125,7 @@ export default class Header extends ImmutablePureComponent {
           onAddToList={this.handleAddToList}
           onEditAccountNote={this.handleEditAccountNote}
           domain={this.props.domain}
+          onRemoveFollower={this.handleRemoveFollower}
         />
 
         <ActionBar
