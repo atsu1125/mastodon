@@ -1,4 +1,4 @@
-FROM ubuntu:20.04 as build-dep
+FROM debian:buster as build-dep
 
 # Use bash for the shell
 SHELL ["/bin/bash", "-c"]
@@ -62,7 +62,7 @@ RUN cd /opt/mastodon && \
 	bundle install -j"$(nproc)" && \
 	yarn install --pure-lockfile
 
-FROM ubuntu:20.04
+FROM debian:buster
 
 # Copy over all the langs needed for runtime
 COPY --from=build-dep /opt/node /opt/node
@@ -88,8 +88,8 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selectio
 RUN apt-get update && \
   apt-get -y --no-install-recommends install \
 	  libssl1.1 libpq5 imagemagick ffmpeg libjemalloc2 \
-	  libicu66 libprotobuf17 libidn11 libyaml-0-2 \
-	  file ca-certificates tzdata libreadline8 gcc tini apt-utils && \
+	  libicu-dev libprotobuf17 libidn11 libyaml-0-2 \
+	  file ca-certificates tzdata libreadline-dev gcc tini apt-utils && \
 	ln -s /opt/mastodon /mastodon && \
 	gem install bundler && \
 	rm -rf /var/cache && \
