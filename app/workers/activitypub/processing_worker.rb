@@ -3,7 +3,7 @@
 class ActivityPub::ProcessingWorker
   include Sidekiq::Worker
 
-  sidekiq_options backtrace: true, retry: 8
+  sidekiq_options queue: 'ingress', backtrace: true, retry: 8
 
   def perform(account_id, body, delivered_to_account_id = nil)
     account = Account.find_by(id: account_id)
