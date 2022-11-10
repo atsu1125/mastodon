@@ -118,7 +118,7 @@ class ActivityPub::ProcessStatusUpdateService < BaseService
     @status.text         = @status_parser.text || ''
     @status.spoiler_text = @status_parser.spoiler_text || ''
     @status.sensitive    = @account.sensitized? || @status_parser.sensitive || false
-    @status.language     = @status_parser.language
+    @status.language     = @status_parser.language || detected_language
     @status.edited_at    = @status_parser.edited_at || Time.now.utc if significant_changes?
 
     @status.save!
@@ -206,6 +206,10 @@ class ActivityPub::ProcessStatusUpdateService < BaseService
 
   def lock_options
     { redis: Redis.current, key: "create:#{@uri}", autorelease: 15.minutes.seconds }
+  end
+
+  def detected_language
+    LanguageDetector.instance.detect(@status_parser.text, @account)
   end
 
   def create_previous_edit!
