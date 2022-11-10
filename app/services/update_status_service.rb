@@ -2,7 +2,6 @@
 
 class UpdateStatusService < BaseService
   include Redisable
-  include LanguagesHelper
 
   # @param [Status] status
   # @param [Integer] account_id
@@ -95,11 +94,15 @@ class UpdateStatusService < BaseService
     @status.text         = @options[:text].presence || @options.delete(:spoiler_text) || '' if @options.key?(:text)
     @status.spoiler_text = @options[:spoiler_text] || '' if @options.key?(:spoiler_text)
     @status.sensitive    = @options[:sensitive] || @options[:spoiler_text].present? if @options.key?(:sensitive) || @options.key?(:spoiler_text)
-    @status.language     = valid_locale_or_nil(@options[:language] || @status.language || @status.account.user&.preferred_posting_language || I18n.default_locale)
+    @status.language     = language_from_option || @status.language
     @status.content_type = @options[:content_type] || @status.content_type
     @status.edited_at    = Time.now.utc
 
     @status.save!
+  end
+
+  def language_from_option
+    ISO_639.find(@options[:language])&.alpha2
   end
 
   def reset_preview_card!
