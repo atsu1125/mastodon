@@ -63,7 +63,7 @@ RUN cd /opt/mastodon && \
 	bundle install -j"$(nproc)" && \
 	yarn install --pure-lockfile
 
-FROM debian:buster
+FROM debian:buster-slim
 
 # Copy over all the langs needed for runtime
 COPY --from=build-dep /opt/node /opt/node
