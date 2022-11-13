@@ -101,6 +101,10 @@ class KeyboardShortcuts extends ImmutablePureComponent {
                 <td><FormattedMessage id='keyboard_shortcuts.search' defaultMessage='to focus search' /></td>
               </tr>
               <tr>
+                <td><kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>enter</kbd></td>
+                <td><FormattedMessage id='keyboard_shortcuts.unlisted_toot' defaultMessage='to send toot using unlisted privacy setting' /></td>
+              </tr>
+              <tr>
                 <td><kbd>esc</kbd></td>
                 <td><FormattedMessage id='keyboard_shortcuts.unfocus' defaultMessage='to un-focus compose textarea/search' /></td>
               </tr>
