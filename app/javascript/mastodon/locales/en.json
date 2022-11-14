@@ -261,6 +261,7 @@
   "keyboard_shortcuts.toggle_sensitivity": "Show/hide media",
   "keyboard_shortcuts.toot": "Start a new post",
   "keyboard_shortcuts.unfocus": "Unfocus compose textarea/search",
+  "keyboard_shortcuts.unlisted_toot": "to send toot using unlisted privacy setting",
   "keyboard_shortcuts.up": "Move up in the list",
   "lightbox.close": "Close",
   "lightbox.compress": "Compress image view box",
