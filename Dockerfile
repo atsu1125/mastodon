@@ -61,7 +61,7 @@ RUN cd /opt/mastodon && \
   bundle config set silence_root_warning true && \
   bundle config set force_ruby_platform true && \
 	bundle install -j"$(nproc)" && \
-	yarn install --pure-lockfile
+	yarn install --pure-lockfile --network-timeout 100000
 
 FROM debian:buster-slim
 
