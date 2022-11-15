@@ -26,8 +26,8 @@ class ActivityPub::ProcessAccountService < BaseService
         @suspension_changed = false
 
         create_account if @account.nil?
-        update_account
         process_tags
+        update_account
         process_attachments
 
         process_duplicate_accounts! if @options[:verified_webfinger]
