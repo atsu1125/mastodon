@@ -47,7 +47,7 @@ class ActivityPub::Activity::Create < ActivityPub::Activity
   def create_status
     return reject_payload! if unsupported_object_type? || invalid_origin?(object_uri) || tombstone_exists? || !related_to_local_activity?
 
-    lock_or_fail("create:#{object_uri}") do
+    with_lock("create:#{object_uri}") do
       return if delete_arrived_first?(object_uri) || poll_vote?
 
       @status = find_existing_status
@@ -171,7 +171,7 @@ class ActivityPub::Activity::Create < ActivityPub::Activity
       end
 
       media_attachment = MediaAttachment.create(account: @account, remote_url: src, description: handler.alts[src], focus: nil)
-      media_attachment.file_remote_url = src
+      media_attachment.download_file!
       media_attachment.save
       if unsupported_media_type?(media_attachment.file.content_type)
         @object['content'].gsub!(src, '')
@@ -367,7 +367,7 @@ class ActivityPub::Activity::Create < ActivityPub::Activity
     poll = replied_to_status.preloadable_poll
     already_voted = true
 
-    lock_or_fail("vote:#{replied_to_status.poll_id}:#{@account.id}") do
+    with_lock("vote:#{replied_to_status.poll_id}:#{@account.id}") do
       already_voted = poll.votes.where(account: @account).exists?
       poll.votes.create!(account: @account, choice: poll.options.index(@object['name']), uri: object_uri)
     end
@@ -423,8 +423,8 @@ class ActivityPub::Activity::Create < ActivityPub::Activity
   def text_from_content
     return converted_text if converted_object_type?
 
-    return Formatter.instance.format_article(@object['content']) if @object['content'].present? && @object['type'] == 'Article'
-    
+    return article_format(@object['content']) if @object['content'].present? && @object['type'] == 'Article'
+
     return @status_parser.text || ''
   end
 
