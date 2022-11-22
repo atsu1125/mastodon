@@ -9,7 +9,6 @@ import IconButton from 'flavours/glitch/components/icon_button';
 import DropdownMenu from './dropdown_menu';
 
 //  Utils.
-import { isUserTouching } from 'flavours/glitch/util/is_mobile';
 import { assignHandlers } from 'flavours/glitch/util/react_helpers';
 
 //  The component.
@@ -17,6 +16,7 @@ export default class ComposerOptionsDropdown extends React.PureComponent {
 
   static propTypes = {
     active: PropTypes.bool,
+    isUserTouching: PropTypes.func,
     disabled: PropTypes.bool,
     icon: PropTypes.string,
     items: PropTypes.arrayOf(PropTypes.shape({
@@ -50,7 +50,7 @@ export default class ComposerOptionsDropdown extends React.PureComponent {
     const { onModalOpen } = this.props;
     const { open } = this.state;
 
-    if (isUserTouching()) {
+    if (this.props.isUserTouching && this.props.isUserTouching()) {
       if (this.state.open) {
         this.props.onModalClose();
       } else {
