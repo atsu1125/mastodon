@@ -2,6 +2,10 @@
 ja:
   admin:
     settings:
+      disable_public_timelines:
+        title: 公開タイムラインを無効化する
+      disable_local_timeline:
+        title: ローカルタイムラインを無効化する
       enable_keybase:
         desc_html: Keybaseにより身元の証明が可能となります
         title: Keybase統合を有効にする
