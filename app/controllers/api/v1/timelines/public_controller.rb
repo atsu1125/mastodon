@@ -6,7 +6,8 @@ class Api::V1::Timelines::PublicController < Api::BaseController
   after_action :insert_pagination_headers, unless: -> { @statuses.empty? }
 
   def show
-    return false if Setting.disable_public_timelines && !current_user.staff?
+    return false if !truthy_param?(:local) && Setting.disable_public_timelines && !current_user.staff?
+    return false if truthy_param?(:local) && Setting.disable_local_timeline && !current_user.staff?
     @statuses = load_statuses
     render json: @statuses, each_serializer: REST::StatusSerializer, relationships: StatusRelationshipsPresenter.new(@statuses, current_user&.account_id)
   end
@@ -18,7 +19,7 @@ class Api::V1::Timelines::PublicController < Api::BaseController
   end
 
   def disable_public_timelines?
-    Setting.disable_public_timelines
+    Setting.disable_public_timelines || Setting.disable_local_timeline
   end
 
   def load_statuses
@@ -41,7 +42,7 @@ class Api::V1::Timelines::PublicController < Api::BaseController
   def public_feed
     PublicFeed.new(
       current_account,
-      local: ((!Setting.disable_local_timeline || current_user.staff?) && truthy_param?(:local)),
+      local: truthy_param?(:local),
       remote: truthy_param?(:remote),
       only_media: truthy_param?(:only_media),
       allow_local_only: truthy_param?(:allow_local_only),
