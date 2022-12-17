@@ -23,6 +23,8 @@ class REST::AccountSerializer < ActiveModel::Serializer
 
   has_many :fields
 
+  has_many :other_settings
+
   def id
     object.id.to_s
   end
@@ -93,6 +95,10 @@ class REST::AccountSerializer < ActiveModel::Serializer
 
   def fields
     object.suspended? ? [] : object.fields
+  end
+
+  def other_settings
+    object.suspended? ? [] : object.other_settings
   end
 
   def suspended
