@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class NodeInfo::Serializer < ActiveModel::Serializer
+  THEMECOLOR = ENV.fetch('THEME_COLOR', '#41adef')
   include RoutingHelper
 
   attributes :version, :software, :protocols, :usage, :open_registrations, :metadata
@@ -39,7 +40,7 @@ class NodeInfo::Serializer < ActiveModel::Serializer
 
   def metadata
     {
-      themeColor: "#41adef",
+      themeColor: THEMECOLOR,
 
       maintainer: {
         name: instance_presenter.contact_account.username,
