@@ -191,7 +191,7 @@ class ActivityPub::ActorSerializer < ActivityPub::Serializer
   end
 
   def gender
-    object.gender
+    object.sex
   end
 
   class CustomEmojiSerializer < ActivityPub::EmojiSerializer
