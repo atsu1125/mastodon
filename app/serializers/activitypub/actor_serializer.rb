@@ -27,7 +27,7 @@ class ActivityPub::ActorSerializer < ActivityPub::Serializer
   attribute :suspended, if: :suspended?
   attribute :bday, key: :'vcard:bday'
   attribute :address, key: :'vcard:Address'
-  attribute :gender, key: :'vcard:Gender'
+  attribute :gender, key: :'vcard:gender'
 
   has_many :virtual_other_settings, key: :other_setting
 
