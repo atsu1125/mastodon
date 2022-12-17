@@ -98,7 +98,7 @@ class ActivityPub::ProcessAccountService < BaseService
     @account.note                    = @json['summary'] || ''
     @account.locked                  = @json['manuallyApprovesFollowers'] || false
     @account.fields                  = property_values || {}
-    @account.settings                = defer_settings.merge(other_settings, birthday, address)
+    @account.settings                = defer_settings.merge(other_settings, birthday, address, gender)
     @account.also_known_as           = as_array(@json['alsoKnownAs'] || []).map { |item| value_or_id(item) }
     @account.discoverable            = @json['discoverable'] || false
   end
@@ -223,9 +223,15 @@ class ActivityPub::ProcessAccountService < BaseService
     { 'location' => @json['vcard:Address'] }
   end
 
+  def gender
+    return {} if @json['vcard:Gender'].blank?
+    { 'gender' => @json['vcard:Gender'] }
+  end
+
   DEFER_SETTINGS_KEYS = %w(
       birthday
       location
+      gender
   ).freeze
 
   def defer_settings

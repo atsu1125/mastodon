@@ -29,6 +29,7 @@
   "account.link_verified_on": "このリンクの所有権は{date}に確認されました",
   "account.location": "場所",
   "account.locked_info": "このアカウントは承認制アカウントです。相手が承認するまでフォローは完了しません。",
+  "account.gender": "性別",
   "account.media": "メディア",
   "account.mention": "@{name}さんに投稿",
   "account.moved_to": "{name}さんは引っ越しました:",
