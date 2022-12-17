@@ -14,7 +14,7 @@ const fs = require('fs');
 const WebSocket = require('ws');
 
 const env = process.env.NODE_ENV || 'development';
-const alwaysRequireAuth = process.env.LIMITED_FEDERATION_MODE === 'true' || process.env.WHITELIST_MODE === 'true' || process.env.AUTHORIZED_FETCH === 'true' || process.env.DISABLE_PUBLIC_TIMELINE_STREAMING === 'true';
+const alwaysRequireAuth = process.env.LIMITED_FEDERATION_MODE === 'true' || process.env.WHITELIST_MODE === 'true' || process.env.AUTHORIZED_FETCH === 'true' || process.env.DISABLE_PUBLIC_TIMELINE_STREAMING === 'true' || process.env.DISABLE_LOCAL_TIMELINE_STREAMING === 'true';
 
 dotenv.config({
   path: env === 'production' ? '.env.production' : '.env',
@@ -655,10 +655,6 @@ const startWorker = async (workerId) => {
         return;
       }
 
-      if (!req.admin && !req.moderator && process.env.DISABLE_PUBLIC_TIMELINE_STREAMING === 'true') {
-        return;
-      }
-
       // When the account is not logged in, it is not necessary to confirm the block or mute
       if (!req.accountId) {
         transmit();
@@ -855,6 +851,9 @@ const startWorker = async (workerId) => {
 
       break;
     case 'public':
+      if (!req.admin && !req.moderator && process.env.DISABLE_PUBLIC_TIMELINE_STREAMING === 'true') {
+        reject('No local stream provided');
+      }
       resolve({
         channelIds: ['timeline:public'],
         options: { needsFiltering: true, allowLocalOnly: isTruthy(params.allow_local_only) },
@@ -862,6 +861,9 @@ const startWorker = async (workerId) => {
 
       break;
     case 'public:allow_local_only':
+      if (!req.admin && !req.moderator && process.env.DISABLE_PUBLIC_TIMELINE_STREAMING === 'true') {
+      reject('No local stream provided');
+      }
       resolve({
         channelIds: ['timeline:public'],
         options: { needsFiltering: true, allowLocalOnly: true },
@@ -869,6 +871,9 @@ const startWorker = async (workerId) => {
 
       break;
     case 'public:local':
+      if (!req.admin && !req.moderator && process.env.DISABLE_LOCAL_TIMELINE_STREAMING === 'true') {
+        reject('No local stream provided');
+      }
       resolve({
         channelIds: ['timeline:public:local'],
         options: { needsFiltering: true, allowLocalOnly: true },
@@ -876,6 +881,9 @@ const startWorker = async (workerId) => {
 
       break;
     case 'public:remote':
+      if (!req.admin && !req.moderator && process.env.DISABLE_LOCAL_TIMELINE_STREAMING === 'true') {
+        reject('No local stream provided');
+      }
       resolve({
         channelIds: ['timeline:public:remote'],
         options: { needsFiltering: true, allowLocalOnly: false },
@@ -894,6 +902,9 @@ const startWorker = async (workerId) => {
 
       break;
     case 'public:media':
+      if (!req.admin && !req.moderator && process.env.DISABLE_PUBLIC_TIMELINE_STREAMING === 'true') {
+        reject('No local stream provided');
+      }
       resolve({
         channelIds: ['timeline:public:media'],
         options: { needsFiltering: true, allowLocalOnly: isTruthy(query.allow_local_only) },
@@ -901,6 +912,9 @@ const startWorker = async (workerId) => {
 
       break;
     case 'public:allow_local_only:media':
+      if (!req.admin && !req.moderator && process.env.DISABLE_PUBLIC_TIMELINE_STREAMING === 'true') {
+        reject('No local stream provided');
+      }
       resolve({
         channelIds: ['timeline:public:media'],
         options: { needsFiltering: true, allowLocalOnly: true },
@@ -908,6 +922,9 @@ const startWorker = async (workerId) => {
 
       break;
     case 'public:local:media':
+      if (!req.admin && !req.moderator && process.env.DISABLE_LOCAL_TIMELINE_STREAMING === 'true') {
+        reject('No local stream provided');
+      }
       resolve({
         channelIds: ['timeline:public:local:media'],
         options: { needsFiltering: true, allowLocalOnly: true },
@@ -915,6 +932,9 @@ const startWorker = async (workerId) => {
 
       break;
     case 'public:remote:media':
+      if (!req.admin && !req.moderator && process.env.DISABLE_PUBLIC_TIMELINE_STREAMING === 'true') {
+        reject('No local stream provided');
+      }
       resolve({
         channelIds: ['timeline:public:remote:media'],
         options: { needsFiltering: true, allowLocalOnly: false },

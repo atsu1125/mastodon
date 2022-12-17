@@ -47,6 +47,8 @@ https://github.com/atsu1125/atsuchanpage/blob/main/wal-g-backup.md
   <li>メインテナー情報・インスタンスのテーマカラーをNodeinfoから配信するように(Misskey Capable)</li>
   <li>フォロワー解除をプロフィールタイムラインから行えるように</li>
   <li>すでに存在する投稿のURIは新しいタブではなくタイムラインで開くように（<a href=https://fedibird.com/about>Fedibird</a>から）</li>
+  <li>Misskeyの誕生日・場所とGroundpolisの性別を表示するように(Misskey Capable)</li>
+  <li>ローカルタイムライン・公開タイムラインを無効化できるように(Misskey Capable)</li>
 </ul>
 
 #  Mastodon Glitch Edition  #
