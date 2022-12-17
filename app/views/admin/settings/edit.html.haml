@@ -108,10 +108,10 @@
     = f.input :show_replies_in_public_timelines, as: :boolean, wrapper: :with_label, label: t('admin.settings.show_replies_in_public_timelines.title'), hint: t('admin.settings.show_replies_in_public_timelines.desc_html'), glitch_features: true
 
   .fields-group
-    = f.input :disable_local_timeline, as: :boolean, wrapper: :with_label, label: t('admin.settings.disable_local_timeline.title'), atsu1125_features: true
+    = f.input :disable_local_timeline, as: :boolean, wrapper: :with_label, label: t('admin.settings.disable_local_timeline.title'), hint: t('admin.settings.disable_local_timeline.desc_html'), atsu1125_features: true
 
   .fields-group
-    = f.input :disable_public_timelines, as: :boolean, wrapper: :with_label, label: t('admin.settings.disable_public_timelines.title'), atsu1125_features: true
+    = f.input :disable_public_timelines, as: :boolean, wrapper: :with_label, label: t('admin.settings.disable_public_timelines.title'), hint: t('admin.settings.disable_public_timelines.desc_html'), atsu1125_features: true
 
   %hr.spacer/
 
