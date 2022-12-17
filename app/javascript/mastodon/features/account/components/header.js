@@ -356,7 +356,7 @@ class Header extends ImmutablePureComponent {
                       <td><FormattedDate value={birthday} hour12={false} year='numeric' month='short' day='2-digit' />(<FormattedMessage id='account.age' defaultMessage='{age} years old}' values={{age: age(birthday)}} />)</td>
                     </tr>}
                     {sex && <tr>
-                      <th><Icon id='sexIcon' fixedWidth aria-hidden='true' /> <FormattedMessage id='account.sex' defaultMessage='Sex' /></th>
+                      <th><Icon id='venus' fixedWidth aria-hidden='true' /> <FormattedMessage id='account.sex' defaultMessage='Sex' /></th>
                       <td>{sex}</td>
                     </tr>}
                     <tr>

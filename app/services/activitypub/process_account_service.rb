@@ -224,8 +224,8 @@ class ActivityPub::ProcessAccountService < BaseService
   end
 
   def gender
-    return {} if @json['vcard:Gender'].blank?
-    { 'sex' => @json['vcard:Gender'] }
+    return {} if @json['vcard:gender'].blank?
+    { 'sex' => @json['vcard:gender'] }
   end
 
   DEFER_SETTINGS_KEYS = %w(
