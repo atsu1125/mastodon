@@ -275,6 +275,7 @@ class Header extends ImmutablePureComponent {
     const location = account.getIn(['other_settings', 'location']);
     const birthday = account.getIn(['other_settings', 'birthday']);
     const joined = account.get('created_at');
+    const gender = account.getIn(['other_settings', 'gender']);
 
     return (
       <div className={classNames('account__header', { inactive: !!account.get('moved') })} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
@@ -353,6 +354,10 @@ class Header extends ImmutablePureComponent {
                     {birthday && <tr>
                       <th><Icon id='birthday-cake' fixedWidth aria-hidden='true' /> <FormattedMessage id='account.birthday' defaultMessage='Birthday' /></th>
                       <td><FormattedDate value={birthday} hour12={false} year='numeric' month='short' day='2-digit' />(<FormattedMessage id='account.age' defaultMessage='{age} years old}' values={{age: age(birthday)}} />)</td>
+                    </tr>}
+                    {gender && <tr>
+                      <th><Icon id='sexIcon' fixedWidth aria-hidden='true' /> <FormattedMessage id='account.gender' defaultMessage='Gender' /></th>
+                      <td>{gender}</td>
                     </tr>}
                     <tr>
                       <th><Icon id='calendar' fixedWidth aria-hidden='true' /> <FormattedMessage id='account.joined' defaultMessage='Joined' /></th>

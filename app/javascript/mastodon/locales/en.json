@@ -24,6 +24,7 @@
   "account.following_counter": "{count, plural, one {{counter} Following} other {{counter} Following}}",
   "account.follows.empty": "This user doesn't follow anyone yet.",
   "account.follows_you": "Follows you",
+  "account.gender": "Gender",
   "account.hide_reblogs": "Hide boosts from @{name}",
   "account.joined": "Joined",
   "account.last_status": "Last active",

@@ -27,6 +27,7 @@ class ActivityPub::ActorSerializer < ActivityPub::Serializer
   attribute :suspended, if: :suspended?
   attribute :bday, key: :'vcard:bday'
   attribute :address, key: :'vcard:Address'
+  attribute :gender, key: :'vcard:Gender'
 
   has_many :virtual_other_settings, key: :other_setting
 
@@ -187,6 +188,10 @@ class ActivityPub::ActorSerializer < ActivityPub::Serializer
 
   def address
     object.location
+  end
+
+  def gender
+    object.gender
   end
 
   class CustomEmojiSerializer < ActivityPub::EmojiSerializer
