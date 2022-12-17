@@ -1,7 +1,6 @@
 import inherited from 'mastodon/locales/en.json';
 
 const messages = {
-  'account.joined': 'Joined {date}',
   'getting_started.open_source_notice': 'Glitchsoc is free open source software forked from {Mastodon}. You can contribute or report issues on GitHub at {github}.',
   'layout.auto': 'Auto',
   'layout.current_is': 'Your current layout is:',
