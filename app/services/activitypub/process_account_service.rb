@@ -225,13 +225,13 @@ class ActivityPub::ProcessAccountService < BaseService
 
   def gender
     return {} if @json['vcard:Gender'].blank?
-    { 'gender' => @json['vcard:Gender'] }
+    { 'sex' => @json['vcard:Gender'] }
   end
 
   DEFER_SETTINGS_KEYS = %w(
       birthday
       location
-      gender
+      sex
   ).freeze
 
   def defer_settings
