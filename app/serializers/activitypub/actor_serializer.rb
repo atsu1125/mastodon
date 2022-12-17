@@ -7,14 +7,14 @@ class ActivityPub::ActorSerializer < ActivityPub::Serializer
 
   context_extensions :manually_approves_followers, :featured, :also_known_as,
                      :moved_to, :property_value, :identity_proof,
-                     :discoverable, :olm, :suspended
+                     :discoverable, :olm, :suspended,
+                     :vcard, :other_setting
 
   attributes :id, :type, :following, :followers,
              :inbox, :outbox, :featured, :featured_tags,
              :preferred_username, :name, :summary,
              :url, :manually_approves_followers, :is_cat,
-             :discoverable, :published,
-             :vcard
+             :discoverable, :published
 
   has_one :public_key, serializer: ActivityPub::PublicKeySerializer
 
@@ -27,6 +27,8 @@ class ActivityPub::ActorSerializer < ActivityPub::Serializer
   attribute :suspended, if: :suspended?
   attribute :bday, key: :'vcard:bday'
   attribute :address, key: :'vcard:Address'
+
+  has_many :virtual_other_settings, key: :other_setting
 
   class EndpointsSerializer < ActivityPub::Serializer
     include RoutingHelper
@@ -167,6 +169,16 @@ class ActivityPub::ActorSerializer < ActivityPub::Serializer
 
   def published
     object.created_at.midnight.iso8601
+  end
+
+  def virtual_other_settings
+      object.other_settings.map do |k, v|
+        {
+          type: 'PropertyValue',
+          name: k,
+          value: v,
+        }
+      end
   end
 
   def bday

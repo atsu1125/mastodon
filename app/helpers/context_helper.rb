@@ -27,6 +27,7 @@ module ContextHelper
     suspended: { 'toot' => 'http://joinmastodon.org/ns#', 'suspended' => 'toot:suspended' },
     is_cat: { 'isCat' => 'as:isCat' },
     vcard: { 'vcard' => 'http://www.w3.org/2006/vcard/ns#' },
+    other_setting: { 'fedibird' => 'http://fedibird.com/ns#', 'otherSetting' => 'fedibird:otherSetting' },
   }.freeze
 
   def full_context
