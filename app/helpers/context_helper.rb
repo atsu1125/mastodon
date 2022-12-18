@@ -26,8 +26,6 @@ module ContextHelper
     olm: { 'toot' => 'http://joinmastodon.org/ns#', 'Device' => 'toot:Device', 'Ed25519Signature' => 'toot:Ed25519Signature', 'Ed25519Key' => 'toot:Ed25519Key', 'Curve25519Key' => 'toot:Curve25519Key', 'EncryptedMessage' => 'toot:EncryptedMessage', 'publicKeyBase64' => 'toot:publicKeyBase64', 'deviceId' => 'toot:deviceId', 'claim' => { '@type' => '@id', '@id' => 'toot:claim' }, 'fingerprintKey' => { '@type' => '@id', '@id' => 'toot:fingerprintKey' }, 'identityKey' => { '@type' => '@id', '@id' => 'toot:identityKey' }, 'devices' => { '@type' => '@id', '@id' => 'toot:devices' }, 'messageFranking' => 'toot:messageFranking', 'messageType' => 'toot:messageType', 'cipherText' => 'toot:cipherText' },
     suspended: { 'toot' => 'http://joinmastodon.org/ns#', 'suspended' => 'toot:suspended' },
     is_cat: { 'isCat' => 'as:isCat' },
-    vcard: { 'vcard' => 'http://www.w3.org/2006/vcard/ns#' },
-    other_setting: { 'fedibird' => 'http://fedibird.com/ns#', 'otherSetting' => 'fedibird:otherSetting' },
   }.freeze
 
   def full_context

@@ -7,8 +7,7 @@ class ActivityPub::ActorSerializer < ActivityPub::Serializer
 
   context_extensions :manually_approves_followers, :featured, :also_known_as,
                      :moved_to, :property_value, :identity_proof,
-                     :discoverable, :olm, :suspended,
-                     :vcard, :other_setting
+                     :discoverable, :olm, :suspended
 
   attributes :id, :type, :following, :followers,
              :inbox, :outbox, :featured, :featured_tags,
@@ -25,11 +24,6 @@ class ActivityPub::ActorSerializer < ActivityPub::Serializer
   attribute :moved_to, if: :moved?
   attribute :also_known_as, if: :also_known_as?
   attribute :suspended, if: :suspended?
-  attribute :bday, key: :'vcard:bday'
-  attribute :address, key: :'vcard:Address'
-  attribute :gender, key: :'vcard:gender'
-
-  has_many :virtual_other_settings, key: :other_setting
 
   class EndpointsSerializer < ActivityPub::Serializer
     include RoutingHelper
@@ -170,28 +164,6 @@ class ActivityPub::ActorSerializer < ActivityPub::Serializer
 
   def published
     object.created_at.midnight.iso8601
-  end
-
-  def virtual_other_settings
-      object.other_settings.map do |k, v|
-        {
-          type: 'PropertyValue',
-          name: k,
-          value: v,
-        }
-      end
-  end
-
-  def bday
-    object.birthday
-  end
-
-  def address
-    object.location
-  end
-
-  def gender
-    object.sex
   end
 
   class CustomEmojiSerializer < ActivityPub::EmojiSerializer
