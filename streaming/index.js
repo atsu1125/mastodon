@@ -852,7 +852,7 @@ const startWorker = async (workerId) => {
       break;
     case 'public':
       if (!req.admin && !req.moderator && process.env.DISABLE_PUBLIC_TIMELINE_STREAMING === 'true') {
-        reject('No local stream provided');
+        reject('No Public stream provided');
       }
       resolve({
         channelIds: ['timeline:public'],
@@ -862,7 +862,7 @@ const startWorker = async (workerId) => {
       break;
     case 'public:allow_local_only':
       if (!req.admin && !req.moderator && process.env.DISABLE_PUBLIC_TIMELINE_STREAMING === 'true') {
-      reject('No local stream provided');
+      reject('No Public stream provided');
       }
       resolve({
         channelIds: ['timeline:public'],
@@ -881,8 +881,8 @@ const startWorker = async (workerId) => {
 
       break;
     case 'public:remote':
-      if (!req.admin && !req.moderator && process.env.DISABLE_LOCAL_TIMELINE_STREAMING === 'true') {
-        reject('No local stream provided');
+      if (!req.admin && !req.moderator && process.env.DISABLE_PUBLIC_TIMELINE_STREAMING === 'true') {
+        reject('No Public stream provided');
       }
       resolve({
         channelIds: ['timeline:public:remote'],
@@ -903,7 +903,7 @@ const startWorker = async (workerId) => {
       break;
     case 'public:media':
       if (!req.admin && !req.moderator && process.env.DISABLE_PUBLIC_TIMELINE_STREAMING === 'true') {
-        reject('No local stream provided');
+        reject('No Public stream provided');
       }
       resolve({
         channelIds: ['timeline:public:media'],
@@ -913,7 +913,7 @@ const startWorker = async (workerId) => {
       break;
     case 'public:allow_local_only:media':
       if (!req.admin && !req.moderator && process.env.DISABLE_PUBLIC_TIMELINE_STREAMING === 'true') {
-        reject('No local stream provided');
+        reject('No Public stream provided');
       }
       resolve({
         channelIds: ['timeline:public:media'],
@@ -933,7 +933,7 @@ const startWorker = async (workerId) => {
       break;
     case 'public:remote:media':
       if (!req.admin && !req.moderator && process.env.DISABLE_PUBLIC_TIMELINE_STREAMING === 'true') {
-        reject('No local stream provided');
+        reject('No Public stream provided');
       }
       resolve({
         channelIds: ['timeline:public:remote:media'],
