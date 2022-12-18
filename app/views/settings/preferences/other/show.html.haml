@@ -20,6 +20,10 @@
     .fields-group
       = f.input :setting_hide_followers_count, as: :boolean, wrapper: :with_label, glitch_features: true
 
+  - unless Setting.hide_following_count
+    .fields-group
+      = f.input :setting_hide_following_count, as: :boolean, wrapper: :with_label, atsu1125_features: true
+
   .fields-group
     = f.input :setting_disable_block, as: :boolean, wrapper: :with_label, atsu1125_features: true
 

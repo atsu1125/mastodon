@@ -33,6 +33,7 @@ defaults: &defaults
   system_emoji_font: false
   noindex: false
   hide_followers_count: false
+  hide_following_count: false
   enable_keybase: false
   flavour: 'glitch'
   skin: 'default'

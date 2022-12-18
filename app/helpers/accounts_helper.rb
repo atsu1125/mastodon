@@ -83,18 +83,24 @@ module AccountsHelper
     Setting.hide_followers_count || account.user&.setting_hide_followers_count
   end
 
+  def hide_following_count?(account)
+    Setting.hide_following_count || account.user&.setting_hide_following_count
+  end
+
   def account_description(account)
     prepend_stats = [
       [
         number_to_human(account.statuses_count, precision: 3, strip_insignificant_zeros: true),
         I18n.t('accounts.posts', count: account.statuses_count),
-      ].join(' '),
+      ].join(' ')
+    ]
 
-      [
+    unless hide_following_count?(account)
+      prepend_stats << [
         number_to_human(account.following_count, precision: 3, strip_insignificant_zeros: true),
         I18n.t('accounts.following', count: account.following_count),
-      ].join(' '),
-    ]
+      ].join(' ')
+    end
 
     unless hide_followers_count?(account)
       prepend_stats << [

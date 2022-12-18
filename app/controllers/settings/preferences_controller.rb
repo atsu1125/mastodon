@@ -50,6 +50,7 @@ class Settings::PreferencesController < Settings::BaseController
       :setting_noindex,
       :setting_hide_network,
       :setting_hide_followers_count,
+      :setting_hide_following_count,
       :setting_aggregate_reblogs,
       :setting_show_application,
       :setting_advanced_layout,

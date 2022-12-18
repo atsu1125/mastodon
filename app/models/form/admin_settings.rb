@@ -29,6 +29,7 @@ class Form::AdminSettings
     custom_css
     profile_directory
     hide_followers_count
+    hide_following_count
     enable_keybase
     flavour_and_skin
     thumbnail
@@ -59,6 +60,7 @@ class Form::AdminSettings
     preview_sensitive_media
     profile_directory
     hide_followers_count
+    hide_following_count
     enable_keybase
     show_reblogs_in_public_timelines
     show_replies_in_public_timelines
