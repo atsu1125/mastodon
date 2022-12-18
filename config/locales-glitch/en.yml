@@ -20,6 +20,9 @@ en:
       hide_followers_count:
         desc_html: Do not show followers count on user profiles
         title: Hide followers count
+      hide_following_count:
+        desc_html: Do not show following count on user profiles
+        title: Hide following count
       show_reblogs_in_public_timelines:
         desc_html: Show public boosts of public toots in local and public timelines.
         title: Show boosts in public timelines
