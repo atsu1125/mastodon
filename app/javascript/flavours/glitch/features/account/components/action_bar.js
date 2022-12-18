@@ -64,12 +64,12 @@ class ActionBar extends React.PureComponent {
           <div className='account__action-bar-links'>
             <NavLink isActive={this.isStatusesPageActive} activeClassName='active' className='account__action-bar__tab' to={`/@${account.get('acct')}`}>
               <FormattedMessage id='account.posts' defaultMessage='Posts' />
-              <strong><FormattedNumber value={account.get('statuses_count')} /></strong>
+              <strong>{ account.get('statuses_count') < 0 ? '-' : <FormattedNumber value={account.get('statuses_count')} /> }</strong>
             </NavLink>
 
             <NavLink exact activeClassName='active' className='account__action-bar__tab' to={`/@${account.get('acct')}/following`}>
               <FormattedMessage id='account.follows' defaultMessage='Follows' />
-              <strong><FormattedNumber value={account.get('following_count')} /></strong>
+              <strong>{ account.get('following_count') < 0 ? '-' : <FormattedNumber value={account.get('following_count')} /> }</strong>
             </NavLink>
 
             <NavLink exact activeClassName='active' className='account__action-bar__tab' to={`/@${account.get('acct')}/followers`}>
