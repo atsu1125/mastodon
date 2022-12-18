@@ -49,6 +49,7 @@ https://github.com/atsu1125/atsuchanpage/blob/main/wal-g-backup.md
   <li>すでに存在する投稿のURIは新しいタブではなくタイムラインで開くように（<a href=https://fedibird.com/about>Fedibird</a>から）</li>
   <li>Misskeyの誕生日・場所とGroundpolisの性別を表示するように(Misskey Capable)</li>
   <li>ローカルタイムライン・公開タイムラインを無効化できるように(Misskey Capable)</li>
+  <li>フォロー数・フォロワー数をユーザーの設定もしくはインスタンス全体として隠せるように</li>
 </ul>
 
 #  Mastodon Glitch Edition  #
