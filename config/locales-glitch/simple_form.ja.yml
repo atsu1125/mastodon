@@ -8,6 +8,7 @@ ja:
         setting_default_content_type_plain: トゥートを作成するとき特に指定がない限りプレーンテキストで書かれているとします（Mastodon既定の動作）
         setting_default_language: あなたのトゥートの言語を自動検出しますが必ずしも正確ではありません
         setting_hide_followers_count: あなたを含むすべての人からあなたのフォロワー数を隠します。アプリケーションによっては、マイナスのフォロワー数を表示する場合があります
+        setting_hide_following_count: あなたを含むすべての人からあなたのフォロー数を隠します。アプリケーションによっては、マイナスのフォロー数を表示する場合があります
         setting_skin: 選択したMastodonフレーバーに変更します
     labels:
       defaults:
@@ -17,5 +18,6 @@ ja:
         setting_default_content_type_plain: プレーンテキスト
         setting_favourite_modal: お気に入りをする前に確認ダイアログを表示する
         setting_hide_followers_count: フォロワー数を隠す
+        setting_hide_following_count: フォロー数を隠す
         setting_skin: ビジュアルスタイル
         setting_system_emoji_font: 絵文字にシステム既定のフォントを使用する（Glitch Edition フレーバーのみに適用されます）

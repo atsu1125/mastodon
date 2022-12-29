@@ -23,6 +23,8 @@ class REST::AccountSerializer < ActiveModel::Serializer
 
   has_many :fields
 
+  has_many :other_settings
+
   def id
     object.id.to_s
   end
@@ -67,6 +69,10 @@ class REST::AccountSerializer < ActiveModel::Serializer
     (Setting.hide_followers_count || object.user&.setting_hide_followers_count) ? -1 : object.followers_count
   end
 
+  def following_count
+    (Setting.hide_following_count || object.user&.setting_hide_following_count) ? -1 : object.following_count
+  end
+
   def display_name
     object.suspended? ? '' : object.display_name
   end
@@ -93,6 +99,10 @@ class REST::AccountSerializer < ActiveModel::Serializer
 
   def fields
     object.suspended? ? [] : object.fields
+  end
+
+  def other_settings
+    object.suspended? ? [] : object.other_settings
   end
 
   def suspended

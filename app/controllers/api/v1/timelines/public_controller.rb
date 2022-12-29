@@ -2,9 +2,12 @@
 
 class Api::V1::Timelines::PublicController < Api::BaseController
   before_action :require_user!, only: [:show], if: :require_auth?
+  before_action :require_user!, only: [:show], if: :disable_public_timelines?
   after_action :insert_pagination_headers, unless: -> { @statuses.empty? }
 
   def show
+    return false if !truthy_param?(:local) && !params[:domain] && Setting.disable_public_timelines && !current_user.staff?
+    return false if truthy_param?(:local) && Setting.disable_local_timeline && !current_user.staff?
     @statuses = load_statuses
     render json: @statuses, each_serializer: REST::StatusSerializer, relationships: StatusRelationshipsPresenter.new(@statuses, current_user&.account_id)
   end
@@ -13,6 +16,10 @@ class Api::V1::Timelines::PublicController < Api::BaseController
 
   def require_auth?
     !Setting.timeline_preview
+  end
+
+  def disable_public_timelines?
+    Setting.disable_public_timelines || Setting.disable_local_timeline
   end
 
   def load_statuses

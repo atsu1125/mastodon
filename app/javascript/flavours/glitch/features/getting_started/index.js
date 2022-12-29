@@ -8,7 +8,7 @@ import { openModal } from 'flavours/glitch/actions/modal';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import ImmutablePureComponent from 'react-immutable-pure-component';
-import { me, profile_directory, showTrends } from 'flavours/glitch/util/initial_state';
+import { me, profile_directory, showTrends, disablePublicTimelines, disableLocalTimeline, isStaff } from 'flavours/glitch/util/initial_state';
 import { fetchFollowRequests } from 'flavours/glitch/actions/accounts';
 import { List as ImmutableList } from 'immutable';
 import { createSelector } from 'reselect';
@@ -129,12 +129,15 @@ const NAVIGATION_PANEL_BREAKPOINT = 600 + (285 * 2) + (10 * 2);
         navItems.push(<ColumnLink key='1' icon='bell' text={intl.formatMessage(messages.notifications)} badge={badgeDisplay(unreadNotifications)} to='/notifications' />);
       }
 
-      if (!columns.find(item => item.get('id') === 'COMMUNITY')) {
-        navItems.push(<ColumnLink key='2' icon='users' text={intl.formatMessage(messages.community_timeline)} to='/public/local' />);
+      if (!disableLocalTimeline || isStaff) {
+        if (!columns.find(item => item.get('id') === 'COMMUNITY')) {
+          navItems.push(<ColumnLink key='2' icon='users' text={intl.formatMessage(messages.community_timeline)} to='/public/local' />);
+        }
       }
-
-      if (!columns.find(item => item.get('id') === 'PUBLIC')) {
-        navItems.push(<ColumnLink key='3' icon='globe' text={intl.formatMessage(messages.public_timeline)} to='/public' />);
+      if (!disablePublicTimelines || isStaff) {
+        if (!columns.find(item => item.get('id') === 'PUBLIC')) {
+          navItems.push(<ColumnLink key='3' icon='globe' text={intl.formatMessage(messages.public_timeline)} to='/public' />);
+        }
       }
     }
 

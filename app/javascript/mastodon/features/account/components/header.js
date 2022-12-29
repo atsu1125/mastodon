@@ -1,7 +1,7 @@
 import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import PropTypes from 'prop-types';
-import { defineMessages, injectIntl, FormattedMessage } from 'react-intl';
+import { defineMessages, injectIntl, FormattedMessage, FormattedDate } from 'react-intl';
 import Button from 'mastodon/components/button';
 import ImmutablePureComponent from 'react-immutable-pure-component';
 import { autoPlayGif, me, isStaff, disableBlock, disableDomainBlock } from 'mastodon/initial_state';
@@ -14,6 +14,7 @@ import ShortNumber from 'mastodon/components/short_number';
 import { NavLink } from 'react-router-dom';
 import DropdownMenuContainer from 'mastodon/containers/dropdown_menu_container';
 import AccountNoteContainer from '../containers/account_note_container';
+import age from 's-age';
 
 const messages = defineMessages({
   unfollow: { id: 'account.unfollow', defaultMessage: 'Unfollow' },
@@ -271,6 +272,11 @@ class Header extends ImmutablePureComponent {
       badge = null;
     }
 
+    const location = account.getIn(['other_settings', 'location']);
+    const birthday = account.getIn(['other_settings', 'birthday']);
+    const joined = account.get('created_at');
+    const sex = account.getIn(['other_settings', 'sex']);
+
     return (
       <div className={classNames('account__header', { inactive: !!account.get('moved') })} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
         <div className='account__header__image'>
@@ -338,7 +344,28 @@ class Header extends ImmutablePureComponent {
 
               {account.get('note').length > 0 && account.get('note') !== '<p></p>' && <div className='account__header__content translate' dangerouslySetInnerHTML={content} />}
 
-              <div className='account__header__joined'><FormattedMessage id='account.joined' defaultMessage='Joined {date}' values={{ date: intl.formatDate(account.get('created_at'), { year: 'numeric', month: 'short', day: '2-digit' }) }} /></div>
+              <div className='account__header__personal--wrapper'>
+                <table className='account__header__personal'>
+                  <tbody>
+                    {location && <tr>
+                      <th><Icon id='map-marker' fixedWidth aria-hidden='true' /> <FormattedMessage id='account.location' defaultMessage='Location' /></th>
+                      <td>{location}</td>
+                    </tr>}
+                    {birthday && <tr>
+                      <th><Icon id='birthday-cake' fixedWidth aria-hidden='true' /> <FormattedMessage id='account.birthday' defaultMessage='Birthday' /></th>
+                      <td><FormattedDate value={birthday} hour12={false} year='numeric' month='short' day='2-digit' />(<FormattedMessage id='account.age' defaultMessage='{age} years old}' values={{age: age(birthday)}} />)</td>
+                    </tr>}
+                    {sex && <tr>
+                      <th><Icon id='venus' fixedWidth aria-hidden='true' /> <FormattedMessage id='account.sex' defaultMessage='Sex' /></th>
+                      <td>{sex}</td>
+                    </tr>}
+                    <tr>
+                      <th><Icon id='calendar' fixedWidth aria-hidden='true' /> <FormattedMessage id='account.joined' defaultMessage='Joined' /></th>
+                      <td><FormattedDate value={joined} hour12={false} year='numeric' month='short' day='2-digit' /></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
 
             {!suspended && (

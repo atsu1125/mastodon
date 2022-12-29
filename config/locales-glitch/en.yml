@@ -5,6 +5,12 @@ en:
       captcha_enabled:
         desc_html: This relies on external scripts from hCaptcha, which may be a security and privacy concern. In addition, <strong>this can make the registration process significantly less accessible to some (especially disabled) people</strong>. For these reasons, please consider alternative measures such as approval-based or invite-based registration.<br>Users that have been invited through a limited-use invite will not need to solve a CAPTCHA
         title: Require new users to solve a CAPTCHA to confirm their account
+      disable_local_timeline:
+        desc_html: Disbale Local Timeline. Adminstrators and Moderators will always have access to all timelines, even if they are not enabled. Streaming Access will not be disabled. You need to change value at .env.production if you want to disable Streaming.
+        title: Disable Local timeline
+      disable_public_timelines:
+        desc_html: Disable Public Timelines. Adminstrators and Moderators will always have access to all timelines, even if they are not enabled. Streaming Access will not be disabled. You need to change value at .env.production if you want to disable Streaming.
+        title: Disable Public timelines
       enable_keybase:
         desc_html: Allow your users to prove their identity via keybase
         title: Enable keybase integration
@@ -14,6 +20,9 @@ en:
       hide_followers_count:
         desc_html: Do not show followers count on user profiles
         title: Hide followers count
+      hide_following_count:
+        desc_html: Do not show following count on user profiles
+        title: Hide following count
       show_reblogs_in_public_timelines:
         desc_html: Show public boosts of public toots in local and public timelines.
         title: Show boosts in public timelines

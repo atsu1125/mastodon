@@ -37,6 +37,8 @@ class InitialStateSerializer < ActiveModel::Serializer
       mascot: instance_presenter.mascot&.file&.url,
       profile_directory: Setting.profile_directory,
       trends: Setting.trends,
+      disable_public_timelines: Setting.disable_public_timelines,
+      disable_local_timeline: Setting.disable_local_timeline,
     }
 
     if object.current_account

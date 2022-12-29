@@ -29,6 +29,7 @@ class Form::AdminSettings
     custom_css
     profile_directory
     hide_followers_count
+    hide_following_count
     enable_keybase
     flavour_and_skin
     thumbnail
@@ -36,6 +37,8 @@ class Form::AdminSettings
     mascot
     show_reblogs_in_public_timelines
     show_replies_in_public_timelines
+    disable_local_timeline
+    disable_public_timelines
     trends
     trendable_by_default
     show_domain_blocks
@@ -57,9 +60,12 @@ class Form::AdminSettings
     preview_sensitive_media
     profile_directory
     hide_followers_count
+    hide_following_count
     enable_keybase
     show_reblogs_in_public_timelines
     show_replies_in_public_timelines
+    disable_local_timeline
+    disable_public_timelines
     trends
     trendable_by_default
     noindex

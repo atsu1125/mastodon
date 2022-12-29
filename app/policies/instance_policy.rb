@@ -2,11 +2,11 @@
 
 class InstancePolicy < ApplicationPolicy
   def index?
-    admin?
+    staff?
   end
 
   def show?
-    admin?
+    staff?
   end
 
   def destroy?

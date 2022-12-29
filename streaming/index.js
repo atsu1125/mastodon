@@ -14,7 +14,7 @@ const fs = require('fs');
 const WebSocket = require('ws');
 
 const env = process.env.NODE_ENV || 'development';
-const alwaysRequireAuth = process.env.LIMITED_FEDERATION_MODE === 'true' || process.env.WHITELIST_MODE === 'true' || process.env.AUTHORIZED_FETCH === 'true';
+const alwaysRequireAuth = process.env.LIMITED_FEDERATION_MODE === 'true' || process.env.WHITELIST_MODE === 'true' || process.env.AUTHORIZED_FETCH === 'true' || process.env.DISABLE_PUBLIC_TIMELINE_STREAMING === 'true' || process.env.DISABLE_LOCAL_TIMELINE_STREAMING === 'true';
 
 dotenv.config({
   path: env === 'production' ? '.env.production' : '.env',
@@ -317,7 +317,7 @@ const startWorker = async (workerId) => {
         return;
       }
 
-      client.query('SELECT oauth_access_tokens.id, oauth_access_tokens.resource_owner_id, users.account_id, users.chosen_languages, oauth_access_tokens.scopes, devices.device_id FROM oauth_access_tokens INNER JOIN users ON oauth_access_tokens.resource_owner_id = users.id LEFT OUTER JOIN devices ON oauth_access_tokens.id = devices.access_token_id WHERE oauth_access_tokens.token = $1 AND oauth_access_tokens.revoked_at IS NULL LIMIT 1', [token], (err, result) => {
+      client.query('SELECT oauth_access_tokens.id, oauth_access_tokens.resource_owner_id, users.account_id, users.chosen_languages, oauth_access_tokens.scopes, devices.device_id, users.admin, users.moderator FROM oauth_access_tokens INNER JOIN users ON oauth_access_tokens.resource_owner_id = users.id LEFT OUTER JOIN devices ON oauth_access_tokens.id = devices.access_token_id WHERE oauth_access_tokens.token = $1 AND oauth_access_tokens.revoked_at IS NULL LIMIT 1', [token], (err, result) => {
         done();
 
         if (err) {
@@ -338,6 +338,8 @@ const startWorker = async (workerId) => {
         req.accountId = result.rows[0].account_id;
         req.chosenLanguages = result.rows[0].chosen_languages;
         req.deviceId = result.rows[0].device_id;
+        req.admin = result.rows[0].admin;
+        req.moderator = result.rows[0].moderator;
 
         resolve();
       });
@@ -849,6 +851,9 @@ const startWorker = async (workerId) => {
 
       break;
     case 'public':
+      if (!req.admin && !req.moderator && process.env.DISABLE_PUBLIC_TIMELINE_STREAMING === 'true') {
+        reject('No Public stream provided');
+      }
       resolve({
         channelIds: ['timeline:public'],
         options: { needsFiltering: true, allowLocalOnly: isTruthy(params.allow_local_only) },
@@ -856,6 +861,9 @@ const startWorker = async (workerId) => {
 
       break;
     case 'public:allow_local_only':
+      if (!req.admin && !req.moderator && process.env.DISABLE_PUBLIC_TIMELINE_STREAMING === 'true') {
+      reject('No Public stream provided');
+      }
       resolve({
         channelIds: ['timeline:public'],
         options: { needsFiltering: true, allowLocalOnly: true },
@@ -863,6 +871,9 @@ const startWorker = async (workerId) => {
 
       break;
     case 'public:local':
+      if (!req.admin && !req.moderator && process.env.DISABLE_LOCAL_TIMELINE_STREAMING === 'true') {
+        reject('No local stream provided');
+      }
       resolve({
         channelIds: ['timeline:public:local'],
         options: { needsFiltering: true, allowLocalOnly: true },
@@ -870,6 +881,9 @@ const startWorker = async (workerId) => {
 
       break;
     case 'public:remote':
+      if (!req.admin && !req.moderator && process.env.DISABLE_PUBLIC_TIMELINE_STREAMING === 'true') {
+        reject('No Public stream provided');
+      }
       resolve({
         channelIds: ['timeline:public:remote'],
         options: { needsFiltering: true, allowLocalOnly: false },
@@ -888,6 +902,9 @@ const startWorker = async (workerId) => {
 
       break;
     case 'public:media':
+      if (!req.admin && !req.moderator && process.env.DISABLE_PUBLIC_TIMELINE_STREAMING === 'true') {
+        reject('No Public stream provided');
+      }
       resolve({
         channelIds: ['timeline:public:media'],
         options: { needsFiltering: true, allowLocalOnly: isTruthy(query.allow_local_only) },
@@ -895,6 +912,9 @@ const startWorker = async (workerId) => {
 
       break;
     case 'public:allow_local_only:media':
+      if (!req.admin && !req.moderator && process.env.DISABLE_PUBLIC_TIMELINE_STREAMING === 'true') {
+        reject('No Public stream provided');
+      }
       resolve({
         channelIds: ['timeline:public:media'],
         options: { needsFiltering: true, allowLocalOnly: true },
@@ -902,6 +922,9 @@ const startWorker = async (workerId) => {
 
       break;
     case 'public:local:media':
+      if (!req.admin && !req.moderator && process.env.DISABLE_LOCAL_TIMELINE_STREAMING === 'true') {
+        reject('No local stream provided');
+      }
       resolve({
         channelIds: ['timeline:public:local:media'],
         options: { needsFiltering: true, allowLocalOnly: true },
@@ -909,6 +932,9 @@ const startWorker = async (workerId) => {
 
       break;
     case 'public:remote:media':
+      if (!req.admin && !req.moderator && process.env.DISABLE_PUBLIC_TIMELINE_STREAMING === 'true') {
+        reject('No Public stream provided');
+      }
       resolve({
         channelIds: ['timeline:public:remote:media'],
         options: { needsFiltering: true, allowLocalOnly: false },

@@ -37,5 +37,7 @@ export const useBlurhash = getMeta('use_blurhash');
 export const usePendingItems = getMeta('use_pending_items');
 export const useSystemEmojiFont = getMeta('system_emoji_font');
 export const showTrends = getMeta('trends');
+export const disablePublicTimelines = getMeta('disable_public_timelines');
+export const disableLocalTimeline = getMeta('disable_local_timeline');
 
 export default initialState;

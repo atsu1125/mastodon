@@ -30,5 +30,7 @@ export const cropImages = getMeta('crop_images');
 export const disableSwiping = getMeta('disable_swiping');
 export const disableBlock = getMeta('disable_block');
 export const disableDomainBlock = getMeta('disable_domain_block');
+export const disablePublicTimelines = getMeta('disable_public_timelines');
+export const disableLocalTimeline = getMeta('disable_local_timeline');
 
 export default initialState;
