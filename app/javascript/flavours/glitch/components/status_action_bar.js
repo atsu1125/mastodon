@@ -5,7 +5,7 @@ import IconButton from './icon_button';
 import DropdownMenuContainer from 'flavours/glitch/containers/dropdown_menu_container';
 import { defineMessages, injectIntl } from 'react-intl';
 import ImmutablePureComponent from 'react-immutable-pure-component';
-import { me, isStaff } from 'flavours/glitch/util/initial_state';
+import { me, isStaff, disableBlock, disableDomainBlock } from 'flavours/glitch/util/initial_state';
 import RelativeTimestamp from './relative_timestamp';
 import { accountAdminLink, statusAdminLink } from 'flavours/glitch/util/backend_links';
 import classNames from 'classnames';
@@ -238,7 +238,9 @@ class StatusActionBar extends ImmutablePureComponent {
       menu.push({ text: intl.formatMessage(messages.direct, { name: status.getIn(['account', 'username']) }), action: this.handleDirectClick });
       menu.push(null);
       menu.push({ text: intl.formatMessage(messages.mute, { name: status.getIn(['account', 'username']) }), action: this.handleMuteClick });
+      if (!disableBlock) {
       menu.push({ text: intl.formatMessage(messages.block, { name: status.getIn(['account', 'username']) }), action: this.handleBlockClick });
+      }
       menu.push({ text: intl.formatMessage(messages.report, { name: status.getIn(['account', 'username']) }), action: this.handleReport });
 
       if (isStaff && (accountAdminLink || statusAdminLink)) {

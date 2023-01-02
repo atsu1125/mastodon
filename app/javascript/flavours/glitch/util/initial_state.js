@@ -39,5 +39,7 @@ export const useSystemEmojiFont = getMeta('system_emoji_font');
 export const showTrends = getMeta('trends');
 export const disablePublicTimelines = getMeta('disable_public_timelines');
 export const disableLocalTimeline = getMeta('disable_local_timeline');
+export const disableBlock = getMeta('disable_block');
+export const disableDomainBlock = getMeta('disable_domain_block');
 
 export default initialState;
