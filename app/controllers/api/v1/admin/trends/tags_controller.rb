@@ -4,7 +4,7 @@ class Api::V1::Admin::Trends::TagsController < Api::BaseController
   protect_from_forgery with: :exception
 
   before_action -> { authorize_if_got_token! :'admin:read' }
-  before_action :require_staff!
+  before_action :require_user!
   before_action :set_tags
 
   def index
