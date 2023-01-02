@@ -3,7 +3,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import PropTypes from 'prop-types';
 import { defineMessages, injectIntl, FormattedMessage, FormattedDate } from 'react-intl';
 import ImmutablePureComponent from 'react-immutable-pure-component';
-import { autoPlayGif, me, isStaff } from 'flavours/glitch/util/initial_state';
+import { autoPlayGif, me, isStaff, disableBlock, disableDomainBlock } from 'flavours/glitch/util/initial_state';
 import { preferencesLink, profileLink, accountAdminLink } from 'flavours/glitch/util/backend_links';
 import classNames from 'classnames';
 import Icon from 'flavours/glitch/components/icon';
@@ -228,7 +228,7 @@ class Header extends ImmutablePureComponent {
 
       if (account.getIn(['relationship', 'blocking'])) {
         menu.push({ text: intl.formatMessage(messages.unblock, { name: account.get('username') }), action: this.props.onBlock });
-      } else {
+      } else if (!disableBlock) {
         menu.push({ text: intl.formatMessage(messages.block, { name: account.get('username') }), action: this.props.onBlock });
       }
 
@@ -241,8 +241,10 @@ class Header extends ImmutablePureComponent {
       menu.push(null);
 
       if (account.getIn(['relationship', 'domain_blocking'])) {
+        menu.push(null);
         menu.push({ text: intl.formatMessage(messages.unblockDomain, { domain }), action: this.props.onUnblockDomain });
-      } else {
+      } else if (!disableDomainBlock) {
+        menu.push(null);
         menu.push({ text: intl.formatMessage(messages.blockDomain, { domain }), action: this.props.onBlockDomain });
       }
     }
