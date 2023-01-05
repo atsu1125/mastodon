@@ -2,7 +2,7 @@
 
 class RulePolicy < ApplicationPolicy
   def index?
-    staff?
+    admin?
   end
 
   def create?
