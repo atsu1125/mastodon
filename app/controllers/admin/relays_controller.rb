@@ -6,17 +6,17 @@ module Admin
     before_action :require_signatures_enabled!, only: [:new, :create, :enable]
 
     def index
-      authorize :relay, :update?
+      authorize :relay, :index?
       @relays = Relay.all
     end
 
     def new
-      authorize :relay, :update?
+      authorize :relay, :create?
       @relay = Relay.new
     end
 
     def create
-      authorize :relay, :update?
+      authorize :relay, :create?
 
       @relay = Relay.new(resource_params)
 
@@ -29,7 +29,7 @@ module Admin
     end
 
     def destroy
-      authorize :relay, :update?
+      authorize :relay, :destroy?
       @relay.destroy
       redirect_to admin_relays_path
     end

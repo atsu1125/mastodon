@@ -14,6 +14,6 @@ class AnnouncementPolicy < ApplicationPolicy
   end
 
   def destroy?
-    admin?
+    staff?
   end
 end
