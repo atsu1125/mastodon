@@ -3,7 +3,7 @@ services:
 
   db:
     restart: always
-    image: groonga/pgroonga:latest-alpine-14
+    image: ghcr.io/atsu1125/pgroonga
     shm_size: 256mb
     networks:
       - internal_network
