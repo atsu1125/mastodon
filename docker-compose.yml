@@ -30,7 +30,7 @@ services:
 
   web:
     build: .
-    image: atsu1125/mastodon
+    image: ghcr.io/atsu1125/mastodon
     restart: always
     env_file: .env.docker
     command: bash -c "rm -f /mastodon/tmp/pids/server.pid; bundle exec rails s -p 3000"
@@ -49,7 +49,7 @@ services:
 
   streaming:
     build: .
-    image: atsu1125/mastodon
+    image: ghcr.io/atsu1125/mastodon
     restart: always
     env_file: .env.docker
     command: node ./streaming
@@ -66,7 +66,7 @@ services:
 
   sidekiq_default:
     build: .
-    image: atsu1125/mastodon
+    image: ghcr.io/atsu1125/mastodon
     restart: always
     env_file: .env.docker
     command: bundle exec sidekiq -q default
@@ -83,7 +83,7 @@ services:
 
   sidekiq_push:
     build: .
-    image: atsu1125/mastodon
+    image: ghcr.io/atsu1125/mastodon
     restart: always
     env_file: .env.docker
     command: bundle exec sidekiq -q push
@@ -100,7 +100,7 @@ services:
 
   sidekiq_pull:
     build: .
-    image: atsu1125/mastodon
+    image: ghcr.io/atsu1125/mastodon
     restart: always
     env_file: .env.docker
     command: bundle exec sidekiq -q pull
@@ -117,7 +117,7 @@ services:
 
   sidekiq_mailers:
     build: .
-    image: atsu1125/mastodon
+    image: ghcr.io/atsu1125/mastodon
     restart: always
     env_file: .env.docker
     command: bundle exec sidekiq -q mailers
@@ -134,7 +134,7 @@ services:
 
   sidekiq_scheduler:
     build: .
-    image: atsu1125/mastodon
+    image: ghcr.io/atsu1125/mastodon
     restart: always
     env_file: .env.docker
     command: bundle exec sidekiq -q scheduler
