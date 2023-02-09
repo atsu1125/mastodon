@@ -167,6 +167,8 @@ const startWorker = async (workerId) => {
    */
   const subs = {};
 
+  let stats = {};
+
   const redisSubscribeClient = await redisUrlToClient(redisParams, process.env.REDIS_URL);
   const redisClient = await redisUrlToClient(redisParams, process.env.REDIS_URL);
 
@@ -785,6 +787,11 @@ const startWorker = async (workerId) => {
     res.end('OK');
   });
 
+  app.get('/api/v1/streaming/stats', (req, res) => {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify(stats));
+  });
+
   app.use(authenticationMiddleware);
   app.use(errorMiddleware);
 
@@ -1174,15 +1181,20 @@ const startWorker = async (workerId) => {
   });
 
   setInterval(() => {
+    let count = 0;
+
     wss.clients.forEach(ws => {
       if (ws.isAlive === false) {
         ws.terminate();
         return;
       }
 
+      count++;
       ws.isAlive = false;
       ws.ping('', false);
     });
+
+    stats = { ...stats, connectionCounts: count };
   }, 30000);
 
   attachServerWithConfig(server, address => {
