@@ -13,6 +13,16 @@ class REST::AccountSerializer < ActiveModel::Serializer
 
   attribute :suspended, if: :suspended?
 
+  class AccountDecorator < SimpleDelegator
+    def self.model_name
+      Account.model_name
+    end
+
+    def moved?
+      false
+    end
+  end
+
   class FieldSerializer < ActiveModel::Serializer
     attributes :name, :value, :verified_at
 
@@ -90,7 +100,7 @@ class REST::AccountSerializer < ActiveModel::Serializer
   end
 
   def moved_to_account
-    object.suspended? ? nil : object.moved_to_account
+    object.suspended? ? nil : AccountDecorator.new(object.moved_to_account)
   end
 
   def emojis
@@ -112,6 +122,6 @@ class REST::AccountSerializer < ActiveModel::Serializer
   delegate :suspended?, to: :object
 
   def moved_and_not_nested?
-    object.moved? && object.moved_to_account.moved_to_account_id.nil?
+    object.moved?
   end
 end
