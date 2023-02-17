@@ -319,7 +319,7 @@ const startWorker = async (workerId) => {
         return;
       }
 
-      client.query('SELECT oauth_access_tokens.id, oauth_access_tokens.resource_owner_id, users.account_id, users.chosen_languages, oauth_access_tokens.scopes, devices.device_id, users.admin, users.moderator FROM oauth_access_tokens INNER JOIN users ON oauth_access_tokens.resource_owner_id = users.id LEFT OUTER JOIN devices ON oauth_access_tokens.id = devices.access_token_id WHERE oauth_access_tokens.token = $1 AND oauth_access_tokens.revoked_at IS NULL LIMIT 1', [token], (err, result) => {
+      client.query('SELECT oauth_access_tokens.id, oauth_access_tokens.resource_owner_id, users.account_id, users.chosen_languages, oauth_access_tokens.scopes, devices.device_id, users.admin, users.moderator, (select exists (select settings.value from settings where var = \'disable_local_timeline\' and value ilike \'%false%\')) as disable_local_timeline, (select exists (select settings.value from settings where var = \'disable_public_timelines\' and value ilike \'%false%\')) as disable_public_timelines FROM oauth_access_tokens INNER JOIN users ON oauth_access_tokens.resource_owner_id = users.id LEFT OUTER JOIN devices ON oauth_access_tokens.id = devices.access_token_id WHERE oauth_access_tokens.token = $1 AND oauth_access_tokens.revoked_at IS NULL LIMIT 1', [token], (err, result) => {
         done();
 
         if (err) {
@@ -342,6 +342,8 @@ const startWorker = async (workerId) => {
         req.deviceId = result.rows[0].device_id;
         req.admin = result.rows[0].admin;
         req.moderator = result.rows[0].moderator;
+        req.disablePublicTimelines = result.rows[0].disable_public_timelines;
+        req.disableLocalTimeline = result.rows[0].disable_local_timeline;
 
         resolve();
       });
