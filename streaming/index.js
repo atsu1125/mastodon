@@ -167,6 +167,8 @@ const startWorker = async (workerId) => {
    */
   const subs = {};
 
+  let stats = {};
+
   const redisSubscribeClient = await redisUrlToClient(redisParams, process.env.REDIS_URL);
   const redisClient = await redisUrlToClient(redisParams, process.env.REDIS_URL);
 
@@ -317,7 +319,7 @@ const startWorker = async (workerId) => {
         return;
       }
 
-      client.query('SELECT oauth_access_tokens.id, oauth_access_tokens.resource_owner_id, users.account_id, users.chosen_languages, oauth_access_tokens.scopes, devices.device_id, users.admin, users.moderator FROM oauth_access_tokens INNER JOIN users ON oauth_access_tokens.resource_owner_id = users.id LEFT OUTER JOIN devices ON oauth_access_tokens.id = devices.access_token_id WHERE oauth_access_tokens.token = $1 AND oauth_access_tokens.revoked_at IS NULL LIMIT 1', [token], (err, result) => {
+      client.query('SELECT oauth_access_tokens.id, oauth_access_tokens.resource_owner_id, users.account_id, users.chosen_languages, oauth_access_tokens.scopes, devices.device_id, users.admin, users.moderator, (select exists (select settings.value from settings where var = \'disable_local_timeline\' and value ilike \'%false%\')) as disable_local_timeline, (select exists (select settings.value from settings where var = \'disable_public_timelines\' and value ilike \'%false%\')) as disable_public_timelines FROM oauth_access_tokens INNER JOIN users ON oauth_access_tokens.resource_owner_id = users.id LEFT OUTER JOIN devices ON oauth_access_tokens.id = devices.access_token_id WHERE oauth_access_tokens.token = $1 AND oauth_access_tokens.revoked_at IS NULL LIMIT 1', [token], (err, result) => {
         done();
 
         if (err) {
@@ -340,6 +342,8 @@ const startWorker = async (workerId) => {
         req.deviceId = result.rows[0].device_id;
         req.admin = result.rows[0].admin;
         req.moderator = result.rows[0].moderator;
+        req.disablePublicTimelines = result.rows[0].disable_public_timelines;
+        req.disableLocalTimeline = result.rows[0].disable_local_timeline;
 
         resolve();
       });
@@ -785,6 +789,11 @@ const startWorker = async (workerId) => {
     res.end('OK');
   });
 
+  app.get('/api/v1/streaming/stats', (req, res) => {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify(stats));
+  });
+
   app.use(authenticationMiddleware);
   app.use(errorMiddleware);
 
@@ -1174,15 +1183,20 @@ const startWorker = async (workerId) => {
   });
 
   setInterval(() => {
+    let count = 0;
+
     wss.clients.forEach(ws => {
       if (ws.isAlive === false) {
         ws.terminate();
         return;
       }
 
+      count++;
       ws.isAlive = false;
       ws.ping('', false);
     });
+
+    stats = { ...stats, connectionCounts: count };
   }, 30000);
 
   attachServerWithConfig(server, address => {

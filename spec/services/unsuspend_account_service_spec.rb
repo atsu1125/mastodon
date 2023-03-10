@@ -16,7 +16,7 @@ RSpec.describe UnsuspendAccountService, type: :service do
       local_follower.follow!(account)
       list.accounts << account
 
-      account.suspend!(origin: :local)
+      account.unsuspend!
     end
   end
 
@@ -32,8 +32,8 @@ RSpec.describe UnsuspendAccountService, type: :service do
       stub_request(:post, 'https://bob.com/inbox').to_return(status: 201)
     end
 
-    it 'marks account as unsuspended' do
-      is_expected.to change { account.suspended? }.from(true).to(false)
+    it 'does not change the “suspended” flag' do
+      expect { subject }.to_not change { account.suspended? }
     end
 
     include_examples 'common behavior' do
@@ -85,8 +85,8 @@ RSpec.describe UnsuspendAccountService, type: :service do
           expect(FeedManager.instance).to have_received(:merge_into_list).with(account, list)
         end
 
-        it 'marks account as unsuspended' do
-          is_expected.to change { account.suspended? }.from(true).to(false)
+        it 'does not change the “suspended” flag' do
+          expect { subject }.to_not change { account.suspended? }
         end
       end
 
@@ -109,8 +109,8 @@ RSpec.describe UnsuspendAccountService, type: :service do
           expect(FeedManager.instance).to_not have_received(:merge_into_list).with(account, list)
         end
 
-        it 'does not mark the account as unsuspended' do
-          is_expected.not_to change { account.suspended? }
+        it 'marks account as suspended' do
+          expect { subject }.to change { account.suspended? }.from(false).to(true)
         end
       end
 

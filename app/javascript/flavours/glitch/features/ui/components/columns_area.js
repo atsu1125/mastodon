@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { defineMessages, injectIntl } from 'react-intl';
 import ImmutablePropTypes from 'react-immutable-proptypes';
@@ -32,6 +32,9 @@ import NavigationPanel from './navigation_panel';
 import { supportsPassiveEvents } from 'detect-passive-events';
 import { scrollRight } from 'flavours/glitch/util/scroll';
 
+import { disablePublicTimelines, disableLocalTimeline, isStaff } from 'flavours/glitch/util/initial_state';
+import { removeColumn } from 'flavours/glitch/actions/columns';
+
 const componentMap = {
   'COMPOSE': Compose,
   'HOME': HomeTimeline,
@@ -61,6 +64,7 @@ class ColumnsArea extends ImmutablePureComponent {
   };
 
   static propTypes = {
+    dispatch: PropTypes.func.isRequired,
     intl: PropTypes.object.isRequired,
     columns: ImmutablePropTypes.list.isRequired,
     swipeToChangeColumns: PropTypes.bool,
@@ -85,6 +89,8 @@ class ColumnsArea extends ImmutablePureComponent {
   }
 
   componentDidMount() {
+    const { dispatch, columns } = this.props;
+
     if (!this.props.singleColumn) {
       this.node.addEventListener('wheel', this.handleWheel, supportsPassiveEvents ? { passive: true } : false);
     }
@@ -102,6 +108,17 @@ class ColumnsArea extends ImmutablePureComponent {
     this.isRtlLayout = document.getElementsByTagName('body')[0].classList.contains('rtl');
 
     this.setState({ shouldAnimate: true });
+
+    const removeColumnById = id => {
+      const column = columns.find(item => item.get('id') === id)
+
+      if (column) {
+        dispatch(removeColumn(column.get('uuid')));
+      }
+    };
+
+    if (disablePublicTimelines && !isStaff) { removeColumnById('PUBLIC'); }
+    if (disableLocalTimeline && !isStaff) { removeColumnById('COMMUNITY'); }
   }
 
   componentWillUpdate(nextProps) {
