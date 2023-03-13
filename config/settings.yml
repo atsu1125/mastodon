@@ -18,8 +18,8 @@ defaults: &defaults
   show_staff_badge: true
   default_sensitive: false
   hide_network: false
-  unfollow_modal: false
-  boost_modal: false
+  unfollow_modal: true
+  boost_modal: true
   favourite_modal: false
   delete_modal: true
   auto_play_gif: false
@@ -55,6 +55,7 @@ defaults: &defaults
     pending_account: true
     trending_tag: true
   interactions:
+    must_be_dm_to_send_email: false
     must_be_follower: false
     must_be_following: false
     must_be_following_dm: false

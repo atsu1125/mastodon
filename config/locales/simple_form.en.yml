@@ -196,6 +196,7 @@ en:
       featured_tag:
         name: Hashtag
       interactions:
+        must_be_dm_to_send_email: Block e-mail notifications from mentions to you other than direct messages
         must_be_follower: Block notifications from non-followers
         must_be_following: Block notifications from people you don't follow
         must_be_following_dm: Block direct messages from people you don't follow
@@ -218,8 +219,11 @@ en:
         mention: Someone mentioned you
         pending_account: New account needs review
         reblog: Someone boosted your post
-        report: A new report is submitted
-        trending_tag: A new trend requires approval
+        report: New report is submitted
+        trending_tag: An unreviewed hashtag is trending
+      push_subscription_blocks:
+        endpoint: End point
+        name: Name
       rule:
         text: Rule
       tag:
