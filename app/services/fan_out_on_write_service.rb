@@ -105,7 +105,10 @@ class FanOutOnWriteService < BaseService
 
   def broadcast_to_public_streams!
     return if @status.reply? && @status.in_reply_to_account_id != @account.id && !Setting.show_replies_in_public_timelines
-    domain = @status.account.domain.mb_chars.downcase
+
+    if !@status.local?
+      domain = @status.account.domain.mb_chars.downcase
+    end
 
     Redis.current.publish('timeline:public', anonymous_payload)
     Redis.current.publish(@status.local? ? 'timeline:public:local' : 'timeline:public:remote', anonymous_payload)
