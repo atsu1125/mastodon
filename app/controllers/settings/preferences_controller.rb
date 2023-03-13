@@ -65,7 +65,7 @@ class Settings::PreferencesController < Settings::BaseController
       :setting_do_not_allow_follow,
       :setting_auto_accept_followed,
       notification_emails: %i(follow follow_request reblog favourite mention digest report pending_account trending_tag),
-      interactions: %i(must_be_follower must_be_following must_be_following_dm)
+      interactions: %i(must_be_follower must_be_following must_be_following_dm must_be_dm_to_send_email)
     )
   end
 end
