@@ -35,7 +35,23 @@ class ColumnSettings extends React.PureComponent {
         </div>
 
         <div className='column-settings__row'>
+          <SettingToggle prefix='home_timeline' settings={settings} settingPath={['shows', 'public']} onChange={onChange} label={<FormattedMessage id='home.column_settings.show_public' defaultMessage='Show Public' />} />
+        </div>
+
+        <div className='column-settings__row'>
+          <SettingToggle prefix='home_timeline' settings={settings} settingPath={['shows', 'unlisted']} onChange={onChange} label={<FormattedMessage id='home.column_settings.show_unlisted' defaultMessage='Show Unlisted' />} />
+        </div>
+
+        <div className='column-settings__row'>
+          <SettingToggle prefix='home_timeline' settings={settings} settingPath={['shows', 'private']} onChange={onChange} label={<FormattedMessage id='home.column_settings.show_private' defaultMessage='Show Private' />} />
+        </div>
+
+        <div className='column-settings__row'>
           <SettingToggle prefix='home_timeline' settings={settings} settingPath={['shows', 'direct']} onChange={onChange} label={<FormattedMessage id='home.column_settings.show_direct' defaultMessage='Show DMs' />} />
+        </div>
+
+        <div className='column-settings__row'>
+          <SettingToggle prefix='home_timeline' settings={settings} settingPath={['shows', 'sensitive']} onChange={onChange} label={<FormattedMessage id='home.column_settings.show_sensitive' defaultMessage='Show Sensitive' />} />
         </div>
 
         <span className='column-settings__section'><FormattedMessage id='home.column_settings.advanced' defaultMessage='Advanced' /></span>

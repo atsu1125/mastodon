@@ -33,8 +33,6 @@ const makeGetStatusIds = (pending = false) => createSelector([
     const statusForId = statuses.get(id);
     let showStatus    = true;
 
-    if (statusForId.get('account') === me) return true;
-
     if (columnSettings.getIn(['shows', 'reblog']) === false) {
       showStatus = showStatus && statusForId.get('reblog') === null;
     }
@@ -45,6 +43,22 @@ const makeGetStatusIds = (pending = false) => createSelector([
 
     if (columnSettings.getIn(['shows', 'direct']) === false) {
       showStatus = showStatus && statusForId.get('visibility') !== 'direct';
+    }
+
+    if (columnSettings.getIn(['shows', 'public']) === false) {
+      showStatus = showStatus && statusForId.get('visibility') !== 'public';
+    }
+
+    if (columnSettings.getIn(['shows', 'unlisted']) === false) {
+      showStatus = showStatus && statusForId.get('visibility') !== 'unlisted';
+    }
+
+    if (columnSettings.getIn(['shows', 'private']) === false) {
+      showStatus = showStatus && statusForId.get('visibility') !== 'private';
+    }
+
+    if (columnSettings.getIn(['shows', 'sensitive']) === false) {
+      showStatus = showStatus && statusForId.get('sensitive') !== true;
     }
 
     if (showStatus && regex) {

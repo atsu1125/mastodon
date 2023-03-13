@@ -61,6 +61,10 @@ const messages = {
   'favourite_modal.combo': '次からは {combo} を押せば、これをスキップできます。',
 
   'home.column_settings.show_direct': 'DMを表示',
+  'home.column_settings.show_public': '公開を表示',
+  'home.column_settings.show_unlisted': '未収載を表示',
+  'home.column_settings.show_private': 'フォロワー限定を表示',
+  'home.column_settings.show_sensitive': 'センシティブな投稿を表示',
   'home.column_settings.advanced': '高度',
   'home.column_settings.filter_regex': '正規表現でフィルター',
 

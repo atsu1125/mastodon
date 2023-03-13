@@ -40,6 +40,10 @@ const messages = {
   'favourite_modal.combo': 'You can press {combo} to skip this next time',
 
   'home.column_settings.show_direct': 'Show DMs',
+  'home.column_settings.show_public': 'Show Public',
+  'home.column_settings.show_unlisted': 'Show Unlisted',
+  'home.column_settings.show_private': 'Show Private',
+  'home.column_settings.show_sensitive': 'Show Sensitive',
 
   'notification.markForDeletion': 'Mark for deletion',
   'notifications.clear': 'Clear all my notifications',
