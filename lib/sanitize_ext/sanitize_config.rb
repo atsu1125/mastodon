@@ -132,8 +132,12 @@ class Sanitize
         RELAXED[:protocols],
         'embed'  => { 'src' => HTTP_PROTOCOLS },
         'iframe' => { 'src' => HTTP_PROTOCOLS },
-        'source' => { 'src' => HTTP_PROTOCOLS }
-      )
+        'source' => { 'src' => HTTP_PROTOCOLS },
+      },
+
+      add_attributes: {
+        'iframe' => { 'sandbox' => 'allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-forms' },
+      }
     )
   end
 end
