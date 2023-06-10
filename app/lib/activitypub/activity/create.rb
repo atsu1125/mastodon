@@ -277,6 +277,7 @@ class ActivityPub::Activity::Create < ActivityPub::Activity
       rescue Mastodon::UnexpectedResponseError, HTTP::TimeoutError, HTTP::ConnectionError, OpenSSL::SSL::SSLError
         RedownloadMediaWorker.perform_in(rand(30..600).seconds, media_attachment.id)
       rescue Seahorse::Client::NetworkingError => e
+        RedownloadMediaWorker.perform_in(rand(30..600).seconds, media_attachment.id)
         Rails.logger.warn "Error storing media attachment: #{e}"
       end
     end
