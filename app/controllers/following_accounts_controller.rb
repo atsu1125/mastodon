@@ -64,6 +64,7 @@ class FollowingAccountsController < ApplicationController
   def collection_presenter
     options = { type: :ordered }
     options[:size] = @account.following_count unless Setting.hide_following_count || @account.user&.setting_hide_following_count
+    options[:size] = 0 if Setting.hide_following_count || @account.user&.setting_hide_following_count
     if page_requested?
       ActivityPub::CollectionPresenter.new(
         id: account_following_index_url(@account, page: params.fetch(:page, 1)),
