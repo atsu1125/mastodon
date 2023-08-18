@@ -172,6 +172,13 @@ const startWorker = async (workerId) => {
   const redisSubscribeClient = await redisUrlToClient(redisParams, process.env.REDIS_URL);
   const redisClient = await redisUrlToClient(redisParams, process.env.REDIS_URL);
 
+  redisClient.on('error', (error) => {
+    log.error('Redis error:', error);
+    redisClient.quit();
+    server.close();
+    process.exit(1);
+  });
+
   /**
    * @param {string[]} channels
    * @return {function(): void}
