@@ -115,6 +115,23 @@ services:
     healthcheck:
       test: ["CMD-SHELL", "ps aux | grep '[s]idekiq\ 6' || false"]
 
+  sidekiq_ingress:
+    build: .
+    image: ghcr.io/atsu1125/mastodon
+    restart: always
+    env_file: .env.docker
+    command: bundle exec sidekiq -q ingress
+    depends_on:
+      - redis
+      - db
+    networks:
+      - external_network
+      - internal_network
+    volumes:
+      - ./public/system:/mastodon/public/system
+    healthcheck:
+      test: ["CMD-SHELL", "ps aux | grep '[s]idekiq\ 6' || false"]
+
   sidekiq_mailers:
     build: .
     image: ghcr.io/atsu1125/mastodon
