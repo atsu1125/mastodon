@@ -17,7 +17,7 @@ const env = process.env.NODE_ENV || 'development';
 const alwaysRequireAuth = process.env.LIMITED_FEDERATION_MODE === 'true' || process.env.WHITELIST_MODE === 'true' || process.env.AUTHORIZED_FETCH === 'true' || process.env.DISABLE_PUBLIC_TIMELINE_STREAMING === 'true' || process.env.DISABLE_LOCAL_TIMELINE_STREAMING === 'true';
 
 dotenv.config({
-  path: env === 'production' ? '.env.production' : '.env',
+  path: env === 'production' ? '.env.production' : (env === 'development' ? '.env.development' : '.env'),
 });
 
 log.level = process.env.LOG_LEVEL || 'verbose';
