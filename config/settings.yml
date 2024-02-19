@@ -90,6 +90,7 @@ defaults: &defaults
   confirm_follow_from_remote: false
   do_not_allow_follow: false
   auto_accept_followed: true
+  reject_pattern: ''
 
 development:
   <<: *defaults
