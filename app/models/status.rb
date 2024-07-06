@@ -176,7 +176,7 @@ class Status < ApplicationRecord
   end
 
   def reblog?
-    !reblog_of_id.nil?
+    !reblog_of_id.nil? && reblog
   end
 
   def within_realtime_window?
