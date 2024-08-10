@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_11_08_021125) do
+ActiveRecord::Schema.define(version: 2024_08_10_170735) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgroonga"
@@ -378,6 +378,8 @@ ActiveRecord::Schema.define(version: 2022_11_08_021125) do
     t.text "private_comment"
     t.text "public_comment"
     t.boolean "obfuscate", default: false, null: false
+    t.boolean "reject_send_public_unlisted", default: false, null: false
+    t.boolean "reject_send_private", default: false, null: false
     t.index ["domain"], name: "index_domain_blocks_on_domain", unique: true
   end
 

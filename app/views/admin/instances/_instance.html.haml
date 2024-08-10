@@ -18,6 +18,10 @@
               - unless first_item
                 &bull;
               = t('admin.domain_blocks.rejecting_reports')
+            - if instance.domain_block.reject_send_public_unlisted? || instance.domain_block.reject_send_private? 
+              - unless first_item
+                &bull;
+              = t('admin.domain_blocks.rejecting_sending_some_visibilities_statuses')
         - elsif whitelist_mode?
           = t('admin.accounts.whitelisted')
         - else

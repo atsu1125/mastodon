@@ -3,16 +3,18 @@
 #
 # Table name: domain_blocks
 #
-#  id              :bigint(8)        not null, primary key
-#  domain          :string           default(""), not null
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  severity        :integer          default("silence")
-#  reject_media    :boolean          default(FALSE), not null
-#  reject_reports  :boolean          default(FALSE), not null
-#  private_comment :text
-#  public_comment  :text
-#  obfuscate       :boolean          default(FALSE), not null
+#  id                          :bigint(8)        not null, primary key
+#  domain                      :string           default(""), not null
+#  created_at                  :datetime         not null
+#  updated_at                  :datetime         not null
+#  severity                    :integer          default("silence")
+#  reject_media                :boolean          default(FALSE), not null
+#  reject_reports              :boolean          default(FALSE), not null
+#  private_comment             :text
+#  public_comment              :text
+#  obfuscate                   :boolean          default(FALSE), not null
+#  reject_send_public_unlisted :boolean          default(FALSE), not null
+#  reject_send_private         :boolean          default(FALSE), not null
 #
 
 class DomainBlock < ApplicationRecord
@@ -47,6 +49,14 @@ class DomainBlock < ApplicationRecord
       !!rule_for(domain)&.reject_reports?
     end
 
+    def reject_send_public_unlisted?(domain)
+      !!rule_for(domain)&.reject_send_public_unlisted?
+    end
+
+    def reject_send_private?(domain)
+      !!rule_for(domain)&.reject_send_private?
+    end
+
     alias blocked? suspend?
 
     def rule_for(domain)
@@ -67,7 +77,7 @@ class DomainBlock < ApplicationRecord
     return false if other_block.suspend? && (silence? || noop?)
     return false if other_block.silence? && noop?
 
-    (reject_media || !other_block.reject_media) && (reject_reports || !other_block.reject_reports)
+    (reject_media || !other_block.reject_media) && (reject_reports || !other_block.reject_reports) && (reject_send_public_unlisted || !other_block.reject_send_public_unlisted) && (reject_send_private || !other_block.reject_send_private)
   end
 
   def affected_accounts_count
