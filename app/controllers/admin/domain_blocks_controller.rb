@@ -70,11 +70,11 @@ module Admin
     end
 
     def update_params
-      params.require(:domain_block).permit(:severity, :reject_media, :reject_reports, :private_comment, :public_comment, :obfuscate)
+      params.require(:domain_block).permit(:severity, :reject_media, :reject_reports, :private_comment, :public_comment, :obfuscate, :reject_send_public_unlisted, :reject_send_private)
     end
 
     def resource_params
-      params.require(:domain_block).permit(:domain, :severity, :reject_media, :reject_reports, :private_comment, :public_comment, :obfuscate)
+      params.require(:domain_block).permit(:domain, :severity, :reject_media, :reject_reports, :private_comment, :public_comment, :obfuscate, :reject_send_public_unlisted, :reject_send_private)
     end
   end
 end

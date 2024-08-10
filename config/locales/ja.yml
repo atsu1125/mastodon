@@ -430,8 +430,13 @@ ja:
       reject_media_hint: ローカルに保存されたメディアファイルを削除し、今後のダウンロードを拒否します。停止とは無関係です
       reject_reports: 通報を拒否
       reject_reports_hint: このドメインからの通報をすべて無視します。停止とは無関係です
+      reject_send_private: フォロワーのみの投稿を配送しない
+      reject_send_private_hint: 相手サーバーからのフェッチは防げません。停止とは無関係です
+      reject_send_public_unlisted: 公開投稿を配送しない
+      reject_send_public_unlisted_hint: 相手サーバーからのフェッチは防げません。停止とは無関係です
       rejecting_media: メディアファイルを拒否中
       rejecting_reports: 通報を拒否中
+      rejecting_sending_some_visibilities_statuses: 一部の公開範囲の投稿の配送を停止中
       severity:
         silence: サイレンス中
         suspend: 停止中
