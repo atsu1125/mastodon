@@ -16,7 +16,7 @@ class StatusReachFinder
   private
 
   def reached_account_inboxes
-    Account.where(id: reached_account_ids).inboxes
+    Account.where(id: reached_account_ids).where.not(domain: banned_domains).inboxes
   end
 
   def reached_account_ids
@@ -74,7 +74,7 @@ class StatusReachFinder
     elsif @status.direct_visibility? || @status.limited_visibility?
       []
     else
-      @status.account.followers.inboxes
+      @status.account.followers.where.not(domain: banned_domains).inboxes
     end
   end
 
@@ -92,5 +92,13 @@ class StatusReachFinder
 
   def unsafe?
     @options[:unsafe]
+  end
+
+  def banned_domains
+    return @banned_domains if @banned_domains
+    blocks = []
+    blocks << DomainBlock.where(reject_send_public_unlisted: true).pluck(:domain) if @status.public_visibility? || @status.unlisted_visibility?
+    blocks << DomainBlock.where(reject_send_private: true).pluck(:domain) if @status.private_visibility? || @status.direct_visibility? || @status.limited_visibility?
+    return @banned_domains = blocks.uniq
   end
 end

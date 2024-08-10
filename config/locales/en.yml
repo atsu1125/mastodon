@@ -436,8 +436,13 @@ en:
       reject_media_hint: Removes locally stored media files and refuses to download any in the future. Irrelevant for suspensions
       reject_reports: Reject reports
       reject_reports_hint: Ignore all reports coming from this domain. Irrelevant for suspensions
+      reject_send_private: Do not Deliver Followers-Only Statuses
+      reject_send_private_hint: Stops delivering Followers-Only Statuses to this domain. Irrelevant for suspensions
+      reject_send_public_unlisted: Do not Deliver Public Statuses
+      reject_send_public_unlisted_hint: Stops delivering Public Statuses to this domain. Irrelevant for suspensions
       rejecting_media: rejecting media files
       rejecting_reports: rejecting reports
+      rejecting_sending_some_visibilities_statuses: rejecting sending some visibilities statuses
       severity:
         silence: limited
         suspend: suspended
