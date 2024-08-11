@@ -21,10 +21,10 @@
     = f.input :obfuscate, as: :boolean, wrapper: :with_label, label: I18n.t('admin.domain_blocks.obfuscate'), hint: I18n.t('admin.domain_blocks.obfuscate_hint')
 
   .fields-group
-    = f.input :reject_send_public_unlisted, as: :boolean, wrapper: :with_label, label: I18n.t('admin.domain_blocks.reject_send_public_unlisted'), hint: I18n.t('admin.domain_blocks.reject_send_public_unlisted_hint')
+    = f.input :reject_send_public_unlisted, as: :boolean, wrapper: :with_label, label: I18n.t('admin.domain_blocks.reject_send_public_unlisted'), hint: I18n.t('admin.domain_blocks.reject_send_public_unlisted_hint'), atsu1125_features: true
 
   .fields-group
-    = f.input :reject_send_private, as: :boolean, wrapper: :with_label, label: I18n.t('admin.domain_blocks.reject_send_private'), hint: I18n.t('admin.domain_blocks.reject_send_private_hint')
+    = f.input :reject_send_private, as: :boolean, wrapper: :with_label, label: I18n.t('admin.domain_blocks.reject_send_private'), hint: I18n.t('admin.domain_blocks.reject_send_private_hint'), atsu1125_features: true
 
   .field-group
     = f.input :private_comment, wrapper: :with_label, label: I18n.t('admin.domain_blocks.private_comment'), hint: t('admin.domain_blocks.private_comment_hint'), rows: 6
