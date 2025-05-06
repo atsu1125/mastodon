@@ -88,8 +88,8 @@ export function normalizeStatus(status, normalOldStatus) {
       normalStatus.url = null;
     }
 
-    normalStatus.url ||= normalStatus.uri;
-    
+    normalStatus.url = normalStatus.url || normalStatus.uri;
+
     normalStatus.media_attachments.forEach(item => {
       if (item.remote_url && !(item.remote_url.startsWith('http://') || item.remote_url.startsWith('https://')))
         item.remote_url = null;
