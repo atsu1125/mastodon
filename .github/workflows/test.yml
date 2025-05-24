@@ -42,24 +42,6 @@ jobs:
         echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
         apt update
         apt install -y yarn ffmpeg libicu-dev libidn11-dev libprotobuf-dev protobuf-compiler nodejs
-    - name: Cache ruby dependencies
-      uses: actions/cache@v1
-      with:
-        path: vendor/bundle
-        key: v1-ruby-dependencies-${{ hashFiles('.ruby-version') }}-${{ hashFiles('Gemfile.lock') }}
-        restore-keys: |
-          v1-ruby-dependencies-${{ hashFiles('.ruby-version') }}-${{ hashFiles('Gemfile.lock') }}
-          v1-ruby-dependencies-${{ hashFiles('.ruby-version') }}-
-          v1-ruby-dependencies-
-    - name: Cache node dependencies
-      uses: actions/cache@v1
-      with:
-        path: node_modules
-        key: v1-node-dependencies-${{ hashFiles('.nvmrc') }}-${{ hashFiles('yarn.lock') }}
-        restore-keys: |
-          v1-node-dependencies-${{ hashFiles('.nvmrc') }}-${{ hashFiles('yarn.lock') }}
-          v1-node-dependencies-${{ hashFiles('.nvmrc') }}-
-          v1-node-dependencies-
     - name: bundle install
       run: bundle install --clean --jobs 4 --path ./vendor/bundle/ --retry 3 --with pam_authentication --without production && bundle clean
     - name: yarn install
