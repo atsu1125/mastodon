@@ -15,13 +15,18 @@ class ActivityPub::Parser::MediaAttachmentParser
   end
 
   def remote_url
-    Addressable::URI.parse(@json['url'])&.normalize&.to_s
+    uri = Addressable::URI.parse(@json['url'])
+
+    uri.normalize.to_s unless unsupported_uri_scheme?(uri)
   rescue Addressable::URI::InvalidURIError
     nil
   end
 
   def thumbnail_remote_url
-    Addressable::URI.parse(@json['icon'].is_a?(Hash) ? @json['icon']['url'] : @json['icon'])&.normalize&.to_s
+    icon_url = @json['icon'].is_a?(Hash) ? @json['icon']['url'] : @json['icon']
+    uri = Addressable::URI.parse(icon_url)
+
+    uri.normalize.to_s unless unsupported_uri_scheme?(uri)
   rescue Addressable::URI::InvalidURIError
     nil
   end
