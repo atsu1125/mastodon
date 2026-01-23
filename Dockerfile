@@ -1,11 +1,11 @@
-FROM debian:buster as build-dep
+FROM debian:bullseye as build-dep
 
 # Use bash for the shell
 SHELL ["/bin/bash", "-c"]
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 
 # Install Node v16 (LTS)
-ENV NODE_VER="16.13.2"
+ENV NODE_VER="16.20.2"
 RUN ARCH= && \
     dpkgArch="$(dpkg --print-architecture)" && \
   case "${dpkgArch##*-}" in \
@@ -19,7 +19,7 @@ RUN ARCH= && \
   esac && \
     echo "Etc/UTC" > /etc/localtime && \
 	apt-get update && \
-	apt-get install -y --no-install-recommends ca-certificates wget python apt-utils && \
+	apt-get install -y --no-install-recommends ca-certificates wget python3 apt-utils && \
 	cd ~ && \
 	wget -q https://nodejs.org/download/release/v$NODE_VER/node-v$NODE_VER-linux-$ARCH.tar.gz && \
 	tar xf node-v$NODE_VER-linux-$ARCH.tar.gz && \
@@ -63,7 +63,7 @@ RUN cd /opt/mastodon && \
 	bundle install -j"$(nproc)" && \
 	yarn install --pure-lockfile --network-timeout 100000
 
-FROM debian:buster-slim
+FROM debian:bullseye-slim
 
 # Copy over all the langs needed for runtime
 COPY --from=build-dep /opt/node /opt/node
@@ -89,7 +89,7 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selectio
 RUN apt-get update && \
   apt-get -y --no-install-recommends install \
 	  libssl1.1 libpq5 imagemagick ffmpeg libjemalloc2 \
-	  libicu-dev libprotobuf17 libidn11 libyaml-0-2 \
+	  libicu-dev libprotobuf23 libidn11 libyaml-0-2 \
 	  file ca-certificates tzdata libreadline-dev gcc tini apt-utils procps && \
 	ln -s /opt/mastodon /mastodon && \
 	gem install bundler && \

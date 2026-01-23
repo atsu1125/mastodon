@@ -16,7 +16,7 @@ jobs:
         # needed because the postgres container does not provide a healthcheck
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
       redis:
-        image: redis:6.0
+        image: redis:7
         ports:
           - 6379:6379
         options: --health-cmd "redis-cli -h localhost ping" --health-interval 10s --health-timeout 5s --health-retries 15
@@ -38,10 +38,12 @@ jobs:
       run: |
         apt update
         apt install apt-transport-https
-        curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-        echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+        apt install -y curl gnupg ca-certificates
+        mkdir -p /etc/apt/keyrings
+        curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
         apt update
-        apt install -y yarn ffmpeg libicu-dev libidn11-dev libprotobuf-dev protobuf-compiler nodejs
+        apt install -y ffmpeg libicu-dev libidn11-dev libprotobuf-dev protobuf-compiler nodejs
+        npm install -g yarn@1
     - name: bundle install
       run: bundle install --clean --jobs 4 --path ./vendor/bundle/ --retry 3 --with pam_authentication --without production && bundle clean
     - name: yarn install
