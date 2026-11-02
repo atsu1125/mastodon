@@ -90,6 +90,8 @@ COPY --from=build-dep /opt/ruby /opt/ruby
 COPY --from=build-dep /opt/openssl-1.1 /opt/openssl-1.1
 
 ENV LD_LIBRARY_PATH="/opt/openssl-1.1/lib:${LD_LIBRARY_PATH}"
+ENV SSL_CERT_FILE="/etc/ssl/certs/ca-certificates.crt"
+ENV SSL_CERT_DIR="/etc/ssl/certs"
 
 # Add more PATHs to the PATH
 ENV PATH="${PATH}:/opt/ruby/bin:/opt/node/bin:/opt/mastodon/bin"
