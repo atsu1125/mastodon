@@ -8,6 +8,7 @@ class AccountsController < ApplicationController
   include SignatureAuthentication
 
   before_action :require_signature!, if: -> { request.format == :json && authorized_fetch_mode? }
+  before_action :authenticate_user!, if: -> { request.format != :json && authorized_fetch_mode? }
   before_action :set_cache_headers
   before_action :set_body_classes
 
