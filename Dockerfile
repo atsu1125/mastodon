@@ -1,11 +1,11 @@
-FROM debian:buster as build-dep
+FROM debian:bookworm as build-dep
 
 # Use bash for the shell
 SHELL ["/bin/bash", "-c"]
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 
 # Install Node v16 (LTS)
-ENV NODE_VER="16.13.2"
+ENV NODE_VER="16.20.2"
 RUN ARCH= && \
     dpkgArch="$(dpkg --print-architecture)" && \
   case "${dpkgArch##*-}" in \
@@ -19,12 +19,30 @@ RUN ARCH= && \
   esac && \
     echo "Etc/UTC" > /etc/localtime && \
 	apt-get update && \
-	apt-get install -y --no-install-recommends ca-certificates wget python apt-utils && \
+	apt-get install -y --no-install-recommends ca-certificates wget python3 apt-utils && \
 	cd ~ && \
 	wget -q https://nodejs.org/download/release/v$NODE_VER/node-v$NODE_VER-linux-$ARCH.tar.gz && \
 	tar xf node-v$NODE_VER-linux-$ARCH.tar.gz && \
 	rm node-v$NODE_VER-linux-$ARCH.tar.gz && \
 	mv node-v$NODE_VER-linux-$ARCH /opt/node
+
+# Install OpenSSL 1.1.1w
+ENV OPENSSL_VER="1.1.1w"
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+      build-essential wget ca-certificates perl zlib1g-dev && \
+    cd /tmp && \
+    wget https://www.openssl.org/source/old/1.1.1/openssl-${OPENSSL_VER}.tar.gz && \
+    tar xf openssl-${OPENSSL_VER}.tar.gz && \
+    cd openssl-${OPENSSL_VER} && \
+    ./config \
+      --prefix=/opt/openssl-1.1 \
+      --openssldir=/opt/openssl-1.1 \
+      shared zlib && \
+    make -j"$(nproc)" && \
+    make install_sw && \
+    rm -rf /tmp/openssl-${OPENSSL_VER}*
 
 # Install Ruby 3.0
 ENV RUBY_VER="3.0.3"
@@ -39,6 +57,7 @@ RUN apt-get update && \
 	./configure --prefix=/opt/ruby \
 	  --with-jemalloc \
 	  --with-shared \
+	  --with-openssl-dir=/opt/openssl-1.1 \
 	  --disable-install-doc && \
 	make -j"$(nproc)" > /dev/null && \
 	make install && \
@@ -63,11 +82,14 @@ RUN cd /opt/mastodon && \
 	bundle install -j"$(nproc)" && \
 	yarn install --pure-lockfile --network-timeout 100000
 
-FROM debian:buster-slim
+FROM debian:bookworm-slim
 
 # Copy over all the langs needed for runtime
 COPY --from=build-dep /opt/node /opt/node
 COPY --from=build-dep /opt/ruby /opt/ruby
+COPY --from=build-dep /opt/openssl-1.1 /opt/openssl-1.1
+
+ENV LD_LIBRARY_PATH="/opt/openssl-1.1/lib:${LD_LIBRARY_PATH}"
 
 # Add more PATHs to the PATH
 ENV PATH="${PATH}:/opt/ruby/bin:/opt/node/bin:/opt/mastodon/bin"
@@ -88,8 +110,8 @@ RUN apt-get update && \
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 RUN apt-get update && \
   apt-get -y --no-install-recommends install \
-	  libssl1.1 libpq5 imagemagick ffmpeg libjemalloc2 \
-	  libicu-dev libprotobuf17 libidn11 libyaml-0-2 \
+	  libssl3 libpq5 imagemagick ffmpeg libjemalloc2 \
+	  libicu-dev libprotobuf32 libidn12 libyaml-0-2 \
 	  file ca-certificates tzdata libreadline-dev gcc tini apt-utils procps && \
 	ln -s /opt/mastodon /mastodon && \
 	gem install bundler && \

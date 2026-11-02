@@ -10,13 +10,15 @@ jobs:
     runs-on: ubuntu-latest
     services:
       postgres:
-        image: groonga/pgroonga:latest-debian-11
+        image: ghcr.io/atsu1125/pgroonga:latest
+        env:
+          POSTGRES_PASSWORD: postgres
         ports:
           - 5432:5432
         # needed because the postgres container does not provide a healthcheck
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
       redis:
-        image: redis:6.0
+        image: redis:7
         ports:
           - 6379:6379
         options: --health-cmd "redis-cli -h localhost ping" --health-interval 10s --health-timeout 5s --health-retries 15
@@ -25,6 +27,7 @@ jobs:
       env:
         DB_HOST: postgres
         DB_USER: postgres
+        DB_PASS: postgres
         REDIS_HOST: redis
         LOCAL_HTTPS: true
         RAILS_ENV: test
@@ -36,12 +39,24 @@ jobs:
     - uses: actions/checkout@v1
     - name: Install system dependencies
       run: |
+        # Debian Bullseye Archiveに切り替え
+        cat > /etc/apt/sources.list <<'EOF'
+        deb [check-valid-until=no] http://archive.debian.org/debian bullseye main
+        deb [check-valid-until=no] http://archive.debian.org/debian bullseye-updates main
+        deb [check-valid-until=no] http://archive.debian.org/debian-security bullseye-security main
+        EOF
+
+        # 通常のDebian Sourcesが残っていれば無効化
+        rm -f /etc/apt/sources.list.d/debian.sources
+        
         apt update
         apt install apt-transport-https
-        curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-        echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+        apt install -y curl gnupg ca-certificates
+        mkdir -p /etc/apt/keyrings
+        curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
         apt update
-        apt install -y yarn ffmpeg libicu-dev libidn11-dev libprotobuf-dev protobuf-compiler nodejs
+        apt install -y ffmpeg libicu-dev libidn11-dev libprotobuf-dev protobuf-compiler nodejs
+        npm install -g yarn@1
     - name: bundle install
       run: bundle install --clean --jobs 4 --path ./vendor/bundle/ --retry 3 --with pam_authentication --without production && bundle clean
     - name: yarn install
