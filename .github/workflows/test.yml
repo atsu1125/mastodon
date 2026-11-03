@@ -80,6 +80,9 @@ jobs:
       run: ./bin/rails db:create
     - name: Run migrations
       run: ./bin/rails db:migrate
+    
+    - name: Start Application
+      run: ./bin/bundle exec rails s -p 3000 -d
 
     # When the test is run on github actions,
     # paperclip uploads a file with 0 bytes and the test fails.
