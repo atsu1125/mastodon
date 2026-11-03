@@ -45,7 +45,7 @@ RUN apt-get update && \
     rm -rf /tmp/openssl-${OPENSSL_VER}*
 
 # Install Ruby 3.0
-ENV RUBY_VER="3.0.3"
+ENV RUBY_VER="3.0.7"
 RUN apt-get update && \
   apt-get install -y --no-install-recommends build-essential \
     bison libyaml-dev libgdbm-dev libreadline-dev libjemalloc-dev \
