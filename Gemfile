@@ -3,7 +3,6 @@
 source 'https://rubygems.org'
 ruby '>=3.1.0'
 
-gem 'pkg-config', '~> 1.4'
 gem 'rexml', '~> 3.2'
 
 gem 'puma', '~> 5.6'

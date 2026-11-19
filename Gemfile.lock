@@ -463,7 +463,6 @@ GEM
     pg (1.4.5)
     pghero (3.1.0)
       activerecord (>= 6)
-    pkg-config (1.5.1)
     premailer (1.14.2)
       addressable
       css_parser (>= 1.6.0)
@@ -796,7 +795,6 @@ DEPENDENCIES
   parslet
   pg (~> 1.3)
   pghero
-  pkg-config (~> 1.4)
   premailer-rails
   pry-byebug (~> 3.9)
   pry-rails (~> 0.3)
