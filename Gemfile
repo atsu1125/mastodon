@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
-ruby '>= 2.7.0', '< 3.3.0'
+ruby '>=3.1.0'
 
 gem 'pkg-config', '~> 1.4'
 gem 'rexml', '~> 3.2'
@@ -31,7 +31,7 @@ gem 'browser'
 gem 'charlock_holmes', '~> 0.7.9'
 gem 'iso-639'
 gem 'chewy', '~> 7.2'
-gem 'cld3', '~> 3.5.3'
+gem 'cld3', '~> 3.7.0'
 gem 'devise', '~> 4.8'
 gem 'devise-two-factor', '~> 4.0'
 
@@ -66,7 +66,6 @@ gem 'nsa', '~> 0.2'
 gem 'oj', '~> 3.13'
 gem 'ox', '~> 2.14'
 gem 'parslet'
-gem 'posix-spawn'
 gem 'pundit', '~> 2.1'
 gem 'premailer-rails'
 gem 'rack-attack', '~> 6.5'
